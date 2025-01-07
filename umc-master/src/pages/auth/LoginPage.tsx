@@ -27,6 +27,10 @@ const LoginPage: React.FC = () => {
               </Options>
             </LoginDetail>
           </LoginInputForm>
+          <Buttons>
+              <LoginButton>로그인하기</LoginButton>
+              <KakaoButton>카카오로 시작하기</KakaoButton>
+            </Buttons>
         </LoginForm>
       </Container>
     </>
@@ -176,10 +180,66 @@ const TextButton = styled.div`
   line-height: 27px;
   letter-spacing: -0.36px;
   cursor: pointer;
-`;
+`
 
 const Separator = styled.div`
   width: 1px;
   height: 30px;
   background-color: var(--Color-gray, #9C9C9C);
+`
+
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+`
+
+const LoginButton = styled.button`
+  display: flex;
+  height: 100px;
+  padding: 29px 274px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 20px;
+  background: var(--Main-500, #1B8C78);
+  border: 0;
+  cursor: pointer;
+
+  color: #FFF;
+
+  /* Heading/xsmall */
+  font-family: Pretendard;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 45px;
+  letter-spacing: 0.3px;
+`
+
+const KakaoButton = styled.button`
+  display: flex;
+  height: 100px;
+  padding: 29px 254px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 20px;
+  background: #FEE500;
+  border: 0;
+  cursor: pointer;
+
+  color: #000;
+
+  /* Heading/xsmall */
+  font-family: Pretendard;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 45px;
+  letter-spacing: 0.3px;
 `
