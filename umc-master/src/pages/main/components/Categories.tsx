@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 const dummyInterests = ['청소', '요리', '재활용'];
 const dummyCategories = [
@@ -28,6 +29,9 @@ const dummyCategories = [
 const InterestsAndCategories: React.FC = () => {
   return (
     <Container>
+      <TopRightIcon>
+        <i className="fas fa-chevron-down"></i>
+      </TopRightIcon>
       <Section>
         <InterestTitle>애니 님의 관심사</InterestTitle>
         <TagsWrapper>
@@ -59,6 +63,7 @@ const InterestsAndCategories: React.FC = () => {
 export default InterestsAndCategories;
 
 const Container = styled.div`
+  position: relative;
   min-height: 565px;
   max-width: 1404px;
   padding: 29px 63px;
@@ -67,6 +72,18 @@ const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
   margin: 0 auto;
   margin-top: 100px;
+`;
+
+const TopRightIcon = styled.div`
+  position: absolute;
+  top: 44px;
+  right: 70px;
+  font-size: 24px;
+  color: grey;
+  cursor: pointer;
+  i {
+    font-size: 36px;
+  }
 `;
 const Section = styled.div`
   margin-bottom: 24px;
