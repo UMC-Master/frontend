@@ -1,7 +1,11 @@
+import Banner from './components/Banner';
+
 const MainPage: React.FC = () => {
   return (
     <>
-      <h1>Main Page</h1>
+      <div>
+        <Banner></Banner>
+      </div>
     </>
   );
 };
