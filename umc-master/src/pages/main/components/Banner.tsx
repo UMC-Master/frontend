@@ -72,7 +72,7 @@ const Content = styled.div`
 
 const WelcomeText = styled.span`
   font-size: 36px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 `;
 
 const Subtitle = styled.span`
