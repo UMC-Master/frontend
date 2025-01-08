@@ -26,18 +26,15 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Get Vercel Environment Variables
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=umc-master
 
       - name: Build Project Artifacts
-        run: |
-          cd umc-master
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --cwd=umc-master
 
       - name: Deploy Project Artifacts to Vercel
         id: deploy
         run: |
-          cd umc-master
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > vercel-output.txt
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --cwd=umc-master > vercel-output.txt
           echo "preview_url=$(cat vercel-output.txt)" >> $GITHUB_OUTPUT
 
       - name: Comment PR with Preview URL
