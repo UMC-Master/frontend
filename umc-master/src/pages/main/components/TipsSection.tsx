@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
+import Card from '@components/Card/Card';
 import styled from 'styled-components';
-import Card from './Card';
 
 interface TipsSectionProps {
   title: string;
