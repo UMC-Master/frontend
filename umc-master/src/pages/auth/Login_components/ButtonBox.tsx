@@ -24,7 +24,7 @@ const Buttons = styled.div`
 
 const ButtonBase = styled.button`
   display: flex;
-  height: 80px;
+  height: 100px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -34,7 +34,7 @@ const ButtonBase = styled.button`
   cursor: pointer;
 
   font-family: Pretendard;
-  font-size: 27px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 400;
   line-height: 45px;

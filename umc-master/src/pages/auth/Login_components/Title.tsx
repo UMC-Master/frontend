@@ -18,7 +18,7 @@ const LoginTitle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 30px;
 `
 
 const Login = styled.h1`
@@ -28,7 +28,7 @@ const Login = styled.h1`
 
   /* Display/small */
   font-family: Pretendard;
-  font-size: 45px;
+  font-size: 50px;
   font-style: normal;
   font-weight: 700;
   line-height: 75px; /* 150% */
@@ -43,7 +43,7 @@ const Description = styled.h6`
 
   /* Title/small */
   font-family: Pretendard;
-  font-size: 23px;
+  font-size: 28px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;

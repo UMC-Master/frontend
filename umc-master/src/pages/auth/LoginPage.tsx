@@ -33,7 +33,7 @@ const Container = styled.div`
 
 const LoginForm = styled.div`
   display: flex;
-  width: 550px;
+  width: 700px;
   flex-direction: column;
   align-items: center;
   gap: 40px;
