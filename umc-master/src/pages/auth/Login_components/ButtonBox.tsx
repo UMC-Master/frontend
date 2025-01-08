@@ -3,12 +3,12 @@ import styled from "styled-components";
 const ButtonBox: React.FC = () => {
 
   return (
-    <>
-        <Buttons>
-            <LoginButton>로그인하기</LoginButton>
-            <KakaoButton>카카오로 시작하기</KakaoButton>
-        </Buttons>
-    </>
+      <Buttons>
+          <LoginButton>로그인하기</LoginButton>
+          <KakaoButton>
+            <KakaoImage src={"./src/pages/auth/Login_components/kakao_login_large_wide.png"} alt="Kakao Login" />
+          </KakaoButton>
+      </Buttons>
   );
 };
 
@@ -29,7 +29,7 @@ const ButtonBase = styled.button`
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  border-radius: 20px;
+  border-radius: 12px;
   border: 0;
   cursor: pointer;
 
@@ -48,7 +48,12 @@ const LoginButton = styled(ButtonBase)`
 `
 
 const KakaoButton = styled(ButtonBase)`
-  background: #FEE500;
-  color: #000;
-  padding: 29px 254px;
+  background: #fee500;
+  padding: 0;
 `
+
+const KakaoImage = styled.img`
+  width: 100%; /* 버튼 내부에 이미지 크기를 조정 */
+  height: auto;
+  object-fit: contain;
+`;
