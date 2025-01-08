@@ -19,6 +19,7 @@ const MyPage: React.FC = () => {
                   </Hello>
                   <Detail>자취 마스터가 되는 그날까지 마스터원과 함께 해요!</Detail>
                 </Text>
+                <ProfileEdit>프로필 변경</ProfileEdit>
               </Card>
             </ProfileCard>
           </MyPageForm>
@@ -104,16 +105,16 @@ const LoginState = styled.div`
 
 const Card = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 1165px;
   height: 224px;
   padding: 28px 52px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   border-radius: 20px;
   border: 1px solid var(--Text-gray, #636363);
   background-color: #fff;
+  position: relative;
 `
 
 const Text = styled.div`
@@ -148,4 +149,34 @@ const Detail = styled.div`
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.28px;
+`
+
+const ProfileEdit = styled.button`
+  position: absolute;
+  bottom: 32px;
+  right: 37px;
+
+  display: flex;
+  width: 196px;
+  height: 60px;
+  padding: 17px 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: var(--Main-500, #1B8C78);
+  color: #FFF;
+
+  /* Body/large */
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: -0.48px;
+
+  &:hover {
+    background: var(--Main-600, #157a66);
+  }
 `
