@@ -24,7 +24,7 @@ const Buttons = styled.div`
 
 const ButtonBase = styled.button`
   display: flex;
-  height: 100px;
+  height: 80px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -34,9 +34,9 @@ const ButtonBase = styled.button`
   cursor: pointer;
 
   font-family: Pretendard;
-  font-size: 25px;
+  font-size: 27px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 45px;
   letter-spacing: 0.3px;
 `
@@ -44,12 +44,11 @@ const ButtonBase = styled.button`
 const LoginButton = styled(ButtonBase)`
   background: var(--Main-500, #1B8C78);
   color: #FFF;
-  padding: 29px 274px;
+  padding: 29px 204px;
 `
 
 const KakaoButton = styled(ButtonBase)`
   background: #fee500;
-  padding: 0;
 `
 
 const KakaoImage = styled.img`

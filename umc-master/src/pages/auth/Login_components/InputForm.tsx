@@ -45,7 +45,7 @@ const LoginInput = styled.div`
 
 const Input = styled.input`
   display: flex;
-  height: 90px;
+  height: 80px;
   padding: 35px 32px;
   align-items: center;
   gap: 10px;
@@ -57,7 +57,7 @@ const Input = styled.input`
   color: var(--Text-gray, #636363);
 
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 21px;
   font-style: normal;
   font-weight: 400;
   line-height: 36px; /* 150% */
@@ -86,7 +86,7 @@ const AutoLoginCheckbox = styled.input`
 const TextBase = styled.div`
   color: var(--Text-gray, #636363);
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 27px;
   letter-spacing: -0.36px;
