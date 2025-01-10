@@ -1,33 +1,17 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 import ProfileSection from "./MyPage_components/ProfileSection";
-import TipCard from "./MyPage_components/TipCard";
+import RecentTips from "./MyPage_components/RecentTips";
 
 const dummyData = [
-  {
-    id: "1",
-    image: "https://via.placeholder.com/150", // 더미 이미지 URL
-    text: "자취생을 위한 꿀팁 1",
-  },
-  {
-    id: "2",
-    image: "https://via.placeholder.com/150", // 더미 이미지 URL
-    text: "청소 쉽게 하는 방법",
-  },
-  {
-    id: "3",
-    image: "https://via.placeholder.com/150", // 더미 이미지 URL
-    text: "절약 꿀팁 3가지",
-  },
+  { id: "1", image: "https://via.placeholder.com/150", text: "자취생을 위한 꿀팁 1" },
+  { id: "2", image: "https://via.placeholder.com/150", text: "청소 쉽게 하는 방법" },
+  { id: "3", image: "https://via.placeholder.com/150", text: "절약 꿀팁 3가지" },
 ];
 
 const dummyInterests = ['청소', '요리', '재활용'];
 
-interface TipcardProps {
-  items : { image: string; text: string; id: string }[];
-}
-
-const MyPage: React.FC<TipcardProps> = ({ items = dummyData }) => {
+const MyPage: React.FC = () => {
     return (
       <>
         <Container>
@@ -35,14 +19,7 @@ const MyPage: React.FC<TipcardProps> = ({ items = dummyData }) => {
             <Title>마이페이지</Title>
             <ProfileSection/>
             <ProfileCard2>
-              <RecentGoodTip>
-                <TipTitle>최근에 본 꿀팁</TipTitle>
-                <TipCardList>
-                  {items.map((item) => (
-                    <TipCard key={item.id} image={item.image} text={item.text} />
-                  ))}
-                </TipCardList>
-              </RecentGoodTip>
+              <RecentTips items={dummyData}/>
               <Best_Interest>
                 <BestGoodTip>
                   <Best_InterestTitle>
@@ -117,17 +94,6 @@ const ProfileCard2 = styled.div`
   padding: 57px 9px 0px 13px; /* top right bottom left */
 `
 
-const RecentGoodTip = styled.div`
-  display: flex;
-  width: 623px;
-  height: 295px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 50px;
-  flex-shrink: 0;
-  padding: 45px 0px 32px 0px; /* top right bottom left */
-`
-
 const TipTitle = styled.div`
   width: 623px;
   align-self: stretch;
@@ -140,15 +106,6 @@ const TipTitle = styled.div`
   font-weight: 600;
   line-height: 45px; /* 150% */
   letter-spacing: 0.3px;
-`
-
-const TipCardList = styled.div`
-  width: 623px;
-  height: 200px;
-  flex-shrink: 0;
-  align-self: stretch;
-  display: flex;
-  gap: 36px;
 `
 
 const Best_Interest = styled.div`
