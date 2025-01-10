@@ -1,6 +1,31 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
+import TipCard from "./MyPage_components/TipCard";
 
-const MyPage: React.FC = () => {
+const dummyData = [
+  {
+    id: "1",
+    image: "https://via.placeholder.com/150", // 더미 이미지 URL
+    text: "자취생을 위한 꿀팁 1",
+  },
+  {
+    id: "2",
+    image: "https://via.placeholder.com/150", // 더미 이미지 URL
+    text: "청소 쉽게 하는 방법",
+  },
+  {
+    id: "3",
+    image: "https://via.placeholder.com/150", // 더미 이미지 URL
+    text: "절약 꿀팁 3가지",
+  },
+];
+
+
+interface TipcardProps {
+  items : { image: string; text: string; id: string }[];
+}
+
+const MyPage: React.FC<TipcardProps> = ({ items = dummyData }) => {
     return (
       <>
         <Container>
@@ -22,6 +47,16 @@ const MyPage: React.FC = () => {
                 <ProfileEdit>프로필 변경</ProfileEdit>
               </Card>
             </ProfileCard>
+            <ProfileCard2>
+              <GoodTip>
+                <TipTitle>최근에 본 꿀팁</TipTitle>
+                <TipCardList>
+                  {items.map((item) => (
+                    <TipCard key={item.id} image={item.image} text={item.text} />
+                  ))}
+                </TipCardList>
+              </GoodTip>
+            </ProfileCard2>
           </MyPageForm>
         </Container>
       </>
@@ -179,4 +214,45 @@ const ProfileEdit = styled.button`
   &:hover {
     background: var(--Main-600, #157a66);
   }
+`
+
+const ProfileCard2 = styled.div`
+  width: 1415px;
+  height: 372px;
+  flex-shrink: 0;
+  padding: 57px 9px 0px 13px; /* top right bottom left */
+`
+
+const GoodTip = styled.div`
+  display: flex;
+  width: 623px;
+  height: 295px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 50px;
+  flex-shrink: 0;
+  padding: 45px 162px 32px 0px; /* top right bottom left */
+`
+
+const TipTitle = styled.div`
+  width: 623px;
+  align-self: stretch;
+  color: var(--Main-600, #137870);
+
+  /* Heading/xsmall */
+  font-family: Pretendard;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 45px; /* 150% */
+  letter-spacing: 0.3px;
+`
+
+const TipCardList = styled.div`
+  width: 623px;
+  height: 200px;
+  flex-shrink: 0;
+  align-self: stretch;
+  display: flex;
+  gap: 36px;
 `
