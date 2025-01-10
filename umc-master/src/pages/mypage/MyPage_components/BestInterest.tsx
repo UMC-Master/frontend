@@ -8,35 +8,35 @@ interface BestInterestProps {
 const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
   return (
     <>
-      <Best_Interest>
-        <BestGoodTip>
-          <Best_InterestTitle>
+      <BestInterestContainer>
+        <Section_1>
+          <SectionHeader>
             <TipTitle>Best 꿀팁 선정 횟수</TipTitle>
             <GoTo>
               <GoToText>보러가기</GoToText>
               <GoToText>{'>'}</GoToText>
             </GoTo>
-          </Best_InterestTitle>
+          </SectionHeader>
           <BestChoice>
             <BestNum>10</BestNum>
-            <Bestber>회</Bestber>
+            <BestNumber>회</BestNumber>
           </BestChoice>
-        </BestGoodTip>
-        <Interest>
-          <Best_InterestTitle>
+        </Section_1>
+        <Section_2>
+          <SectionHeader>
             <TipTitle>나의 관심사</TipTitle>
             <GoTo>
               <GoToText>편집하기</GoToText>
               <GoToText>{'>'}</GoToText>
             </GoTo>
-          </Best_InterestTitle>
+          </SectionHeader>
           <InterestTagList>
             {interests.map((interests, index) => (
                 <Tag key={index}>#{interests}</Tag>
             ))}
           </InterestTagList>
-        </Interest>
-        </Best_Interest>
+        </Section_2>
+      </BestInterestContainer>
     </>
   );
 };
@@ -57,9 +57,10 @@ const TipTitle = styled.div`
   letter-spacing: 0.3px;
 `
 
-const Best_Interest = styled.div`
+const BestInterestContainer = styled.div`
   display: flex;
   width: 630px;
+  height: 372px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -67,7 +68,7 @@ const Best_Interest = styled.div`
   padding: 0px 9px 0px 0px; /* top right bottom left */
 `
 
-const BestGoodTip = styled.div`
+const Section_1 = styled.div`
   display: flex;
   width: 630px;
   flex-direction: column;
@@ -75,7 +76,7 @@ const BestGoodTip = styled.div`
   gap: 50px;
 `
 
-const Best_InterestTitle = styled.div`
+const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -98,7 +99,7 @@ const GoToText = styled.div`
   letter-spacing: -0.48px;
 `
 
-const Interest = styled.div`
+const Section_2 = styled.div`
   display: flex;
   width: 630px;
   flex-direction: column;
@@ -123,7 +124,7 @@ const BestNum = styled.div`
   letter-spacing: 0.56px;
 `
 
-const Bestber = styled.div`
+const BestNumber = styled.div`
   color: var(--Main-800, #084951);
 
   /* Heading/large */

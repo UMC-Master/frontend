@@ -37,7 +37,7 @@ const RecentGoodTip = styled.div`
   align-items: flex-start;
   gap: 50px;
   flex-shrink: 0;
-  padding: 45px 0px 32px 0px; /* top right bottom left */
+  padding: 45px 0px 32px; /* top right bottom left */
 `
 const TipTitle = styled.div`
   width: 623px;
