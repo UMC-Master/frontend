@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import ProfileSection from "./MyPage_components/ProfileSection";
 import RecentTips from "./MyPage_components/RecentTips";
