@@ -48,14 +48,14 @@ const MyPage: React.FC<TipcardProps> = ({ items = dummyData }) => {
               </Card>
             </ProfileCard>
             <ProfileCard2>
-              <GoodTip>
+              <RecentGoodTip>
                 <TipTitle>최근에 본 꿀팁</TipTitle>
                 <TipCardList>
                   {items.map((item) => (
                     <TipCard key={item.id} image={item.image} text={item.text} />
                   ))}
                 </TipCardList>
-              </GoodTip>
+              </RecentGoodTip>
             </ProfileCard2>
           </MyPageForm>
         </Container>
@@ -223,7 +223,7 @@ const ProfileCard2 = styled.div`
   padding: 57px 9px 0px 13px; /* top right bottom left */
 `
 
-const GoodTip = styled.div`
+const RecentGoodTip = styled.div`
   display: flex;
   width: 623px;
   height: 295px;
@@ -256,3 +256,4 @@ const TipCardList = styled.div`
   display: flex;
   gap: 36px;
 `
+
