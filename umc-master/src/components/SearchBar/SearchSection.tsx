@@ -1,15 +1,29 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
+import SearchTitle from './components/SearchTitle';
+import SearchBar from './components/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
-const SearchSection = () => {
+interface SearchSectionProps {
+  highlight?: string;
+  text1?: string;
+  text2?: string;
+  onSearch?: (value: string) => void;
+}
+
+const SearchSection: React.FC<SearchSectionProps> = ({ text1, text2, highlight, onSearch }) => {
+  const navigate = useNavigate();
+  const handleSearch = (value: string) => {
+    if (onSearch) {
+      onSearch(value);
+    }
+    navigate(`/search?query=${value}`);
+  };
+
   return (
     <Container>
-      <SearchText>
-        궁금한 <Highlight>키워드</Highlight>를 검색해보세요!
-      </SearchText>
-      <SearchBarContainer>
-        <SearchInput type="text" placeholder="검색어를 입력하세요" />
-        <SearchIcon>🔍</SearchIcon>
-      </SearchBarContainer>
+      <SearchTitle text1={text1} highlight={highlight} text2={text2} />
+      <SearchBar onSearch={handleSearch} />
     </Container>
   );
 };
@@ -25,38 +39,4 @@ const Container = styled.section`
   height: 146px;
   margin: 0 auto;
   margin-top: 100px;
-`;
-
-const SearchText = styled.p`
-  font-size: 36px;
-  margin-bottom: 32px;
-  text-align: center;
-`;
-
-const Highlight = styled.span`
-  color: rgba(4, 112, 214, 1);
-  font-weight: bold;
-`;
-
-const SearchBarContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 0px 10px 10px 10px;
-  font-size: 16px;
-  border: none;
-  border-bottom: 2px solid rgba(99, 99, 99, 1);
-  outline: none;
-`;
-
-const SearchIcon = styled.span`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 30px;
-  cursor: pointer;
 `;
