@@ -29,7 +29,7 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 const CardImage = styled.img`
-  max-width: 252px;
+  min-width: 252px;
   height: 200px;
   object-fit: cover;
 `;
