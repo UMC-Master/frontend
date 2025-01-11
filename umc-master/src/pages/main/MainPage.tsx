@@ -3,13 +3,14 @@ import InterestsAndCategories from './components/Categories';
 import QuizBox from './components/QuizBox';
 import SearchSection from '../../components/SearchBar/SearchSection';
 import TipsSection from './components/TipsSection';
+import dummyImage from '@assets/dummyImage/dummy.jpeg';
 
 const dummyData = [
-  { image: '#', text: '오늘의 추천입니다.' },
-  { image: '#', text: '여행을 떠나요.' },
-  { image: '#', text: '오늘의 추천입니다.' },
-  { image: '#', text: '오늘의 추천입니다.' },
-  { image: '#', text: '오늘의 추천입니다.' },
+  { image: dummyImage, text: '오늘의 추천입니다.' },
+  { image: dummyImage, text: '여행을 떠나요.' },
+  { image: dummyImage, text: '오늘의 추천입니다.' },
+  { image: dummyImage, text: '오늘의 추천입니다.' },
+  { image: dummyImage, text: '오늘의 추천입니다.' },
 ];
 
 const MainPage: React.FC = () => {
