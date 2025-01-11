@@ -3,17 +3,18 @@ import Card from '@components/Card/Card';
 import styled from 'styled-components';
 
 interface TipsSectionProps {
-  title: string;
+  title?: string;
   items: { image: string; text: string }[];
   showArrows?: boolean;
+  showLikes?: boolean;
 }
 
-const TipsSection: React.FC<TipsSectionProps> = ({ title, items, showArrows = false }) => {
+const TipsSection: React.FC<TipsSectionProps> = ({ title, items, showArrows = false, showLikes = true }) => {
   return (
     <SectionContainer>
       <SectionHeader>
         <SectionTitle>{title}</SectionTitle>
-        <SortOption>좋아요순 ▼</SortOption>
+        {showLikes && <SortOption>좋아요순 ▼</SortOption>}
       </SectionHeader>
       <CardsWrapper>
         {showArrows && <LeftArrow>{'<'}</LeftArrow>}
@@ -31,7 +32,6 @@ export default TipsSection;
 const SectionContainer = styled.div`
   max-width: 1405px;
   margin: 0 auto;
-  margin-top: 100px;
   margin-bottom: 150px;
   display: flex;
   flex-direction: column;
