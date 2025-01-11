@@ -72,6 +72,7 @@ const Container = styled.div`
   background-color: rgba(255, 255, 255, 1);
   margin: 0 auto;
   margin-top: 100px;
+  margin-bottom: 100px;
 `;
 
 const TopRightIcon = styled.div`
