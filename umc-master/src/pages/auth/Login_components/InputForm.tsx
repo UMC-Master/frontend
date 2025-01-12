@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Input from "./Input";
+import Input from "../../../components/Input/Input";
 
 const InputForm: React.FC = () => {
 
