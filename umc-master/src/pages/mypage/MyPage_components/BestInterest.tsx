@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
+import InterestTag from './InterestTag';
 
 interface BestInterestProps {
     interests: string[];
@@ -32,7 +33,7 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
           </SectionHeader>
           <InterestTagList>
             {interests.map((interests, index) => (
-                <Tag key={index}>#{interests}</Tag>
+                <InterestTag key={index} label={interests}></InterestTag>
             ))}
           </InterestTagList>
         </Section_2>
@@ -140,18 +141,4 @@ const InterestTagList = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-`
-
-const Tag = styled.span<{ selected?: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 17px 34px;
-  border-radius: 30px;
-  font-size: 24px;
-  min-width: 103px;
-  height: 60px;
-  color: #ffffff;
-  background-color: #1B8C78;
-  cursor: pointer;
 `
