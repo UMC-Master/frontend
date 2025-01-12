@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
-import InterestTag from './InterestTag';
+import InterestTag from '../../../components/InterestTag/InterestTag';
 import Section from './Section';
 
 interface BestInterestProps {
