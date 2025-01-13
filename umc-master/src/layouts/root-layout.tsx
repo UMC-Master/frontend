@@ -6,7 +6,7 @@ import Footer from '@components/Footer/Footer';
 
 const RootLayout: React.FC = () => {
   // TODO: 로그인 로직 연결결
-  const [auth, isAuth] = useState(false);
+  const [auth] = useState(false);
 
   return (
     <Layout>
