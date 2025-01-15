@@ -3,16 +3,16 @@ import styled from 'styled-components';
 
 interface SearchTitleProps {
   highlight?: string;
-  text1?: string;
-  text2?: string;
+  frontText?: string;
+  backText?: string;
 }
 
-const SearchTitle: React.FC<SearchTitleProps> = ({ highlight, text1, text2 }) => {
+const SearchTitle: React.FC<SearchTitleProps> = ({ highlight, frontText, backText }) => {
   return (
     <SearchText>
-      {text1 && <span>{text1} </span>}
+      {frontText && <span>{frontText} </span>}
       {highlight && <Highlight>{highlight}</Highlight>}
-      {text2 && <span> {text2}</span>}
+      {backText && <span> {backText}</span>}
     </SearchText>
   );
 };

@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 interface SearchSectionProps {
   highlight?: string;
-  text1?: string;
-  text2?: string;
+  frontText?: string;
+  backText?: string;
   onSearch?: (value: string) => void;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ text1, text2, highlight, onSearch }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({ frontText, backText, highlight, onSearch }) => {
   const navigate = useNavigate();
   const handleSearch = (value: string) => {
     if (onSearch) {
@@ -22,7 +22,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ text1, text2, highlight, 
 
   return (
     <Container>
-      <SearchTitle text1={text1} highlight={highlight} text2={text2} />
+      <SearchTitle frontText={frontText} highlight={highlight} backText={backText} />
       <SearchBar onSearch={handleSearch} />
     </Container>
   );

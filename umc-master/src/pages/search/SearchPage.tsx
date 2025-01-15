@@ -34,7 +34,7 @@ const SearchPage = () => {
     <>
       <SearchSection
         highlight={`'${searchValue || '검색어'}'`}
-        text2="에 대한 검색 결과입니다."
+        backText="에 대한 검색 결과입니다."
         onSearch={handleSearch}
       />
       <TipsSection items={dummyData.slice(0, 5)} showArrows showLikes={false} />
