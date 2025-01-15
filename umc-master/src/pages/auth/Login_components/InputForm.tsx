@@ -4,25 +4,23 @@ import Input from "../../../components/Input/Input";
 const InputForm: React.FC = () => {
 
   return (
-    <>
-        <LoginInputForm>
-            <LoginInput>
-                <Input type={'email'} placeholder={'이메일 입력하기'} />
-                <Input type={'password'} placeholder={'비밀번호 입력하기'} />
-            </LoginInput>
-            <LoginDetail>
-                <AutoLoginWrapper>
-                    <Checkbox type="checkbox" id="autoLogin" />
-                    <Label>자동로그인</Label>
-                </AutoLoginWrapper>
-                <Options>
-                    <TextButton>회원 정보 찾기</TextButton>
-                    <Separator />
-                    <TextButton>회원 가입</TextButton>
-                </Options>
-            </LoginDetail>
-        </LoginInputForm>
-    </>
+      <LoginInputForm>
+          <LoginInput>
+              <Input type={'email'} placeholder={'이메일 입력하기'} />
+              <Input type={'password'} placeholder={'비밀번호 입력하기'} />
+          </LoginInput>
+          <LoginDetail>
+              <AutoLoginWrapper>
+                  <Checkbox type="checkbox" id="autoLogin" />
+                  <Label>자동로그인</Label>
+              </AutoLoginWrapper>
+              <Options>
+                  <TextButton>회원 정보 찾기</TextButton>
+                  <Separator />
+                  <TextButton>회원 가입</TextButton>
+              </Options>
+          </LoginDetail>
+      </LoginInputForm>
   );
 };
 

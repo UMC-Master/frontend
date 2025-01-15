@@ -3,12 +3,10 @@ import styled from "styled-components";
 const Title: React.FC = () => {
 
   return (
-    <>
-        <LoginTitle>
-            <Login>로그인</Login>
-            <Description>지금 마스터원에서 자취 꿀팁을 얻어가세요!</Description>
-        </LoginTitle>
-    </>
+      <LoginTitle>
+          <Login>로그인</Login>
+          <Description>지금 마스터원에서 자취 꿀팁을 얻어가세요!</Description>
+      </LoginTitle>
   );
 };
 

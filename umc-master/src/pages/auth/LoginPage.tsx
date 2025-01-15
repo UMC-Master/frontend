@@ -6,15 +6,13 @@ import InputForm from "./Login_components/InputForm";
 const LoginPage: React.FC = () => {
 
   return (
-    <>
-      <Container>
-        <LoginForm>
-          <Title/>
-          <InputForm/>
-          <ButtonBox/>
-        </LoginForm>
-      </Container>
-    </>
+    <Container>
+      <LoginForm>
+        <Title/>
+        <InputForm/>
+        <ButtonBox/>
+      </LoginForm>
+    </Container>
   );
 };
 
