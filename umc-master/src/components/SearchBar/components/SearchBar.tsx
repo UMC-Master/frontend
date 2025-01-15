@@ -10,8 +10,14 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ placeholder = '검색어를 입력하세요', onSearch }) => {
   const [inputValue, setInputValue] = useState<string>('');
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && onSearch) {
+      onSearch(inputValue);
+    }
+  };
+
+  const handleIconClick = () => {
+    if (onSearch) {
       onSearch(inputValue);
     }
   };
@@ -23,9 +29,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = '검색어를 입�
         placeholder={placeholder}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
       />
-      <SearchIcon>🔍</SearchIcon>
+      <SearchIcon onClick={handleIconClick}>🔍</SearchIcon>
     </SearchBarContainer>
   );
 };
@@ -53,4 +59,7 @@ const SearchIcon = styled.span`
   transform: translateY(-50%);
   font-size: 30px;
   cursor: pointer;
+  &:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
 `;
