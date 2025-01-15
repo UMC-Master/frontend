@@ -11,10 +11,10 @@ const MyPage: React.FC = () => {
           <MyPageForm>
             <Title>마이페이지</Title>
             <ProfileSection/>
-            <ProfileCard2>
+            <ProfileCard>
               <RecentTips items={dummyData}/>
               <BestInterest interests={dummyInterests}/>
-            </ProfileCard2>
+            </ProfileCard>
           </MyPageForm>
         </Container>
       </>
@@ -49,7 +49,7 @@ const Title = styled.h6`
   letter-spacing: 0.5px;
 `
 
-const ProfileCard2 = styled.div`
+const ProfileCard = styled.div`
   display: flex;
   flex-direction: row;
   width: 1415px;
