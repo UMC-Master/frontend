@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ProfileSection from "./MyPage_components/ProfileSection";
-import RecentTips from "./MyPage_components/RecentTips";
-import BestInterest from "./MyPage_components/BestInterest";
+import ProfileSection from "./components/ProfileSection";
+import RecentTips from "./components/RecentTips";
+import BestInterest from "./components/BestInterest";
 import { dummyData, dummyInterests } from "./dummyData/dummyData";
 
 const MyPage: React.FC = () => {
