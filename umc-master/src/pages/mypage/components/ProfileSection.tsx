@@ -2,24 +2,22 @@ import styled from 'styled-components';
 
 const ProfileSection: React.FC = () => {
   return (
-    <>
-      <ProfileCard>
-        <State>
-          <ProfileImg/>
-          <LoginState>카카오 로그인</LoginState>
-        </State>
-        <Card>
-          <Text>
-            <Hello>
-              <Nickname>Nickname</Nickname>
-              <Detail>님 오늘도 반가워요!</Detail>
-            </Hello>
-            <Detail>자취 마스터가 되는 그날까지 마스터원과 함께 해요!</Detail>
-          </Text>
-         <ProfileEdit>프로필 변경</ProfileEdit>
-        </Card>
-      </ProfileCard>
-    </>
+    <ProfileCard>
+      <State>
+        <ProfileImg/>
+        <LoginState>카카오 로그인</LoginState>
+      </State>
+      <Card>
+        <Text>
+          <Hello>
+            <Nickname>Nickname</Nickname>
+            <Detail>님 오늘도 반가워요!</Detail>
+          </Hello>
+          <Detail>자취 마스터가 되는 그날까지 마스터원과 함께 해요!</Detail>
+        </Text>
+        <ProfileEdit>프로필 변경</ProfileEdit>
+      </Card>
+    </ProfileCard>
   );
 };
 

@@ -6,18 +6,16 @@ import { dummyData, dummyInterests } from "./dummyData/dummyData";
 
 const MyPage: React.FC = () => {
     return (
-      <>
-        <Container>
-          <MyPageForm>
-            <Title>마이페이지</Title>
-            <ProfileSection/>
-            <ProfileCard>
-              <RecentTips items={dummyData}/>
-              <BestInterest interests={dummyInterests}/>
-            </ProfileCard>
-          </MyPageForm>
-        </Container>
-      </>
+      <Container>
+        <MyPageForm>
+          <Title>마이페이지</Title>
+          <ProfileSection/>
+          <ProfileCard>
+            <RecentTips items={dummyData}/>
+            <BestInterest interests={dummyInterests}/>
+          </ProfileCard>
+        </MyPageForm>
+      </Container>
     );
   };
   

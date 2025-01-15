@@ -14,16 +14,14 @@ interface RecentTipsProps {
 
 const RecentTips: React.FC<RecentTipsProps> = ({ items }) => {
   return (
-    <>
-      <RecentGoodTip>
-        <TipTitle>최근에 본 꿀팁</TipTitle>
-        <TipCardList>
-          {items.map((item) => (
-            <TipCard key={item.id} image={item.image} text={item.text} />
-          ))}
-        </TipCardList>
-      </RecentGoodTip>
-    </>
+    <RecentGoodTip>
+      <TipTitle>최근에 본 꿀팁</TipTitle>
+      <TipCardList>
+        {items.map((item) => (
+          <TipCard key={item.id} image={item.image} text={item.text} />
+        ))}
+      </TipCardList>
+    </RecentGoodTip>
   );
 };
 

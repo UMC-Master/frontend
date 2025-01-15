@@ -9,7 +9,6 @@ interface BestInterestProps {
 
 const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
   return (
-    <>
       <BestInterestContainer>
         <Section_1>
           <Section 
@@ -41,7 +40,6 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
           />
         </Section_2>
       </BestInterestContainer>
-    </>
   );
 };
 
