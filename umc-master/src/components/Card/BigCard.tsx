@@ -6,7 +6,7 @@ interface CardProps {
   text: string;
 }
 
-const Card: React.FC<CardProps> = ({ image, text }) => {
+const BigCard: React.FC<CardProps> = ({ image, text }) => {
   return (
     <CardContainer>
       <CardImage src={image} alt={text} />
@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ image, text }) => {
   );
 };
 
-export default Card;
+export default BigCard;
 
 const CardContainer = styled.div`
   display: flex;
@@ -23,14 +23,14 @@ const CardContainer = styled.div`
   align-items: center;
   text-align: center;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 13px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
 `;
 const CardImage = styled.img`
-  min-width: 252px;
-  height: 200px;
+  min-width: 330px;
+  height: 270px;
   object-fit: cover;
 `;
 const CardText = styled.p`

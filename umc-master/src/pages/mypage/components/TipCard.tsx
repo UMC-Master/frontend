@@ -6,7 +6,7 @@ interface CardProps {
   text: string;
 }
 
-const Card: React.FC<CardProps> = ({ image, text }) => {
+const TipCard: React.FC<CardProps> = ({ image, text }) => {
   return (
     <CardContainer>
       <CardImage src={image} alt={text} />
@@ -15,27 +15,36 @@ const Card: React.FC<CardProps> = ({ image, text }) => {
   );
 };
 
-export default Card;
+export default TipCard;
 
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  width: 184px;
+  height: 200px;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #9C9C9C;
+  background: #F4F4F4;
   overflow: hidden;
   cursor: pointer;
-`;
+`
+
 const CardImage = styled.img`
-  min-width: 252px;
-  height: 200px;
-  object-fit: cover;
-`;
+  width: 184px;
+  height: 140px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #9C9C9C;
+  object-fit: contain;
+`
+
 const CardText = styled.p`
-  margin: 10px 0;
-  font-size: 24px;
-  font-weight: 500;
-  color: #121212;
-`;
+  margin: 13px 0;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+`
