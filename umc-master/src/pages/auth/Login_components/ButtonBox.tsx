@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import Button from "../../../components/Button/Button";
+import Button from "@components/Button/Button";
+import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 
 const ButtonBox: React.FC = () => {
 
@@ -7,7 +8,7 @@ const ButtonBox: React.FC = () => {
       <Buttons>
           <Button variant="primary">로그인하기</Button>
           <Button variant="kakao">
-            <KakaoImage src={"./src/pages/auth/Login_components/kakao_login_large_wide.png"} alt="Kakao Login" />
+            <KakaoImage src={Kakao_Image} alt="Kakao Login" />
           </Button>
       </Buttons>
   );
@@ -25,6 +26,6 @@ const Buttons = styled.div`
 
 const KakaoImage = styled.img`
   width: 100%; /* 버튼 내부에 이미지 크기를 조정 */
-  height: auto;
+  height: 72px;
   object-fit: contain;
 `;
