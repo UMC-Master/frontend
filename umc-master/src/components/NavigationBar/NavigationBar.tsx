@@ -1,15 +1,21 @@
-import styled from 'styled-components';
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import LogoImage from '@assets/logo.png';
 import RoutePaths from '@router/routePaths';
 import Typography from '@components/common/typography';
 import AlarmIcon from '@assets/icons/alarm.svg?react';
+import AlarmModal from '@components/Modal/alarm';
 
 interface NavigationBarProps {
   login: boolean;
 }
 
 const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
+  const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const toggleAlarmModal = () => setIsAlarmModalOpen((prev) => !prev);
+
   return (
     <Container>
       <Nav>
@@ -32,9 +38,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
             </MenuItems>
           </Typography>
         </div>
-        {login ? (
+        {!login ? (
           <UserSection>
-            <AlarmIcon />
+            <AlarmIcon onClick={toggleAlarmModal} />
             <ProfileImg />
           </UserSection>
         ) : (
@@ -43,6 +49,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
           </LoginBtn>
         )}
       </Nav>
+      <AlarmModal isOpen={isAlarmModalOpen} onClose={toggleAlarmModal} />
     </Container>
   );
 };
