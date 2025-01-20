@@ -29,9 +29,9 @@ const Banner: React.FC = () => {
         <MdKeyboardArrowRight />
       </ArrowRight>
       <PageIndicator>
-        <Typography variant="titleXxSmall">
-          {`${pageNumber} `}/{` 5`}
-        </Typography>
+        <Typography variant="titleXxSmall">{pageNumber}</Typography>
+        <Typography variant="titleXxSmall">|</Typography>
+        <Typography variant="titleXxSmall">5</Typography>
       </PageIndicator>
     </Container>
   );
@@ -85,14 +85,14 @@ const Content = styled.div`
 
 const PageIndicator = styled.div`
   position: absolute;
-  bottom: 55px;
-  right: 270px;
-  width: 100px;
-  height: 36px;
+  bottom: 46px;
+  right: 340px;
+  display: flex; /* Flexbox로 변경 */
+  align-items: center; /* 세로 정렬 */
+  gap: 10px; /* 간격 설정 */
+
   background: white;
   color: rgba(99, 99, 99, 1);
-  padding: 3px 8px;
-  font-size: 12px;
-  border-radius: 15px;
-  font-weight: bold;
+  padding: 6px 27px;
+  border-radius: 20px;
 `;
