@@ -1,5 +1,8 @@
+import Typography from '@components/common/typography';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'; // 아이콘 추가
+
 const TOTAL_PAGES = 5;
 
 const Banner: React.FC = () => {
@@ -15,20 +18,30 @@ const Banner: React.FC = () => {
 
   return (
     <Container>
-      <ArrowLeft onClick={handlePrevPage}>&lt;</ArrowLeft>
+      <ArrowLeft onClick={handlePrevPage}>
+        <MdKeyboardArrowLeft />
+      </ArrowLeft>
       <Content>
-        <WelcomeText>Welcome!</WelcomeText>
-        <Subtitle>오늘도 마스터원에서 꿀팁들을 얻어가세요!</Subtitle>
+        <StyledTypography variant="titleMedium">Welcome!</StyledTypography>
+        <Typography variant="titleLarge">오늘도 마스터원에서 꿀팁들을 얻어가세요!</Typography>
       </Content>
-      <ArrowRight onClick={handleNextPage}>&gt;</ArrowRight>
+      <ArrowRight onClick={handleNextPage}>
+        <MdKeyboardArrowRight />
+      </ArrowRight>
       <PageIndicator>
-        {`${pageNumber} `}/{` 5`}
+        <Typography variant="titleXxSmall">
+          {`${pageNumber} `}/{` 5`}
+        </Typography>
       </PageIndicator>
     </Container>
   );
 };
 
 export default Banner;
+
+const StyledTypography = styled(Typography)`
+  padding-bottom: 20px;
+`;
 
 const Container = styled.div`
   position: relative;
@@ -48,7 +61,7 @@ const ArrowButtonBase = styled.button`
   background: none;
   border: none;
   color: white;
-  font-size: 40px;
+  font-size: 80px;
   cursor: pointer;
 
   &:hover {
@@ -70,20 +83,12 @@ const Content = styled.div`
   align-items: center;
 `;
 
-const WelcomeText = styled.span`
-  font-size: 36px;
-  padding-bottom: 20px;
-`;
-
-const Subtitle = styled.span`
-  font-size: 50px;
-  font-weight: bold;
-`;
-
 const PageIndicator = styled.div`
   position: absolute;
   bottom: 55px;
   right: 270px;
+  width: 100px;
+  height: 36px;
   background: white;
   color: rgba(99, 99, 99, 1);
   padding: 3px 8px;
