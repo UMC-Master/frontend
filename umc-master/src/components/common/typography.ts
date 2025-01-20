@@ -2,17 +2,17 @@ import styled from 'styled-components';
 
 interface TypographyProps {
   variant:
-    | 'displayLarge'
-    | 'displayMedium'
-    | 'displaySmall'
     | 'headingLarge'
     | 'headingMedium'
     | 'headingSmall'
     | 'headingXSmall'
+    | 'headingXxSmall'
+    | 'headingXxxSmall'
     | 'titleLarge'
     | 'titleMedium'
     | 'titleSmall'
     | 'titleXSmall'
+    | 'titleXxSmall'
     | 'bodyContent'
     | 'bodyLarge'
     | 'bodyMedium'
@@ -24,29 +24,6 @@ const Typography = styled.p<TypographyProps>`
     const typography = theme.typography;
 
     switch (variant) {
-      /* Display */
-      case 'displayLarge':
-        return `
-          font-size: ${typography.display.large.size};
-          font-weight: ${typography.display.large.weight};
-          line-height: ${typography.display.large.lineHeight};
-          letter-spacing: ${typography.display.large.letterSpacing};
-        `;
-      case 'displayMedium':
-        return `
-          font-size: ${typography.display.medium.size};
-          font-weight: ${typography.display.medium.weight};
-          line-height: ${typography.display.medium.lineHeight};
-          letter-spacing: ${typography.display.medium.letterSpacing};
-        `;
-      case 'displaySmall':
-        return `
-          font-size: ${typography.display.small.size};
-          font-weight: ${typography.display.small.weight};
-          line-height: ${typography.display.small.lineHeight};
-          letter-spacing: ${typography.display.small.letterSpacing};
-        `;
-
       /* Heading */
       case 'headingLarge':
         return `
@@ -76,6 +53,20 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.heading.xsmall.lineHeight};
           letter-spacing: ${typography.heading.xsmall.letterSpacing};
         `;
+      case 'headingXxSmall':
+        return `
+          font-size: ${typography.heading.xxsmall.size};
+          font-weight: ${typography.heading.xxsmall.weight};
+          line-height: ${typography.heading.xxsmall.lineHeight};
+          letter-spacing: ${typography.heading.xxsmall.letterSpacing};
+        `;
+      case 'headingXxxSmall':
+        return `
+            font-size: ${typography.heading.xxxsmall.size};
+            font-weight: ${typography.heading.xxxsmall.weight};
+            line-height: ${typography.heading.xxxsmall.lineHeight};
+            letter-spacing: ${typography.heading.xxxsmall.letterSpacing};
+          `;
 
       /* Title */
       case 'titleLarge':
@@ -106,6 +97,13 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.title.xsmall.lineHeight};
           letter-spacing: ${typography.title.xsmall.letterSpacing};
         `;
+      case 'titleXxSmall':
+        return `
+            font-size: ${typography.title.xxsmall.size};
+            font-weight: ${typography.title.xxsmall.weight};
+            line-height: ${typography.title.xxsmall.lineHeight};
+            letter-spacing: ${typography.title.xxsmall.letterSpacing};
+          `;
 
       /* Body */
       case 'bodyContent':
