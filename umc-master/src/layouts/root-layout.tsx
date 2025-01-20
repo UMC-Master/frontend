@@ -29,4 +29,5 @@ const Layout = styled.div`
 
 const Main = styled.main`
   flex: 1;
+  margin-top: 80px;
 `;

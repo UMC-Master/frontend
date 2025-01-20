@@ -11,50 +11,60 @@ interface NavigationBarProps {
 
 const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
   return (
-    <Nav>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '48px',
-        }}
-      >
-        <Link to={RoutePaths.MAIN}>
-          <Logo src={LogoImage} alt="Logo" />
-        </Link>
-        <Typography variant="titleXxSmall">
-          <MenuItems>
-            <Link to={RoutePaths.MAGAZINE}>매거진</Link>
-            <Link to={RoutePaths.COMMUNITY}>꿀팁나눔</Link>
-            <Link to={RoutePaths.SAVE_TIP}>저장한 꿀팁</Link>
-          </MenuItems>
-        </Typography>
-      </div>
-      {login ? (
-        <UserSection>
-          <AlarmIcon />
-          <ProfileImg />
-        </UserSection>
-      ) : (
-        <LoginBtn to={RoutePaths.LOGIN}>
-          <Typography variant="bodySmall">로그인</Typography>
-        </LoginBtn>
-      )}
-    </Nav>
+    <Container>
+      <Nav>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '48px',
+          }}
+        >
+          <Link to={RoutePaths.MAIN}>
+            <Logo src={LogoImage} alt="Logo" />
+          </Link>
+          <Typography variant="titleXxSmall">
+            <MenuItems>
+              <Link to={RoutePaths.MAGAZINE}>매거진</Link>
+              <Link to={RoutePaths.COMMUNITY}>꿀팁나눔</Link>
+              <Link to={RoutePaths.SAVE_TIP}>저장한 꿀팁</Link>
+            </MenuItems>
+          </Typography>
+        </div>
+        {login ? (
+          <UserSection>
+            <AlarmIcon />
+            <ProfileImg />
+          </UserSection>
+        ) : (
+          <LoginBtn to={RoutePaths.LOGIN}>
+            <Typography variant="bodySmall">로그인</Typography>
+          </LoginBtn>
+        )}
+      </Nav>
+    </Container>
   );
 };
 export default NavigationBar;
+
+const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.text.white};
+  z-index: 1000;
+`;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   height: 80px;
   margin: 0 auto;
   padding: 0 clamp(20px, 10vw, 320px);
-  border-bottom: 1px solid ${({ theme }) => theme.colors.text.gray};
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Logo = styled.img`
