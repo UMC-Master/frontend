@@ -38,12 +38,11 @@ const SearchSection: React.FC<SearchSectionProps> = ({
 export default SearchSection;
 
 const Container = styled.section<{ marginTop: string }>`
-  // marginTop을 props로 전달받음
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 928px;
   height: 137px;
-  margin: ${({ marginTop }) => marginTop} auto; // margin-top을 동적으로 설정
+  margin: ${({ marginTop }) => marginTop} auto 0 auto;
 `;
