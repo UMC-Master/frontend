@@ -5,7 +5,7 @@ import NavigationBar from '@components/NavigationBar/NavigationBar';
 import Footer from '@components/Footer/Footer';
 
 const RootLayout: React.FC = () => {
-  // TODO: 로그인 로직 연결결
+  // TODO: 로그인 로직 연결
   const [auth] = useState(false);
 
   return (
