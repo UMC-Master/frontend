@@ -15,8 +15,7 @@ const InputForm: React.FC = () => {
     handleInputError: handleEmailError, 
   } = useInput({
     initialValue: "",
-    validate: async (value, errorHandler) => validateEmail(value),
-    errorHandler: (error) => error,
+    validate: async (value) => validateEmail(value),
   });
 
   // 비밀번호 상태 검증 및 에러메세지
@@ -27,8 +26,7 @@ const InputForm: React.FC = () => {
     handleInputError: handlePasswordError, 
   } = useInput({
     initialValue: "",
-    validate: async (value, errorHandler) => validatePassword(email, value), 
-    errorHandler: (error) => error,
+    validate: async (value) => validatePassword(email, value), 
   });
 
   const formSubmitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
