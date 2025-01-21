@@ -24,18 +24,16 @@ const TipsSection: React.FC<TipsSectionProps> = ({ title, items, showArrows = fa
   return (
     <SectionContainer>
       <SectionHeader>
-        <SectionTitle>
-          <Typography variant="headingXxSmall">{title}</Typography>
-        </SectionTitle>
+        <Typography variant="headingXxSmall">{title}</Typography>
       </SectionHeader>
       <SortAndCardWrapper>
-        <SortButtonGroup hasButtons={showLikes}>
+        <SortButtonGroup $hasButtons={showLikes}>
           {showLikes && (
             <>
-              <SortButton active={sortOption === 'likes'} onClick={() => setSortOption('likes')}>
+              <SortButton $active={sortOption === 'likes'} onClick={() => setSortOption('likes')}>
                 <Typography variant="bodyXSmall">좋아요순</Typography>
               </SortButton>
-              <SortButton active={sortOption === 'recent'} onClick={() => setSortOption('recent')}>
+              <SortButton $active={sortOption === 'recent'} onClick={() => setSortOption('recent')}>
                 <Typography variant="bodyXSmall">저장많은순</Typography>
               </SortButton>
             </>
@@ -78,24 +76,24 @@ const SectionContainer = styled.div`
   flex-direction: column;
 `;
 
-const SortButtonGroup = styled.div<{ hasButtons: boolean }>`
+const SortButtonGroup = styled.div<{ $hasButtons: boolean }>`
   display: flex;
   gap: 10px;
   margin-bottom: 16px;
   margin-left: auto;
-  height: ${({ hasButtons }) => (hasButtons ? 'auto' : '40px')}; /* 버튼이 없을 때 고정된 높이 */
+  height: ${({ $hasButtons }) => ($hasButtons ? 'auto' : '40px')}; /* 버튼이 없을 때 고정된 높이 */
 `;
 
-const SortButton = styled.button<{ active: boolean }>`
+const SortButton = styled.button<{ $active: boolean }>`
   padding: 7px 16px;
-  color: ${({ active, theme }) => (active ? theme.colors.text['white'] : theme.colors.text['gray'])};
-  background-color: ${({ active, theme }) => (active ? theme.colors.primary[600] : theme.colors.text['white'])};
+  color: ${({ $active, theme }) => ($active ? theme.colors.text['white'] : theme.colors.text['gray'])};
+  background-color: ${({ $active, theme }) => ($active ? theme.colors.primary[600] : theme.colors.text['white'])};
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  border: ${({ active }) => (active ? 'none' : '1px solid #ccc')};
+  border: ${({ $active }) => ($active ? 'none' : '1px solid #ccc')};
   &:hover {
-    background-color: ${({ active, theme }) => (active ? theme.colors.primary[600] : theme.colors.text['white'])};
+    background-color: ${({ $active, theme }) => ($active ? theme.colors.primary[600] : theme.colors.text['white'])};
   }
   margin: 0 auto; /* 가운데 정렬 */
 `;
@@ -105,8 +103,6 @@ const SectionHeader = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 8px;
-`;
-const SectionTitle = styled.p`
   color: ${({ theme }) => theme.colors.primary[900]};
 `;
 

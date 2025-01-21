@@ -28,7 +28,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
   };
 
   return (
-    <Container marginTop={marginTop}>
+    <Container $marginTop={marginTop}>
       <SearchTitle frontText={frontText} highlight={highlight} backText={backText} />
       <SearchBar onSearch={handleSearch} />
     </Container>
@@ -37,12 +37,12 @@ const SearchSection: React.FC<SearchSectionProps> = ({
 
 export default SearchSection;
 
-const Container = styled.section<{ marginTop: string }>`
+const Container = styled.section<{ $marginTop?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 928px;
   height: 137px;
-  margin: ${({ marginTop }) => marginTop} auto 0 auto;
+  margin: ${({ $marginTop }) => $marginTop || '0px'} auto 0 auto;
 `;
