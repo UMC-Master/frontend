@@ -13,8 +13,20 @@ const Input: React.FC<InputProps> = ({ label, errorMessage, ...props }) => {
     return (
       <InputWrapper>
         {label && (<Typography variant="bodySmall" style={{color: theme.colors.text.gray}} as="label">{label}</Typography>)}
-        <StyledInput {...props} />
-        {errorMessage && (<Typography variant="bodySmall" as="span">{errorMessage}</Typography>)}
+        <StyledInput {...props} errorMessage={errorMessage} />
+        {errorMessage && (
+          <Typography 
+            variant="bodySmall" 
+            style={{
+              color: theme.colors.red[500], 
+              fontFamily: theme.fontFamily.medium, 
+              fontSize: theme.typography.body.xsmall.size, 
+              fontWeight: theme.typography.body.xsmall.weight, 
+            }} 
+            as="span">
+              {errorMessage}
+          </Typography>
+        )}
       </InputWrapper>
     );
 };
@@ -28,7 +40,7 @@ const InputWrapper = styled.div`
   width: 100%;
 `
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ errorMessage?: string }>`
   display: flex;
   height: 72px;
   padding: 23px 32px;
@@ -36,7 +48,8 @@ const StyledInput = styled.input`
   gap: 10px;
   align-self: stretch;
   border-radius: 20px;
-  border: 2px solid ${({ theme }) => theme.colors.text.lightGray};
+  border: 2px solid ${({ theme, errorMessage }) => 
+    errorMessage ? theme.colors.red[500] : theme.colors.text.lightGray};
   background: ${({ theme }) => theme.colors.text.white};
 
   color: ${({ theme }) => theme.colors.text.gray};
