@@ -9,9 +9,16 @@ interface SearchSectionProps {
   frontText?: string;
   backText?: string;
   onSearch?: (value: string) => void;
+  marginTop?: string;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ frontText, backText, highlight, onSearch }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({
+  frontText,
+  backText,
+  highlight,
+  onSearch,
+  marginTop = '0px',
+}) => {
   const navigate = useNavigate();
   const handleSearch = (value: string) => {
     if (onSearch) {
@@ -21,7 +28,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ frontText, backText, high
   };
 
   return (
-    <Container>
+    <Container $marginTop={marginTop}>
       <SearchTitle frontText={frontText} highlight={highlight} backText={backText} />
       <SearchBar onSearch={handleSearch} />
     </Container>
@@ -30,13 +37,12 @@ const SearchSection: React.FC<SearchSectionProps> = ({ frontText, backText, high
 
 export default SearchSection;
 
-const Container = styled.section`
+const Container = styled.section<{ $marginTop?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 928px;
-  height: 146px;
-  margin: 0 auto;
-  margin-top: 100px;
+  height: 137px;
+  margin: ${({ $marginTop }) => $marginTop || '0px'} auto 0 auto;
 `;
