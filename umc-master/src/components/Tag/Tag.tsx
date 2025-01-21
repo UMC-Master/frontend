@@ -24,7 +24,7 @@ const TagContainer = styled.div<{ selected?: boolean }>`
   padding: 10px 24px;
   border-radius: 30px;
   height: 48px;
-  background-color: ${(props) => (props.selected ? '#1B8C78' : '#9C9C9C')};
+  background-color: ${({ selected, theme }) => (selected ? theme.colors.primary[500] : theme.colors.text['lightGray'])};
   cursor: pointer;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.text['white']};
 `;

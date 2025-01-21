@@ -27,7 +27,7 @@ const Container = styled.div`
   width: 1280px;
   height: 400px;
   border-radius: 20px;
-  background-color: rgba(13, 99, 100, 1);
+  background-color: ${({ theme }) => theme.colors.primary[700]};
   text-align: center;
   margin: 0 auto;
   margin-top: 100px;
@@ -39,7 +39,7 @@ const CloseBTN = styled.button`
   position: absolute;
   top: 15px;
   right: 72px;
-  color: white;
+  color: ${({ theme }) => theme.colors.text['white']};
   font-size: 60px;
 
   background: none;
@@ -48,7 +48,7 @@ const CloseBTN = styled.button`
 `;
 
 const Card = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.text['white']};
   border-radius: 30px;
   display: flex;
   align-items: center;

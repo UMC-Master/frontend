@@ -49,7 +49,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 320px;
-  background-color: rgba(27, 140, 120, 1);
+  background-color: ${({ theme }) => theme.colors.primary[500]};
   color: white;
   text-align: center;
 `;

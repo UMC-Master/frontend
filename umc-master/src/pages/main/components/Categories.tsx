@@ -36,12 +36,12 @@ const InterestsAndCategories: React.FC = () => {
         <i className={`fas fa-chevron-${isCategoryVisible ? 'up' : 'down'}`}></i>
       </TopRightIcon>
       <Section>
-        <StyledTypography variant="titleMedium">
+        <StyledTypographyWrapper>
           <Typography style={{ marginRight: '4px' }} variant="headingXxxSmall">
             애니
           </Typography>
           <Typography variant="titleXSmall"> 님의 관심사</Typography>
-        </StyledTypography>
+        </StyledTypographyWrapper>
         <TagsWrapper>
           {dummyInterests.map((interest, index) => (
             <Tag key={index} text={interest.text} selected={interest.selected} />
@@ -88,7 +88,7 @@ const Container = styled.div`
   padding: 29px 80px;
   border: 2px solid rgba(13, 99, 100, 1);
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: ${({ theme }) => theme.colors.text['white']};
   margin: 0 auto;
   margin-top: 100px;
   margin-bottom: 100px;
@@ -107,7 +107,7 @@ const TopRightIcon = styled.div`
 `;
 const Section = styled.div``;
 
-const StyledTypography = styled(Typography)`
+const StyledTypographyWrapper = styled.div`
   margin-bottom: 32px;
   display: flex;
   color: ${({ theme }) => theme.colors.primary[900]};
@@ -121,7 +121,7 @@ const TagsWrapper = styled.div`
 
 const Divider = styled.hr`
   border: none;
-  border-top: 1px solid #0d6364;
+  border-top: 1px solid ${({ theme }) => theme.colors.primary[700]};
   margin: 20px 0;
 `;
 
