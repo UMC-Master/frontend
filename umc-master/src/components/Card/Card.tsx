@@ -65,7 +65,7 @@ const CardImage = styled.img`
   height: 200px;
   object-fit: cover;
 `;
-const CardText = styled.p`
+const CardText = styled.div`
   margin: 3px 0;
 `;
 
@@ -101,5 +101,5 @@ const DateWrapper = styled.div`
 `;
 
 const CardDate = styled.span`
-  color: #7f8c8d;
+  color: ${({ theme }) => theme.colors.text[500]};
 `;
