@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import BigCard from '../../../components/Card/BigCard';
 
 interface TipsSectionProps {
-  items: { image: string; text: string }[];
+  title?: string;
+  items: { image: string; text: string; likes?: number; bookmarks?: number; date?: string }[];
+  showArrows?: boolean;
+  showLikes?: boolean;
 }
 
 const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
@@ -11,7 +14,14 @@ const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
     <SectionContainer>
       <CardsWrapper>
         {items.map((item, index) => (
-          <BigCard key={index} image={item.image} text={item.text} />
+          <BigCard
+            key={index}
+            image={item.image}
+            text={item.text}
+            likes={item.likes || 0}
+            bookmarks={item.bookmarks || 0}
+            date={item.date || ''}
+          />
         ))}
       </CardsWrapper>
     </SectionContainer>

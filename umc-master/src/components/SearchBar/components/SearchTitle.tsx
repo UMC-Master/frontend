@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import Typography from '@components/common/typography';
 import styled from 'styled-components';
 
 interface SearchTitleProps {
@@ -9,18 +10,17 @@ interface SearchTitleProps {
 
 const SearchTitle: React.FC<SearchTitleProps> = ({ highlight, frontText, backText }) => {
   return (
-    <SearchText>
+    <StyledTypography variant="titleSmall">
       {frontText && <span>{frontText} </span>}
       {highlight && <Highlight>{highlight}</Highlight>}
       {backText && <span> {backText}</span>}
-    </SearchText>
+    </StyledTypography>
   );
 };
 
 export default SearchTitle;
 
-const SearchText = styled.p`
-  font-size: 36px;
+const StyledTypography = styled(Typography)`
   margin-bottom: 32px;
   text-align: center;
 `;

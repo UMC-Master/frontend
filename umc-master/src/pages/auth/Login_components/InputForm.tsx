@@ -1,23 +1,25 @@
-import styled from "styled-components";
-import Input from "../../../components/Input/Input";
+import Typography from "@components/common/typography";
+import styled, { useTheme } from "styled-components";
+import Input from "@components/Input/Input";
 
 const InputForm: React.FC = () => {
 
+  const theme = useTheme();
   return (
       <LoginInputForm>
           <LoginInput>
-              <Input type={'email'} placeholder={'이메일 입력하기'} />
-              <Input type={'password'} placeholder={'비밀번호 입력하기'} />
+              <Input errorMessage="" type={'email'} placeholder={'이메일 입력하기'} />
+              <Input errorMessage="" type={'password'} placeholder={'비밀번호 입력하기'} />
           </LoginInput>
           <LoginDetail>
               <AutoLoginWrapper>
                   <Checkbox type="checkbox" id="autoLogin" />
-                  <Label>자동로그인</Label>
+                  <Typography variant="bodySmall" style={{color: theme.colors.text.gray, cursor: "pointer"}}>자동로그인</Typography>
               </AutoLoginWrapper>
               <Options>
-                  <TextButton>회원 정보 찾기</TextButton>
+                  <Typography variant="bodySmall" style={{color: theme.colors.text.gray, cursor: "pointer"}}>회원 정보 찾기</Typography>
                   <Separator />
-                  <TextButton>회원 가입</TextButton>
+                  <Typography variant="bodySmall" style={{color: theme.colors.text.gray, cursor: "pointer"}}>회원 가입</Typography>
               </Options>
           </LoginDetail>
       </LoginInputForm>
@@ -61,25 +63,10 @@ const Checkbox = styled.input`
   accent-color: #CCCCCC;
 `
 
-const TextBase = styled.div`
-  color: var(--Text-gray, #636363);
-  font-family: Pretendard;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 27px;
-  letter-spacing: -0.36px;
-`
-
-const Label = styled(TextBase)``
-
 const Options = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-`
-
-const TextButton = styled(TextBase)`
-  cursor: pointer;
 `
 
 const Separator = styled.div`

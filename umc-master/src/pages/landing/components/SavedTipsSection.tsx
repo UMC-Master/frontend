@@ -3,20 +3,26 @@ import Card from '@components/Card/Card';
 
 const SavedTipsSection: React.FC = () => {
   const savedTips = [
-    { image: '', text: '요리 꿀팁 모음' },
-    { image: '', text: '청소 노하우' },
-    { image: '', text: '자취생 돈 관리법' },
-    { image: '', text: '공간 활용 인테리어' },
-    { image: '', text: '효율적인 시간 관리' },
+    { image: '', text: '요리 꿀팁 모음', likes: 1200, bookmarks: 800, date: '2025.01.20' },
+    { image: '', text: '청소 노하우', likes: 1200, bookmarks: 800, date: '2025.01.20' },
+    { image: '', text: '자취생 돈 관리법', likes: 1200, bookmarks: 800, date: '2025.01.20' },
+    { image: '', text: '공간 활용 인테리어', likes: 1200, bookmarks: 800, date: '2025.01.20' },
+    { image: '', text: '효율적인 시간 관리', likes: 1200, bookmarks: 800, date: '2025.01.20' },
   ];
-
   return (
     <Section>
       <Title>여러 꿀팁들을 저장하고 확인하세요!</Title>
       <ScrollContainer>
         <CardContainer>
           {savedTips.concat(savedTips).map((tip, index) => (
-            <Card key={index} image={tip.image} text={tip.text} />
+            <Card
+              key={index}
+              likes={tip.likes}
+              bookmarks={tip.bookmarks}
+              date={tip.date}
+              image={tip.image}
+              text={tip.text}
+            />
           ))}
         </CardContainer>
       </ScrollContainer>
