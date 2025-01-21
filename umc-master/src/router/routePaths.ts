@@ -11,6 +11,7 @@ const RoutePaths = Object.freeze({
   COMMUNITY: '/community',
   MAGAZINE: '/magazine',
   MAGAZINE_DETAIL: '/magazine/:magazineId',
+  KAKAOCALLBACK: '/oauth/kakao/callback',
 });
 
 export default RoutePaths;
