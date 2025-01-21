@@ -1,10 +1,13 @@
+import Typography from '@components/common/typography';
 import styled from 'styled-components';
 
 const QuizBox: React.FC = () => {
   return (
     <Container>
       <CloseBTN>&times;</CloseBTN>
-      <Title>오늘의 QUIZ를 맞혀보세요!</Title>
+      <StyledTypography color="white" variant="headingXxSmall">
+        오늘의 QUIZ를 맞혀보세요!
+      </StyledTypography>
       <Card>
         <Image src="#"></Image>
       </Card>
@@ -14,41 +17,38 @@ const QuizBox: React.FC = () => {
 
 export default QuizBox;
 
+const StyledTypography = styled(Typography)`
+  padding-bottom: 30px;
+  color: ${({ theme }) => theme.colors.text['white']};
+`;
+
 const Container = styled.div`
   position: relative;
-  width: 1404px;
+  width: 1280px;
   height: 400px;
   border-radius: 20px;
-  background-color: rgba(13, 99, 100, 1);
+  background-color: ${({ theme }) => theme.colors.primary[700]};
   text-align: center;
   margin: 0 auto;
   margin-top: 100px;
-  padding-top: 30px;
+  padding-top: 45px;
   padding-bottom: 44px;
 `;
 
 const CloseBTN = styled.button`
   position: absolute;
-  top: 3px;
-  right: 29px;
-  color: white;
+  top: 15px;
+  right: 72px;
+  color: ${({ theme }) => theme.colors.text['white']};
   font-size: 60px;
-  width: 60px;
-  height: 60px;
-  font-weight: bold;
+
   background: none;
   border: none;
   cursor: pointer;
 `;
 
-const Title = styled.p`
-  font-size: 48px;
-  color: white;
-  margin-bottom: 30px;
-`;
-
 const Card = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.text['white']};
   border-radius: 30px;
   display: flex;
   align-items: center;

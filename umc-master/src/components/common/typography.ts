@@ -13,10 +13,13 @@ interface TypographyProps {
     | 'titleSmall'
     | 'titleXSmall'
     | 'titleXxSmall'
+    | 'titleXxxSmall'
     | 'bodyContent'
     | 'bodyLarge'
     | 'bodyMedium'
-    | 'bodySmall';
+    | 'bodySmall'
+    | 'bodyXSmall'
+    | 'captionDefault';
 }
 
 const Typography = styled.p<TypographyProps>`
@@ -24,6 +27,14 @@ const Typography = styled.p<TypographyProps>`
     const typography = theme.typography;
 
     switch (variant) {
+      /* Caption */
+      case 'captionDefault':
+        return `
+        font-size: ${typography.caption.default.size};
+        font-weight: ${typography.caption.default.weight};
+        line-height: ${typography.caption.default.lineHeight};
+        letter-spacing: ${typography.caption.default.letterSpacing};
+      `;
       /* Heading */
       case 'headingLarge':
         return `
@@ -104,7 +115,13 @@ const Typography = styled.p<TypographyProps>`
             line-height: ${typography.title.xxsmall.lineHeight};
             letter-spacing: ${typography.title.xxsmall.letterSpacing};
           `;
-
+      case 'titleXxxSmall':
+        return `
+            font-size: ${typography.title.xxxsmall.size};
+            font-weight: ${typography.title.xxxsmall.weight};
+            line-height: ${typography.title.xxxsmall.lineHeight};
+            letter-spacing: ${typography.title.xxxsmall.letterSpacing};
+          `;
       /* Body */
       case 'bodyContent':
         return `
@@ -134,6 +151,13 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.body.small.lineHeight};
           letter-spacing: ${typography.body.small.letterSpacing};
         `;
+      case 'bodyXSmall':
+        return `
+        font-size: ${typography.body.xsmall.size};
+        font-weight: ${typography.body.xsmall.weight};
+        line-height: ${typography.body.xsmall.lineHeight};
+        letter-spacing: ${typography.body.xsmall.letterSpacing};
+      `;
 
       default:
         return '';

@@ -6,7 +6,7 @@ const theme: DefaultTheme = {
       400: '#49BA9B',
       500: '#1B8C78',
       600: '#137870',
-      700: '#137870',
+      700: '#0D6364',
       800: '#084951',
       900: '#053643',
     },
@@ -27,6 +27,12 @@ const theme: DefaultTheme = {
     },
   },
   typography: {
+    caption: {
+      default: {
+        size: '12px',
+        weight: 400,
+      },
+    },
     heading: {
       large: {
         size: '50px',
@@ -84,6 +90,10 @@ const theme: DefaultTheme = {
         size: '20px',
         weight: 500,
       },
+      xxxsmall: {
+        size: '18px',
+        weight: 500,
+      },
     },
     body: {
       content: {
@@ -105,6 +115,10 @@ const theme: DefaultTheme = {
         size: '18px',
         weight: 400,
         lineHeight: '27px',
+      },
+      xsmall: {
+        size: '16px',
+        weight: 400,
       },
     },
   },
