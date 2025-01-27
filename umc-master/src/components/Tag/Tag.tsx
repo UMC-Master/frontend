@@ -5,13 +5,11 @@ import Typography from '@components/common/typography';
 interface TagProps {
   selected?: boolean;
   text: string;
-  backgroundColor?: string;
-  onClick?: () => void;
 }
 
-const Tag: React.FC<TagProps> = ({ selected, text, backgroundColor, onClick }) => {
+const Tag: React.FC<TagProps> = ({ selected, text }) => {
   return (
-    <TagContainer selected={selected} backgroundColor={backgroundColor} onClick={onClick}>
+    <TagContainer selected={selected}>
       <Typography variant="bodySmall">#{text}</Typography>
     </TagContainer>
   );
