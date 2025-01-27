@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import styled, { useTheme } from "styled-components";
@@ -94,7 +93,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, onClose, on
         <ProfileEditForm>
           <Typography 
             variant="headingXxSmall"
-              style={{color: theme.colors.primary[900]}}
+            style={{color: theme.colors.primary[900]}}
           >프로필 변경</Typography>
           <PasswordEditForm>
             <Typography 
