@@ -39,7 +39,7 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
               <>
                 <InterestTagList>
                   {interests.map((interest, index) => (
-                      <Tag key={index} text={interest}></Tag>
+                      <Tag key={index} text={interest} backgroundColor="white"></Tag>
                   ))}
                 </InterestTagList>
               </>
