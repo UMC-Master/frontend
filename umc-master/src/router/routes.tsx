@@ -13,7 +13,6 @@ import CommunityPage from '@pages/community/CommunityPage';
 import MagazinePage from '@pages/magazine/MagazinePage';
 import MagazineDetailPage from '@pages/magazine/MagazineDetailPage';
 import RootLayout from '@layouts/root-layout';
-import ProfileEditModal from '@pages/mypage/modal/ProfileEditModal';
 
 const Router: React.FC = () => {
   return (
@@ -25,7 +24,6 @@ const Router: React.FC = () => {
           <Route path={RoutePaths.SIGNUP} element={<SignupPage />} />
           <Route path={RoutePaths.MYPAGE} element={<MyPage />} />
           <Route path={RoutePaths.MAIN} element={<MainPage />} />
-          <Route path={RoutePaths.PROFILE_EDIT} element={<ProfileEditModal />} />
           <Route path={RoutePaths.SEARCH} element={<SearchPage />} />
           <Route path={RoutePaths.SAVE_TIP} element={<SaveTipPage />} />
           <Route path={RoutePaths.SAVE_TIP_DETAIL} element={<SaveTipDetailPage />} />

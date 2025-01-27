@@ -1,19 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Typography from '@components/common/typography';
 import styled, { useTheme } from 'styled-components';
 import CameraImg from '@assets/icons/cameraImg.svg'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import ProfileEditModal from '../modal/ProfileEditModal';
 
 
 const ProfileSection: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
-  const handleEdit = () => {
-    navigate(`/profile-edit`);
-  };
 
   const theme = useTheme();
   return (
@@ -40,7 +34,7 @@ const ProfileSection: React.FC = () => {
         <ProfileEditModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onEdit={handleEdit}
+          onEdit={() => console.log("Edit")}
         />
       </Card>
     </ProfileCard>
