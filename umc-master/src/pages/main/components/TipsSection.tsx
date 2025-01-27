@@ -9,15 +9,23 @@ interface TipsSectionProps {
   items: { image: string; text: string; likes?: number; bookmarks?: number; date?: string }[];
   showArrows?: boolean;
   showLikes?: boolean;
+  showRecent?: boolean;
 }
 
-const TipsSection: React.FC<TipsSectionProps> = ({ title, items, showArrows = false, showLikes = true }) => {
-  const [sortOption, setSortOption] = useState<'likes' | 'recent'>('likes');
+const TipsSection: React.FC<TipsSectionProps> = ({
+  title,
+  items,
+  showArrows = false,
+  showLikes = true,
+  showRecent = false,
+}) => {
+  const [sortOption, setSortOption] = useState<'likes' | 'recent' | 'bookmarks'>('likes');
 
   // 정렬된 아이템
   const sortedItems = [...items].sort((a, b) => {
     if (sortOption === 'likes') return (b.likes || 0) - (a.likes || 0);
-    if (sortOption === 'recent') return new Date(b.date || '').getTime() - new Date(a.date || '').getTime();
+    if (sortOption === 'recent') return new Date(a.date || '').getTime() - new Date(b.date || '').getTime();
+    if (sortOption === 'bookmarks') return (b.bookmarks || 0) - (a.bookmarks || 0);
     return 0;
   });
 
@@ -30,10 +38,15 @@ const TipsSection: React.FC<TipsSectionProps> = ({ title, items, showArrows = fa
         <SortButtonGroup $hasButtons={showLikes}>
           {showLikes && (
             <>
+              {showRecent && (
+                <SortButton $active={sortOption === 'recent'} onClick={() => setSortOption('recent')}>
+                  <Typography variant="bodyXSmall">최신순</Typography>
+                </SortButton>
+              )}
               <SortButton $active={sortOption === 'likes'} onClick={() => setSortOption('likes')}>
                 <Typography variant="bodyXSmall">좋아요순</Typography>
               </SortButton>
-              <SortButton $active={sortOption === 'recent'} onClick={() => setSortOption('recent')}>
+              <SortButton $active={sortOption === 'bookmarks'} onClick={() => setSortOption('bookmarks')}>
                 <Typography variant="bodyXSmall">저장많은순</Typography>
               </SortButton>
             </>
