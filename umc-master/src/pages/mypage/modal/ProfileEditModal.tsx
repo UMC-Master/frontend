@@ -10,7 +10,7 @@ import Button from "@components/Button/Button";
 interface ProfileEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onEdit: (value: string) => void;
+  onEdit: () => void;
 }
 
 interface District {
@@ -139,7 +139,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, onClose, on
             variant="bodyXSmall"
             style={{color: theme.colors.blue[500]}}
           >※ 입력하면 해당 지역에서 진행하는 지원 프로그램 정보를 확인 할 수 있습니다.</Typography>
-          <Button variant="profileEdit" onClick={onClose}>프로필 변경 완료</Button>
+          <Button variant="profileEdit" onClick={() => {onEdit(); onClose(); }}>프로필 변경 완료</Button>
         </ProfileEditForm>
       </Container>
     </ModalOverlay>

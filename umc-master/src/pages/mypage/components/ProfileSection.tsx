@@ -11,7 +11,7 @@ const ProfileSection: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const handleEdit = (value: string) => {
+  const handleEdit = () => {
     navigate(`/profile-edit`);
   };
 
