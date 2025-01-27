@@ -68,7 +68,6 @@ const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit
       height: 60px;
       background: ${({ theme }) => theme.colors.primary[500]};
       color: #fff;
-      padding: 29px;
       font-size: ${({ theme }) => theme.typography.title.xxxsmall.size};
       font-weight: ${({ theme }) => theme.typography.title.xxxsmall.weight};
       line-height: ${({ theme }) => theme.typography.title.xxxsmall.lineHeight};
