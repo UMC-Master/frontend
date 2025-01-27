@@ -99,7 +99,7 @@ const InputForm: React.FC = () => {
             </Button>
           </Buttons>
           <LoginDetail>
-              <AutoLoginWrapper>
+              <AutoLoginWrapper htmlFor="autoLogin">
                   <StyledCheckbox  type="checkbox" id="autoLogin" />
                   <StyledTypography variant="bodySmall">자동로그인</StyledTypography>
               </AutoLoginWrapper>
@@ -138,10 +138,11 @@ const LoginDetail = styled.div`
   align-self: stretch;
 `
 
-const AutoLoginWrapper = styled.div`
+const AutoLoginWrapper = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 `
 
 const StyledCheckbox = styled.input`
@@ -152,7 +153,6 @@ const StyledCheckbox = styled.input`
 
 const StyledTypography = styled(Typography)`
   color: ${({ theme }) => theme.colors.text.gray};
-  cursor: pointer;
 `
 
 const Options = styled.div`
