@@ -2,7 +2,7 @@
 import styled, { css } from "styled-components";
 
 interface ButtonProps {
-  variant?: "primary" | "kakao" | "profileEdit";
+  variant?: "primary" | "kakao" | "profileEdit" | "interestEdit";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", children, ...props
 
 export default Button;
 
-const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit" }>`
+const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit" | "interestEdit" }>`
   display: flex;
   width: 616px;
   height: 72px;
@@ -52,6 +52,19 @@ const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit
     props.variant === "profileEdit" &&
     css`
       width: 200px;
+      height: 60px;
+      background: ${({ theme }) => theme.colors.primary[500]};
+      color: #fff;
+      padding: 29px;
+      font-size: ${({ theme }) => theme.typography.title.xxxsmall.size};
+      font-weight: ${({ theme }) => theme.typography.title.xxxsmall.weight};
+      line-height: ${({ theme }) => theme.typography.title.xxxsmall.lineHeight};
+    `}
+    
+  ${(props) =>
+    props.variant === "interestEdit" &&
+    css`
+      width: 212px;
       height: 60px;
       background: ${({ theme }) => theme.colors.primary[500]};
       color: #fff;
