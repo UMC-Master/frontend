@@ -29,6 +29,7 @@ export default MyPage;
   
 const Container = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -39,15 +40,15 @@ const MyPageForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 68px 241px 101px 242px;
+  width: 1280px;
+  gap: 48px;
+  padding-top: 80px;
+  padding-bottom: 100px;
 `
 
 const ProfileCard = styled.div`
   display: flex;
   flex-direction: row;
-  width: 1415px;
-  height: 372px;
-  gap: 162px;
+  gap: 30px;
   flex-shrink: 0;
-  padding: 57px 9px 0px 13px; /* top right bottom left */
 `
