@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Input from "@components/Input/Input";
 import useInput from "@hooks/useInput";
 import { validateEmailFormat, validatePasswordFormat, validateEmailOnServer, validatePasswordOnServer } from "@utils/validation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 
@@ -73,7 +73,7 @@ const InputForm: React.FC = () => {
     }
 
     alert("로그인 성공!");
-    console.log("isSubmitted");
+    console.log(isSubmitted);
   };
 
   return (
