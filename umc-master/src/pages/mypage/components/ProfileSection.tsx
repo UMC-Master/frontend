@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Typography from '@components/common/typography';
 import styled, { useTheme } from 'styled-components';
 import CameraImg from '@assets/icons/cameraImg.svg'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ProfileEditModal from '../modal/ProfileEditModal';
+
 
 const ProfileSection: React.FC = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleEdit = (value: string) => {
+    navigate(`/profile-edit`);
+  };
 
   const theme = useTheme();
   return (
@@ -25,7 +36,12 @@ const ProfileSection: React.FC = () => {
           </Hello>
           <LoginType>카카오 로그인</LoginType>
         </Text>
-        <ProfileEdit>프로필 변경</ProfileEdit>
+        <ProfileEdit onClick={() => setIsModalOpen(true)}>프로필 변경</ProfileEdit>
+        <ProfileEditModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onEdit={handleEdit}
+        />
       </Card>
     </ProfileCard>
   );
