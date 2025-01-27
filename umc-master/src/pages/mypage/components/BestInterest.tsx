@@ -45,6 +45,7 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
               </>
             }
           />
+          <InterestEdit>편집하기</InterestEdit>
         </Section_2>
       </BestInterestContainer>
   );
@@ -72,12 +73,13 @@ const Section_1 = styled.div`
 `
 
 const Section_2 = styled.div`
+  position: relative;
   display: flex;
   height: 201px;
   align-self: stretch;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
+  gap: 65px;
 `
 
 const BestChoice = styled.div`
@@ -91,4 +93,32 @@ const InterestTagList = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 10px;
+`
+
+const InterestEdit = styled.button`
+  position: absolute;
+  top: 23px;
+  right: 0px;
+
+  display: flex;
+  width: 120px;
+  height: 36px;
+  padding: 7px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: ${({ theme }) => theme.colors.primary[500]};
+  color: #FFF;
+
+  font-family: ${({ theme }) => theme.fontFamily.medium};
+  font-size: ${({ theme }) => theme.typography.title.xxxsmall.size};
+  font-weight: ${({ theme }) => theme.typography.title.xxxsmall.weight};
+  line-height: ${({ theme }) => theme.typography.title.xxxsmall.lineHeight};
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary[600]};
+  }
 `
