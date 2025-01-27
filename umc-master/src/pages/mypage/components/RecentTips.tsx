@@ -25,18 +25,22 @@ const RecentTips: React.FC<RecentTipsProps> = ({ items }) => {
         variant='titleXxSmall' 
         style={{color: theme.colors.primary[800]}}
       >최근에 본 꿀팁</Typography>
-      <TipCardList>
-        {items.map((item) => (
-          <Card 
-            key={item.id} 
-            image={item.image} 
-            text={item.text} 
-            likes={item.likes || 0} 
-            bookmarks={item.bookmarks || 0} 
-            date={item.date || ''}
-          />
-        ))}
+      {items.length === 0 ? (
+        <Typography variant="bodySmall">최근 본 꿀팁이 없습니다.</Typography>
+      ) : (
+        <TipCardList>
+          {items.map((item) => (
+            <Card 
+              key={item.id} 
+              image={item.image} 
+              text={item.text} 
+              likes={item.likes || 0} 
+              bookmarks={item.bookmarks || 0} 
+              date={item.date || ''}
+            />
+          ))}
       </TipCardList>
+      )}
     </RecentGoodTip>
   );
 };
@@ -45,20 +49,16 @@ export default RecentTips;
 
 const RecentGoodTip = styled.div`
   display: flex;
-  width: 623px;
   height: 295px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
+  gap: 20px;
   flex-shrink: 0;
-  padding: 45px 0px 32px; /* top right bottom left */
 `
 
 const TipCardList = styled.div`
-  width: 623px;
-  height: 200px;
-  flex-shrink: 0;
-  align-self: stretch;
   display: flex;
-  gap: 36px;
+  align-items: center;
+  gap: 30px;
+  align-self: stretch;
 `
