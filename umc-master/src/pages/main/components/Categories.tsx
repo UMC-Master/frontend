@@ -1,8 +1,9 @@
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import '@fortawesome/fontawesome-free/css/all.css';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
 import { useState } from 'react';
+import CategoryInputSection from './CategoriesInputSection';
 
 const dummyInterests = [
   { text: '청소', selected: true },
@@ -24,7 +25,24 @@ const dummyCategories = [
 
 const InterestsAndCategories: React.FC = () => {
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
-  const theme = useTheme();
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTags((prev) => {
+      if (prev.includes(tag)) {
+        return prev.filter((t) => t !== tag);
+      } else if (prev.length < 10) {
+        return [...prev, tag];
+      } else {
+        alert('최대 10개까지만 선택할 수 있습니다.');
+        return prev;
+      }
+    });
+  };
+
+  const handleComplete = () => {
+    alert(`선택된 태그: ${selectedTags.join(', ')}`);
+  };
 
   const toggleCategoryVisibility = () => {
     setIsCategoryVisible((prev) => !prev);
@@ -52,28 +70,14 @@ const InterestsAndCategories: React.FC = () => {
       {isCategoryVisible && <Divider />}
 
       {isCategoryVisible && (
-        <Section>
-          <Div>
-            <Typography style={{ color: theme.colors.primary[900] }} variant="titleXSmall">
-              관심사 입력 (최대 10개 이내)
-            </Typography>
-            <CompleteButton>
-              <Typography variant="titleXxSmall">완료</Typography>
-            </CompleteButton>
-          </Div>
-          {dummyCategories.map((category, index) => (
-            <CategorySection key={index}>
-              <Typography variant="titleXxSmall" style={{ marginBottom: '10px', color: theme.colors.primary[700] }}>
-                {category.section}
-              </Typography>
-              <TagsWrapper>
-                {category.tags.map((tag, i) => (
-                  <Tag key={`${index}-${i}`} text={tag} selected={false} />
-                ))}
-              </TagsWrapper>
-            </CategorySection>
-          ))}
-        </Section>
+        <CategoryInputSection
+          categories={dummyCategories}
+          onComplete={handleComplete}
+          onTagClick={handleTagClick}
+          selectedTags={selectedTags}
+          isComplete={true}
+          tagAndTitleGap={20}
+        />
       )}
     </Container>
   );
@@ -123,28 +127,4 @@ const Divider = styled.hr`
   border: none;
   border-top: 1px solid ${({ theme }) => theme.colors.primary[700]};
   margin: 20px 0;
-`;
-
-const Div = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const CompleteButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 13px 32px;
-  min-width: 100px;
-  height: 50px;
-  background-color: ${({ theme }) => theme.colors.primary[500]};
-  color: ${({ theme }) => theme.colors.text['white']};
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-`;
-const CategorySection = styled.div`
-  margin-bottom: 24px;
 `;
