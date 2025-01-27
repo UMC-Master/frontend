@@ -1,14 +1,20 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import ProfileSection from "./components/ProfileSection";
 import RecentTips from "./components/RecentTips";
 import BestInterest from "./components/BestInterest";
 import { dummyData, dummyInterests } from "./dummyData/dummyData";
+import Typography from "@components/common/typography";
 
 const MyPage: React.FC = () => {
+
+    const theme = useTheme();
     return (
       <Container>
         <MyPageForm>
-          <Title>마이페이지</Title>
+          <Typography 
+            variant="headingXxSmall"
+            style={{color: theme.colors.primary[900]}}
+            >마이페이지</Typography>
           <ProfileSection/>
           <ProfileCard>
             <RecentTips items={dummyData}/>
@@ -34,17 +40,6 @@ const MyPageForm = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 68px 241px 101px 242px;
-`
-
-const Title = styled.h6`
-  color: var(--Main-700, #0D6364);
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 75px;
-  letter-spacing: 0.5px;
 `
 
 const ProfileCard = styled.div`
