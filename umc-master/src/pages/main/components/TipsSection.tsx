@@ -17,6 +17,14 @@ interface TipsSectionProps {
   defaultSort?: 'latest' | 'likes' | 'bookmarks';
 }
 
+interface TipItem {
+  image: string;
+  text: string;
+  likes?: number;
+  bookmarks?: number;
+  date?: string;
+}
+
 const TipsSection: React.FC<TipsSectionProps> = ({
   title,
   showArrows = false,
@@ -40,7 +48,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   const tipss = tips?.data?.length > 0 ? tips.data : dummyData;
 
   // 정렬된 아이템
-  const sortedItems = (tipss || []).sort((a, b) => {
+  const sortedItems = (tipss || []).sort((a: TipItem, b: TipItem) => {
     if (sortOption === 'likes') return (b.likes || 0) - (a.likes || 0);
     if (sortOption === 'latest') return new Date(a.date || '').getTime() - new Date(b.date || '').getTime();
     if (sortOption === 'bookmarks') return (b.bookmarks || 0) - (a.bookmarks || 0);
@@ -78,7 +86,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
           {showArrows && <LeftArrow onClick={handlePrevPage}>{'<'}</LeftArrow>}
           {isFetching
             ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />) // ✅ SkeletonCard 컴포넌트 활용
-            : sortedItems.map((item, index) => (
+            : sortedItems.map((item: TipItem, index: number) => (
                 <Card
                   key={index}
                   image={item.image}
