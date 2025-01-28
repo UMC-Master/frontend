@@ -1,14 +1,30 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import Section from './Section';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
+import InterestEditModal from '../modal/InterestEditModal';
 
 interface BestInterestProps {
     interests: string[];
 }
 
+const dummyCategories = [
+  { section: '계절', tags: ['봄', '여름', '가을', '겨울'] },
+  { section: '패션', tags: ['패션', '맨투맨', '니트', '바지', '치마', '블라우스', '자켓'] },
+  { section: '청소', tags: ['청소', '방', '정리', '인테리어', '가구', '청소도구'] },
+  {
+    section: '요리 / 식재료',
+    tags: ['요리', '음식', '보관', '냉장', '냉동', '면', '밥', '술', '반찬', '레시피', '냉장고'],
+  },
+  { section: '재활용 / 분리수거', tags: ['재활용', '분리수거', '리폼', '플라스틱', '스티로폼', '종이', '유리'] },
+  { section: '주거', tags: ['주택', '원룸', '빌라', '아파트', '기숙사'] },
+];
+
 const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const theme = useTheme();
   return (
@@ -45,7 +61,13 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
               </>
             }
           />
-          <InterestEdit>편집하기</InterestEdit>
+          <InterestEdit onClick={() => setIsModalOpen(true)}>편집하기</InterestEdit>
+          <InterestEditModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onEdit={() => console.log("Edit")}
+            categories={dummyCategories}
+          />
         </Section_2>
       </BestInterestContainer>
   );
