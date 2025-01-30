@@ -19,7 +19,7 @@ const Section2: React.FC = () => {
     <Container>
       <Typography 
         variant="headingXxxSmall"
-        style={{color: theme.colors.primary[800]}}
+        style={{color: theme.colors.primary[700]}}
       >이메일 입력 (필수) *</Typography>
       <Email>
         <Input errorMessage="" type={'email'} placeholder={'이메일 입력'} />
