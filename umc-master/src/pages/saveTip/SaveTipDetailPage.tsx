@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PostDetail from "./DetailPage_componenets/PostDetail";
+import CommentView from "./DetailPage_componenets/CommentView";
 
 interface SaveTipDetailPageProps {
   title?: string;
@@ -13,12 +14,8 @@ const SaveTipDetailPage: React.FC<SaveTipDetailPageProps> = () => {
     <Container>
       <SaveTipDatail>
         <PostDetail/>
-
         <Line/>
-
-        <CommentView>
-          d
-        </CommentView>
+        <CommentView/>
       </SaveTipDatail>
     </Container>
   );
@@ -50,12 +47,4 @@ const Line = styled.div`
   width: 1280px;
   height: 1px;
   border: 1px solid ${({ theme }) => theme.colors.primary[800]};
-`
-
-const CommentView = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 60px;
-  align-self: stretch;
 `
