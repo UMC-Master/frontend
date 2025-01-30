@@ -33,7 +33,7 @@ const SignUpPage: React.FC = () => {
       case 1:
         return <Section2 />;
       case 2:
-        return <Section3 />;
+        return <Section3 onCheckRequired={handleCheckRequired}/>;
       case 3:
         return <Section4 onCheckRequired={handleCheckRequired}/>;
       case 4:
