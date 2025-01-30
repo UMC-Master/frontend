@@ -11,7 +11,7 @@ interface District {
   label: string;
 }
 
-const Section4: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
+const PrivacyForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
 
   const [selectedCity, setSelectedCity] = useState<string>("default");
   const [districts, setDistricts] = useState<District[]>([]);
@@ -144,7 +144,7 @@ const Section4: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ o
   );
 };
 
-export default Section4;
+export default PrivacyForm;
 
 const Container = styled.div`
   display: flex;

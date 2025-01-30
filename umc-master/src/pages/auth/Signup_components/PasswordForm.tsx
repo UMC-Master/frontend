@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { styled, useTheme } from "styled-components";
 
 
-const Section3: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
+const PasswordForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
 
   const theme = useTheme();
 
@@ -44,7 +44,7 @@ const Section3: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ o
   );
 };
 
-export default Section3;
+export default PasswordForm;
 
 const Container = styled.div`
   display: flex;

@@ -59,7 +59,7 @@ interface Section1Props {
   onCheckRequired: (areRequiredChecked: boolean) => void;
 }
 
-const Section1: React.FC<Section1Props> = ({ onCheckRequired }) => {
+const AgreementForm: React.FC<Section1Props> = ({ onCheckRequired }) => {
   
   const [isAllAgreed, setIsAllAgreed] = useState(false);
   const [checkedItems, setCheckedItems] = useState({
@@ -142,7 +142,7 @@ const Section1: React.FC<Section1Props> = ({ onCheckRequired }) => {
   );
 };
 
-export default Section1;
+export default AgreementForm;
   
 const Container = styled.div`
   display: flex;

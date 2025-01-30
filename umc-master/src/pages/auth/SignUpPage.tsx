@@ -2,11 +2,11 @@ import Typography from "@components/common/typography";
 import styled, { useTheme } from "styled-components";
 import SignupState from "./Signup_components/SignupState";
 import { useEffect, useState } from "react";
-import Section1 from "./Signup_components/Section1";
-import Section2 from "./Signup_components/Section2";
-import Section3 from "./Signup_components/Section3";
-import Section4 from "./Signup_components/Section4";
-import Section5 from "./Signup_components/Section5";
+import AgreementForm from "./Signup_components/AgreementForm";
+import EmailForm from "./Signup_components/EmailForm";
+import PasswordForm from "./Signup_components/PasswordForm";
+import PrivacyForm from "./Signup_components/PrivacyForm";
+import InterestForm from "./Signup_components/InterestForm";
 import Button from "@components/Button/Button";
 import { useNavigate } from "react-router-dom";
 
@@ -29,17 +29,17 @@ const SignUpPage: React.FC = () => {
   const renderSection = () => {
     switch (sectionCount) {
       case 0:
-        return <Section1 onCheckRequired={handleCheckRequired}/>;
+        return <AgreementForm onCheckRequired={handleCheckRequired}/>;
       case 1:
-        return <Section2 onCheckRequired={handleCheckRequired}/>;
+        return <EmailForm onCheckRequired={handleCheckRequired}/>;
       case 2:
-        return <Section3 onCheckRequired={handleCheckRequired}/>;
+        return <PasswordForm onCheckRequired={handleCheckRequired}/>;
       case 3:
-        return <Section4 onCheckRequired={handleCheckRequired}/>;
+        return <PrivacyForm onCheckRequired={handleCheckRequired}/>;
       case 4:
-        return <Section5 />;
+        return <InterestForm />;
       default:
-        return <Section1 onCheckRequired={handleCheckRequired}/>;
+        return <AgreementForm onCheckRequired={handleCheckRequired}/>;
     }
   };
 

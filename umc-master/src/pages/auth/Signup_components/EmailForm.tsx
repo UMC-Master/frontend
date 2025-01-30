@@ -14,7 +14,7 @@ const emails = [
   { value: "outlook.com", label: "outlook.com" }, 
 ];
 
-const Section2: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
+const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
   
   const theme = useTheme();
 
@@ -71,7 +71,7 @@ const Section2: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ o
   );
 };
 
-export default Section2;
+export default EmailForm;
 
 const Container = styled.div`
   display: flex;

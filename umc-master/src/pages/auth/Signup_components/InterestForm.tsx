@@ -16,7 +16,7 @@ const dummyCategories = [
   { section: '주거', tags: ['주택', '원룸', '빌라', '아파트', '기숙사'] },
 ];
 
-const Section5: React.FC = () => {
+const InterestForm: React.FC = () => {
   
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -47,7 +47,7 @@ const Section5: React.FC = () => {
   );
 };
 
-export default Section5;
+export default InterestForm;
 
 const Container = styled.div`
   display: flex;
