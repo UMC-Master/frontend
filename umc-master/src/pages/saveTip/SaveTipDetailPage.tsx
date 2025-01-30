@@ -2,13 +2,7 @@ import styled from "styled-components";
 import PostDetail from "./DetailPage_componenets/PostDetail";
 import CommentView from "./DetailPage_componenets/CommentView";
 
-interface SaveTipDetailPageProps {
-  title?: string;
-  nickname?: string;
-  text?: string;
-}
-
-const SaveTipDetailPage: React.FC<SaveTipDetailPageProps> = () => {
+const SaveTipDetailPage: React.FC = () => {
 
   return (
     <Container>
