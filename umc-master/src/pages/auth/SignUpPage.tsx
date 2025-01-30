@@ -8,11 +8,13 @@ import Section3 from "./Signup_components/Section3";
 import Section4 from "./Signup_components/Section4";
 import Section5 from "./Signup_components/Section5";
 import Button from "@components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUpPage: React.FC = () => {
 
   const theme = useTheme();
+  const navigate = useNavigate();
   const [sectionCount, setSectionCount] = useState(0);
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
 
@@ -43,6 +45,11 @@ const SignUpPage: React.FC = () => {
     }
   };
 
+  const handleSignUpComplete = () => {
+    // 회원가입이 완료되면 메인 페이지로 이동
+    navigate("/main");  // "/"는 메인 페이지의 경로입니다.
+  };
+
   return (
     <Container>
       <SignupForm>
@@ -60,7 +67,7 @@ const SignUpPage: React.FC = () => {
             <Button variant = "pageUp" onClick={() => setSectionCount(sectionCount + 1)} disabled={!isNextButtonEnabled}>다음</Button>
           )}
           {sectionCount === 4 && (
-            <Button variant = "signUp">회원가입 완료</Button>
+            <Button variant = "signUp" onClick={handleSignUpComplete}>회원가입 완료</Button>
           )}
         </ButtonContainer>
       </SignupForm>
