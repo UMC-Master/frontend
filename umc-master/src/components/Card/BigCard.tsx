@@ -65,7 +65,7 @@ const CardImage = styled.img`
   object-fit: cover;
 `;
 
-const CardText = styled.p`
+const CardText = styled.div`
   margin: 3px 0;
 `;
 
