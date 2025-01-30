@@ -1,7 +1,7 @@
 import Typography from "@components/common/typography";
 import styled, { useTheme } from "styled-components";
 import SignupState from "./Signup_components/SignupState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Section1 from "./Signup_components/Section1";
 import Section2 from "./Signup_components/Section2";
 import Section3 from "./Signup_components/Section3";
@@ -16,6 +16,12 @@ const SignUpPage: React.FC = () => {
   const [sectionCount, setSectionCount] = useState(0);
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
 
+  useEffect(() => {
+    if (sectionCount === 0) {
+      setIsNextButtonEnabled(false); // 첫 번째 섹션으로 돌아가면 버튼 비활성화
+    }
+  }, [sectionCount]);
+  
   const handleCheckRequired = (areRequiredChecked: boolean) => {
     setIsNextButtonEnabled(areRequiredChecked);
   }
