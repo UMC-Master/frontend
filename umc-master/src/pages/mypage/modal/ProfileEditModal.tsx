@@ -210,7 +210,7 @@ const InfoEditForm = styled.div`
 
 const NameEditForm = styled.div`
   display: flex;
-  width: 300px;
+  width: 250px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
@@ -232,9 +232,9 @@ const Address = styled.div`
 
 const AddressSelect = styled.select`
   display: flex;
-  width: 152px;
+  width: 175px;
   height: 72px;
-  padding: 25px 15px;
+  padding: 21px 15px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -243,6 +243,10 @@ const AddressSelect = styled.select`
   border: 2px solid ${({ theme }) => theme.colors.text.lightGray};
   color : ${({ theme }) => theme.colors.text.black};
   background: #FFF;
+
+  font-size: ${({ theme }) => theme.typography.body.small.size};
+  font-weight: ${({ theme }) => theme.typography.body.small.weight};
+  line-height: ${({ theme }) => theme.typography.body.small.lineHeight};
 
   appearance: none; /* 기본 드롭다운 화살표 제거 */
 
