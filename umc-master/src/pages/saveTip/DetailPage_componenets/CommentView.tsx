@@ -67,7 +67,7 @@ const CommentView: React.FC = () => {
       <CommentList>
         {comments.map((cmt, index) => (
           <CommentCard key={index}>
-          <Author>
+            <Author>
               <ProfileImg/>
               <AuthorInfo>
               <Typography 
@@ -85,8 +85,8 @@ const CommentView: React.FC = () => {
                   >03:16</Typography>
               </CommentDate>
               </AuthorInfo>
-          </Author>
-          <CommentText text={cmt} />
+            </Author>
+            <CommentText text={cmt} />
           </CommentCard>
         ))}
       </CommentList>
@@ -153,7 +153,6 @@ const CommentList = styled.div`
 
 const CommentCard = styled.div`
   display: flex;
-  height: 180px;
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
