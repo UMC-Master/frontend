@@ -160,6 +160,7 @@ const Img = styled.img`
   right: 2px;
   width: 60px;
   height: 60px;
+  cursor: pointer;
 `
 
 const Privacy = styled.div`
