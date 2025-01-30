@@ -4,6 +4,7 @@ interface ButtonProps {
   variant?: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 const Button: React.FC<ButtonProps> = ({ variant = "primary", children, ...props }) => {
   return (
