@@ -5,6 +5,7 @@ import Typography from "@components/common/typography";
 import Input from "@components/Input/Input";
 import { addressOptions, busanDistricts, chungcheongbukDistricts, chungcheongnamDistricts, daeguDistricts, daejeonDistricts, gangwonDistricts, gwangjuDistricts, gyeonggiDistricts, gyeongsangbukDistricts, gyeongsangnamDistricts, incheonDistricts, jejuDistricts, jeollabukDistricts, jeollanamDistricts, sejongDistricts, seoulDistricts } from "../dummyData/region_dummy";
 import Button from "@components/Button/Button";
+import ImgClose from "@assets/close.svg";
 
 interface ProfileEditModalProps {
   isOpen: boolean;
@@ -91,6 +92,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, onClose, on
     <ModalOverlay onClick={onClose}>
       <Container onClick={(e) => e.stopPropagation()}>
         <ProfileEditForm>
+          <Close onClick={onClose}><img src={ImgClose} alt="close"/></Close>
           <Typography 
             variant="headingXxSmall"
             style={{color: theme.colors.primary[900]}}
@@ -172,7 +174,17 @@ const Container = styled.div`
   background: #FFF;
 `
 
+const Close = styled.button`
+  position: absolute;
+  top: -60px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+`
+
 const ProfileEditForm = styled.div`
+  position: relative;
   display: flex;
   width: 652px;
   flex-direction: column;

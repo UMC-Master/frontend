@@ -4,6 +4,7 @@ import Typography from "@components/common/typography";
 import Button from "@components/Button/Button";
 import CategoryInputSection from "@pages/main/components/CategoriesInputSection";
 import { useState } from "react";
+import ImgClose from "@assets/close.svg";
 
 
 interface ProfileEditModalProps {
@@ -44,6 +45,7 @@ const InterestEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, onClose, o
     <ModalOverlay onClick={onClose}>
       <Container onClick={(e) => e.stopPropagation()}>
         <InterestEditForm>
+          <Close onClick={onClose}><img src={ImgClose} alt="close"/></Close>
             <Typography 
               variant="headingXxSmall"
               style={{color: theme.colors.primary[900]}}
@@ -92,7 +94,17 @@ const Container = styled.div`
   background: #FFF;
 `
 
+const Close = styled.button`
+  position: absolute;
+  top: -60px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+`
+
 const InterestEditForm = styled.div`
+  position: relative;
   display: flex;
   width: 720px;
   flex-direction: column;
