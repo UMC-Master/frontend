@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import Button from "@components/Button/Button";
 import Typography from "@components/common/typography";
 import Input from "@components/Input/Input";
+import { useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components";
 
 const emails = [
@@ -12,9 +14,22 @@ const emails = [
   { value: "outlook.com", label: "outlook.com" }, 
 ];
 
-const Section2: React.FC = () => {
+const Section2: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
   
   const theme = useTheme();
+
+  const [email, setEmail] = useState<string>('');
+  const [authCode, setAuthCode] = useState<string>('');
+
+  // 이메일과 인증번호 입력이 모두 채워졌는지 확인하는 useEffect
+  useEffect(() => {
+    if (email && authCode) {
+      onCheckRequired(true); // 유효성 체크
+    } else {
+      onCheckRequired(false); // 유효성 체크
+    }
+  }, [email, authCode, onCheckRequired]);
+
   return (
     <Container>
       <Typography 
@@ -22,7 +37,13 @@ const Section2: React.FC = () => {
         style={{color: theme.colors.primary[700]}}
       >이메일 입력 (필수) *</Typography>
       <Email>
-        <Input errorMessage="" type={'email'} placeholder={'이메일 입력'} />
+        <Input 
+          errorMessage="" 
+          type={'email'} 
+          placeholder={'이메일 입력'} 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <Typography 
           variant="titleSmall"
           style={{color: theme.colors.text.lightGray}}
@@ -37,7 +58,13 @@ const Section2: React.FC = () => {
         <Button variant="emailCheck">이메일 인증</Button>
       </Email>
       <Email>
-        <Input errorMessage="" type={'email'} placeholder={'인증번호를 입력해주세요.'} />
+        <Input 
+          errorMessage="" 
+          type={'email'} 
+          placeholder={'인증번호를 입력해주세요.'} 
+          value={authCode}
+          onChange={(e) => setAuthCode(e.target.value)}
+        />
         <Button variant="emailCheck">인증 확인</Button>
       </Email>
     </Container>

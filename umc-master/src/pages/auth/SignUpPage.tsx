@@ -31,7 +31,7 @@ const SignUpPage: React.FC = () => {
       case 0:
         return <Section1 onCheckRequired={handleCheckRequired}/>;
       case 1:
-        return <Section2 />;
+        return <Section2 onCheckRequired={handleCheckRequired}/>;
       case 2:
         return <Section3 onCheckRequired={handleCheckRequired}/>;
       case 3:
