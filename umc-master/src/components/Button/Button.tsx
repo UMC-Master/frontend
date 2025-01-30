@@ -103,4 +103,13 @@ const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit
       font-weight: ${({ theme }) => theme.typography.title.xxsmall.weight};
       line-height: ${({ theme }) => theme.typography.title.xxsmall.lineHeight};
     `}
+
+  ${({ disabled, theme }) =>
+    disabled &&
+    css`
+      background: ${theme.colors.text.gray};
+      color: ${theme.colors.text.white};
+      cursor: not-allowed;
+      opacity: 0.6;
+    `}
 `;
