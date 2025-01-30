@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Typography from "@components/common/typography";
 import Input from "@components/Input/Input";
 import { styled, useTheme } from "styled-components";
@@ -10,11 +11,21 @@ interface District {
   label: string;
 }
 
-const Section4: React.FC = () => {
+const Section4: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
 
   const [selectedCity, setSelectedCity] = useState<string>("default");
   const [districts, setDistricts] = useState<District[]>([]);
 
+  const [nickname, setNickname] = useState<string>("");
+
+  // 닉네임 입력값을 업데이트하는 함수
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newNickname = e.target.value;
+    setNickname(newNickname);
+
+    // 닉네임이 0글자 이상일 때만 "다음" 버튼을 활성화
+    onCheckRequired(newNickname.length > 0);
+  };
 
   // 도시 선택시 구 목록을 업데이트하는 함수
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,7 +104,12 @@ const Section4: React.FC = () => {
             variant="headingXxxSmall"
             style={{color: theme.colors.primary[700]}}
           >닉네임 (필수) *</Typography>
-          <Input type={'nickname'} placeholder={'닉네임 입력 (최대 10자 이내)'}/>
+          <Input 
+            type={'nickname'} 
+            placeholder={'닉네임 입력 (최대 10자 이내)'}
+            value={nickname}
+            onChange={handleNicknameChange}
+          />
         </NameEditForm>
         <Privacy>
           <AddressEditForm>

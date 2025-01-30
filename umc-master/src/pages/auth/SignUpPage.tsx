@@ -19,9 +19,7 @@ const SignUpPage: React.FC = () => {
   const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false);
 
   useEffect(() => {
-    if (sectionCount === 0) {
-      setIsNextButtonEnabled(false); // 첫 번째 섹션으로 돌아가면 버튼 비활성화
-    }
+      setIsNextButtonEnabled(false); // 섹션이 변경될 때마다 버튼 비활성화
   }, [sectionCount]);
   
   const handleCheckRequired = (areRequiredChecked: boolean) => {
@@ -37,7 +35,7 @@ const SignUpPage: React.FC = () => {
       case 2:
         return <Section3 />;
       case 3:
-        return <Section4 />;
+        return <Section4 onCheckRequired={handleCheckRequired}/>;
       case 4:
         return <Section5 />;
       default:
@@ -46,8 +44,7 @@ const SignUpPage: React.FC = () => {
   };
 
   const handleSignUpComplete = () => {
-    // 회원가입이 완료되면 메인 페이지로 이동
-    navigate("/main");  // "/"는 메인 페이지의 경로입니다.
+    navigate("/main");
   };
 
   return (
