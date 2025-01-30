@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import styled, { css } from "styled-components";
 interface ButtonProps {
-  variant?: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp";
+  variant?: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp" | "emailCheck";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", children, ...props
   );
 };
 export default Button;
-const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp" }>`
+const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp" | "emailCheck" }>`
   display: flex;
   width: 616px;
   height: 72px;
@@ -102,6 +102,20 @@ const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit
       font-size: ${({ theme }) => theme.typography.title.xxsmall.size};
       font-weight: ${({ theme }) => theme.typography.title.xxsmall.weight};
       line-height: ${({ theme }) => theme.typography.title.xxsmall.lineHeight};
+    `}
+
+  ${(props) =>
+    props.variant === "emailCheck" &&
+    css`
+      min-width: 184px;
+      width: 184px;
+      height: 72px;
+      background: ${({ theme }) => theme.colors.primary[500]};
+      border: 1px solid ${({ theme }) => theme.colors.primary[500]};
+      color: ${({ theme }) => theme.colors.text.white};
+      font-size: ${({ theme }) => theme.typography.body.medium.size};
+      font-weight: ${({ theme }) => theme.typography.body.medium.weight};
+      line-height: ${({ theme }) => theme.typography.body.medium.lineHeight};
     `}
 
   ${({ disabled, theme }) =>
