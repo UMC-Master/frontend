@@ -56,7 +56,7 @@ const SignUpPage: React.FC = () => {
           {sectionCount > 0 && (
             <Button variant = "pageDown" onClick={() => setSectionCount(sectionCount - 1)}>이전</Button>
           )}
-          {sectionCount < 3 && (
+          {sectionCount < 4 && (
             <Button variant = "pageUp" onClick={() => setSectionCount(sectionCount + 1)} disabled={!isNextButtonEnabled}>다음</Button>
           )}
           {sectionCount === 4 && (
