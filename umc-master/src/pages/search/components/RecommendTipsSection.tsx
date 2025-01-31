@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import BigCard from '../../../components/Card/BigCard';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useGetTips } from '@hooks/queries/useGetTips';
+import SkeletonBigCard from '@components/Skeleton/SkeletonBigCard';
 
 interface TipsSectionProps {
   title?: string;
@@ -9,20 +12,44 @@ interface TipsSectionProps {
   showLikes?: boolean;
 }
 
+interface TipItem {
+  image: string;
+  text: string;
+  likes?: number;
+  bookmarks?: number;
+  date?: string;
+}
+
 const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
+  const {
+    isError,
+    data: tips,
+    isFetching,
+  } = useQuery({
+    queryKey: ['recommend'],
+    queryFn: () => useGetTips({ pageParam: 1, sorted: 'latest' }),
+    placeholderData: keepPreviousData,
+  });
+
+  const tipss = tips?.data?.length > 0 ? tips.data : items;
+
+  if (isError) return <div>Something went wrong...</div>;
+
   return (
     <SectionContainer>
       <CardsWrapper>
-        {items.map((item, index) => (
-          <BigCard
-            key={index}
-            image={item.image}
-            text={item.text}
-            likes={item.likes || 0}
-            bookmarks={item.bookmarks || 0}
-            date={item.date || ''}
-          />
-        ))}
+        {isFetching
+          ? Array.from({ length: 8 }).map((_, index) => <SkeletonBigCard key={index} />) // ✅ SkeletonCard 컴포넌트 활용
+          : tipss.map((item: TipItem, index: number) => (
+              <BigCard
+                key={index}
+                image={item.image}
+                text={item.text}
+                likes={item.likes || 0}
+                bookmarks={item.bookmarks || 0}
+                date={item.date || ''}
+              />
+            ))}
       </CardsWrapper>
     </SectionContainer>
   );

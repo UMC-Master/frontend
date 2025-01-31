@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Title from "./Login_components/Title";
-import ButtonBox from "./Login_components/ButtonBox";
 import InputForm from "./Login_components/InputForm";
 
 const LoginPage: React.FC = () => {
@@ -10,7 +9,6 @@ const LoginPage: React.FC = () => {
       <LoginForm>
         <Title/>
         <InputForm/>
-        <ButtonBox/>
       </LoginForm>
     </Container>
   );

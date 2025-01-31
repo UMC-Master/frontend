@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import styled, { css } from "styled-components";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "kakao" | "profileEdit" | "interestEdit";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
