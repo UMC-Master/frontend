@@ -2,6 +2,7 @@ const RoutePaths = Object.freeze({
   LANDING: '/',
   LOGIN: '/login',
   SIGNUP: '/signup',
+  FINDPRIVACY: '/find-privacy', 
   MYPAGE: '/mypage',
   MAIN: '/main',
   SEARCH: '/search',

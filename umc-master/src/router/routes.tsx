@@ -14,6 +14,7 @@ import MagazinePage from '@pages/magazine/MagazinePage';
 import MagazineDetailPage from '@pages/magazine/MagazineDetailPage';
 import RootLayout from '@layouts/root-layout';
 import KakaoCallback from '@pages/auth/KakaoCallback';
+import FindPrivacy from '@pages/auth/FindPrivacy';
 
 const Router: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const Router: React.FC = () => {
           <Route index element={<LandingPage />} />
           <Route path={RoutePaths.LOGIN} element={<LoginPage />} />
           <Route path={RoutePaths.SIGNUP} element={<SignupPage />} />
+          <Route path={RoutePaths.FINDPRIVACY} element={<FindPrivacy/>} />
           <Route path={RoutePaths.MYPAGE} element={<MyPage />} />
           <Route path={RoutePaths.MAIN} element={<MainPage />} />
           <Route path={RoutePaths.SEARCH} element={<SearchPage />} />
