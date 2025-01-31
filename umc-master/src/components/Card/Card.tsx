@@ -8,7 +8,7 @@ interface CardProps {
   likes: number;
   bookmarks: number;
   date: string;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const Card: React.FC<CardProps> = ({ image, text, likes, bookmarks, date, onClick }) => {
