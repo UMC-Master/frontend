@@ -11,6 +11,12 @@ import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 
 const InputForm: React.FC = () => {
 
+  const handleKakaoLogin = () => {
+    const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
+    window.location.href = kakaoAuthUrl;
+  };
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // 이메일 상태 검증 및 에러메세지
@@ -94,7 +100,7 @@ const InputForm: React.FC = () => {
           </LoginInput>
           <Buttons>
             <Button variant="primary" type="submit">로그인하기</Button>
-            <Button variant="kakao">
+            <Button variant="kakao" onClick={handleKakaoLogin}>
               <KakaoImage src={Kakao_Image} alt="Kakao Login" />
             </Button>
           </Buttons>
