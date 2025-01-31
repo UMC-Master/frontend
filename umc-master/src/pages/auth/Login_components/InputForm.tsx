@@ -148,7 +148,7 @@ const AutoLoginWrapper = styled.label`
 const StyledCheckbox = styled.input`
   width: 23px;
   height: 23px;
-  accent-color: #CCCCCC;
+  accent-color: ${({ theme }) => theme.colors.primary[500]};;
 `
 
 const StyledTypography = styled(Typography)`
