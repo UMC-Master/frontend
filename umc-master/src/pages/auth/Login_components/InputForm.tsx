@@ -6,6 +6,7 @@ import { validateEmailFormat, validatePasswordFormat, validateEmailOnServer, val
 import { useState } from "react";
 import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
+import { useNavigate } from "react-router-dom";
 
 const InputForm: React.FC = () => {
 
@@ -80,6 +81,8 @@ const InputForm: React.FC = () => {
     console.log(isSubmitted);
   };
 
+  const navigate = useNavigate(); // 추가
+
   return (
       <LoginInputForm onSubmit={formSubmitHandler}>
           <LoginInput>
@@ -110,7 +113,7 @@ const InputForm: React.FC = () => {
               <Options>
                   <StyledTypography variant="bodySmall">회원 정보 찾기</StyledTypography>
                   <Separator />
-                  <StyledTypography variant="bodySmall">회원 가입</StyledTypography>
+                  <StyledTypography variant="bodySmall" onClick={() => navigate(`/signup`)}>회원 가입</StyledTypography>
               </Options>
           </LoginDetail>
       </LoginInputForm>
