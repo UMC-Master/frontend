@@ -44,7 +44,7 @@ const CategoryInputSection: React.FC<CategoryInputSectionProps> = ({
           <Typography variant="titleXxSmall" style={{ marginBottom: '10px', color: theme.colors.primary[700] }}>
             {category.section}
           </Typography>
-          <TagsWrapper tagAndTitleGap={tagAndTitleGap}>
+          <TagsWrapper style={{ marginBottom: `${tagAndTitleGap}px` }}>
             {category.tags.map((tag, i) => (
               <Tag
                 key={`${index}-${i}`}
@@ -87,9 +87,9 @@ const CompleteButton = styled.button`
 
 const CategorySection = styled.div``;
 
-const TagsWrapper = styled.div<{ tagAndTitleGap: number }>`
+const TagsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: ${({ tagAndTitleGap }) => tagAndTitleGap}px;
+
   gap: 12px;
 `;
