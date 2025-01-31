@@ -10,6 +10,7 @@ const CommunityPage: React.FC = () => {
       <Banner />
       <TipsSection title="BEST 5 꿀팁" defaultSort="likes" />
       <TipsSection title="꿀팁 모아보기" defaultSort="likes" showRecent />
+
       {isModalVisible && <CompeleteModal />}
     </>
   );
