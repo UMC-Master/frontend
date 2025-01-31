@@ -1,19 +1,16 @@
-import Image from './image.png'
+import Image from './image.png';
 
-export const dummyData = [
-  { id: "1", image: Image, text: "자취생을 위한 꿀팁 1", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "2", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "3", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "4", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "5", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "6", image: Image, text: "자취생을 위한 꿀팁 1", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "7", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "8", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "9", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "10", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "11", image: Image, text: "자취생을 위한 꿀팁 1", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "12", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "13", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "14", image: Image, text: "청소 쉽게 하는 방법", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-  { id: "15", image: Image, text: "절약 꿀팁 3가지", likes: 1500, bookmarks: 1500, date: "2025.01.01" },
-];
+export const dummyData = Array.from({ length: 1000 }, (_, index) => ({
+  id: (index + 1).toString(),
+  image: Image,
+  text: [
+    "자취생을 위한 꿀팁",
+    "청소 쉽게 하는 방법",
+    "절약 꿀팁 3가지",
+    "요리 초보를 위한 레시피",
+    "시간 절약하는 생활 팁",
+  ][index % 5],
+  likes: Math.floor(Math.random() * 5000) + 1000, // 1000~6000 사이 랜덤 값
+  bookmarks: Math.floor(Math.random() * 5000) + 1000, // 1000~6000 사이 랜덤 값
+  date: `2025.01.${String((index % 30) + 1).padStart(2, '0')}`,
+}));
