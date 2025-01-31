@@ -4,6 +4,7 @@ import styled, { useTheme } from "styled-components";
 import { dummyData as initialData } from "./dummydata/dummydata";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SkeletonCard from "@components/Skeleton/SkeletonCard";
+import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 10;
 
@@ -45,6 +46,12 @@ const SaveTipPage: React.FC = () => {
     return () => observerRef.current?.disconnect();
   }, [isLoading, hasMore, loadMoreData]);
 
+  const navigate = useNavigate(); // 추가
+
+  const handleCardClick = (id: string) => {
+    navigate(`/save-tip/${id}`); // 상세 페이지로 이동
+  };
+
   return (
     <Container>
       <SavedTips>
@@ -64,6 +71,7 @@ const SaveTipPage: React.FC = () => {
                 likes={item.likes || 0} 
                 bookmarks={item.bookmarks || 0} 
                 date={item.date || ""}
+                onClick={() => handleCardClick(item.id)}
               />
             ))}
             
@@ -110,4 +118,5 @@ const TipCardList = styled.div`
   gap: 20px;
   align-self: stretch;
   flex-wrap: wrap;
+  cursor: pointer;
 `
