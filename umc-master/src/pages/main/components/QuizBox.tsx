@@ -1,10 +1,10 @@
 import Typography from '@components/common/typography';
 import styled from 'styled-components';
 import mainCharacter from '@assets/mainCharacter.png';
-import axiosInstance from '@apis/axios-instance';
+//import axiosInstance from '@apis/axios-instance';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+//import { useQuery } from '@tanstack/react-query';
+//import { AxiosError } from 'axios';
 import CloseIcon from '@assets/icons/x.svg?react';
 import { useQuizStore } from '@store/quizStore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,10 +21,10 @@ interface QuizData {
   answerDescription: string;
 }
 
-interface QuizResponse {
+/* interface QuizResponse {
   numberOfQuiz: number;
   quizList: QuizData[];
-}
+} */
 
 const dummyQuizData: QuizData = {
   description: 'LED 전극을 양방향으로 적용해야 한다.',
