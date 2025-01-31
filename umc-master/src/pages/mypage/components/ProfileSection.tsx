@@ -1,21 +1,41 @@
-import styled from 'styled-components';
+import Typography from '@components/common/typography';
+import styled, { useTheme } from 'styled-components';
+import CameraImg from '@assets/icons/cameraImg.svg'
+import { useState } from 'react';
+import ProfileEditModal from '../modal/ProfileEditModal';
+
 
 const ProfileSection: React.FC = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const theme = useTheme();
   return (
     <ProfileCard>
       <State>
         <ProfileImg/>
-        <LoginState>카카오 로그인</LoginState>
+        <Img src={CameraImg}/>
       </State>
       <Card>
         <Text>
           <Hello>
-            <Nickname>Nickname</Nickname>
-            <Detail>님 오늘도 반가워요!</Detail>
+            <Typography 
+              variant='headingXxxSmall'
+              style={{color: theme.colors.text.black}}
+            >애니</Typography>
+            <Typography
+              variant='bodySmall'
+              style={{color: theme.colors.text.black}}
+            >님 오늘도 반가워요!</Typography>
           </Hello>
-          <Detail>자취 마스터가 되는 그날까지 마스터원과 함께 해요!</Detail>
+          <LoginType>카카오 로그인</LoginType>
         </Text>
-        <ProfileEdit>프로필 변경</ProfileEdit>
+        <ProfileEdit onClick={() => setIsModalOpen(true)}>프로필 변경</ProfileEdit>
+        <ProfileEditModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onEdit={() => console.log("Edit")}
+        />
       </Card>
     </ProfileCard>
   );
@@ -26,56 +46,39 @@ export default ProfileSection;
 const ProfileCard = styled.div`
   display: flex;
   align-items: center;
-  gap: 72px;
-  padding-top: 47px;
+  gap: 60px;
 `
 
 const State = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 200px;
-  height: 224px;
 `
 
 const ProfileImg = styled.div`
-  width: 180px;
-  height: 180px;
+  width: 140px;
+  height: 140px;
   background-color: rgb(230, 230, 230);
   border-radius: 50%;
 `
 
-const LoginState = styled.div`
-  display: flex;
-  width: 180px;
-  height: 50px;
-  padding: 10px 20px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+const Img = styled.img`
+  position: absolute;
+  bottom: -13px;
+  right: -33px;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
-  border-radius: 20px;
-  background: #3B1E1E;
-
-  color: #FFF;
-  text-align: center;
-
-  /* Body/medium */
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: -0.4px;
 `
 
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1165px;
-  height: 224px;
-  padding: 28px 52px;
+  width: 1100px;
+  height: 140px;
+  padding: 18px 56px 20px 56px;
   gap: 10px;
   border-radius: 20px;
   border: 1px solid var(--Text-gray, #636363);
@@ -97,30 +100,9 @@ const Hello = styled.div`
   gap: 8px;
 `
 
-const Nickname = styled.div`
-  color: var(--Text-black, #121212);
-  font-family: Pretendard;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 54px;
-  letter-spacing: 0.36px;
-`
-
-const Detail = styled.div`
-  color: var(--Text-black, #121212);
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.28px;
-`
-
 const ProfileEdit = styled.button`
   position: absolute;
-  bottom: 32px;
-  right: 37px;
+  right: 56px;
 
   display: flex;
   width: 196px;
@@ -131,19 +113,34 @@ const ProfileEdit = styled.button`
   gap: 10px;
   flex-shrink: 0;
   border-radius: 20px;
-  background: var(--Main-500, #1B8C78);
+  background: ${({ theme }) => theme.colors.primary[500]};
   color: #FFF;
 
-  /* Body/large */
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 36px;
-  letter-spacing: -0.48px;
+  font-family: ${({ theme }) => theme.fontFamily.medium};
+  font-size: ${({ theme }) => theme.typography.title.xxsmall.size};
+  font-weight: ${({ theme }) => theme.typography.title.xxsmall.weight};
+  line-height: ${({ theme }) => theme.typography.title.xxsmall.lineHeight};
   cursor: pointer;
 
   &:hover {
-    background: var(--Main-600, #157a66);
+    background: ${({ theme }) => theme.colors.primary[600]};
   }
+`
+
+const LoginType = styled.button`
+  display: flex;
+  width: 160px;
+  height: 50px;
+  padding: 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  background: #3B1E1E;
+  color: #FFF;
+
+  font-family: ${({ theme }) => theme.fontFamily.medium};
+  font-size: ${({ theme }) => theme.typography.body.small.size};
+  font-weight: ${({ theme }) => theme.typography.body.small.weight};
+  line-height: ${({ theme }) => theme.typography.body.small.lineHeight};
 `

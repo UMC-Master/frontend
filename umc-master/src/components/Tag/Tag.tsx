@@ -5,12 +5,13 @@ import Typography from '@components/common/typography';
 interface TagProps {
   selected?: boolean;
   text: string;
+  backgroundColor?: string;
   onClick?: () => void;
 }
 
-const Tag: React.FC<TagProps> = ({ selected, text, onClick }) => {
+const Tag: React.FC<TagProps> = ({ selected, text, backgroundColor, onClick }) => {
   return (
-    <TagContainer selected={selected} onClick={onClick}>
+    <TagContainer selected={selected} backgroundColor={backgroundColor} onClick={onClick}>
       <Typography variant="bodySmall">#{text}</Typography>
     </TagContainer>
   );
@@ -18,14 +19,18 @@ const Tag: React.FC<TagProps> = ({ selected, text, onClick }) => {
 
 export default Tag;
 
-const TagContainer = styled.div<{ selected?: boolean }>`
+const TagContainer = styled.div<{ selected?: boolean; backgroundColor?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 24px;
   border-radius: 30px;
   height: 48px;
-  background-color: ${({ selected, theme }) => (selected ? theme.colors.primary[500] : theme.colors.text['lightGray'])};
+  background-color: ${({ selected, backgroundColor, theme }) =>
+    backgroundColor || (selected ? theme.colors.primary[500] : theme.colors.text.lightGray)};
+  color: ${({ backgroundColor, theme }) =>
+    backgroundColor === "white" ? theme.colors.text.black : theme.colors.text.white};
+  border: ${({ backgroundColor, theme }) =>
+    backgroundColor === "white" ? `2px solid ${theme.colors.primary[500]}` : "none"};
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text['white']};
 `;

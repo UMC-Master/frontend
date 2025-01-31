@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import styled, { css } from "styled-components";
-interface ButtonProps {
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp" | "emailCheck";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
 }
+
 const Button: React.FC<ButtonProps> = ({ variant = "primary", children, ...props }) => {
   return (
     <StyledButton variant={variant} {...props}>
@@ -14,7 +16,9 @@ const Button: React.FC<ButtonProps> = ({ variant = "primary", children, ...props
   );
 };
 export default Button;
+
 const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit" | "interestEdit" | "pageUp" | "pageDown" | "signUp" | "emailCheck" }>`
+
   display: flex;
   width: 616px;
   height: 72px;
@@ -41,6 +45,7 @@ const StyledButton = styled.button<{ variant: "primary" | "kakao" | "profileEdit
     css`
       background: #fee500;
     `}
+
   ${(props) =>
     props.variant === "profileEdit" &&
     css`
