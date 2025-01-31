@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import styled from 'styled-components';
+import SearchIcon from '@assets/icons/search.svg?react';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -31,7 +32,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = '검색어를 입�
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <SearchIcon onClick={handleIconClick}>🔍</SearchIcon>
+      <SearchIconDiv onClick={handleIconClick}>
+        <SearchIcon />
+      </SearchIconDiv>
     </SearchBarContainer>
   );
 };
@@ -52,10 +55,10 @@ const SearchInput = styled.input`
   outline: none;
 `;
 
-const SearchIcon = styled.span`
+const SearchIconDiv = styled(SearchIcon)`
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
   font-size: 30px;
   cursor: pointer;
