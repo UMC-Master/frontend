@@ -111,7 +111,7 @@ const InputForm: React.FC = () => {
                   <StyledTypography variant="bodySmall">자동로그인</StyledTypography>
               </AutoLoginWrapper>
               <Options>
-                  <StyledTypography variant="bodySmall">회원 정보 찾기</StyledTypography>
+                  <StyledTypography variant="bodySmall" onClick={() => navigate(`/find-privacy`)}>회원 정보 찾기</StyledTypography>
                   <Separator />
                   <StyledTypography variant="bodySmall" onClick={() => navigate(`/signup`)}>회원 가입</StyledTypography>
               </Options>
