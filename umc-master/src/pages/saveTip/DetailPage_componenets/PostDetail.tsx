@@ -1,26 +1,26 @@
+/* eslint-disable react/prop-types */
 import Typography from "@components/common/typography";
 import Tag from "@components/Tag/Tag";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
+import { saveTipDetailPageDataList } from "../dummydata/dummydata";
 
-interface SaveTipDetailPageProps {
-  title?: string;
-  nickname?: string;
-  text?: string;
-}
 
-const dummyInterests = ['보안', '도어카메라', '홈카메라'];
+const PostDetail: React.FC = () => {
 
-const content = `내용 예시 입니다. 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 
-마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 
-1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원 1인 가구를 위한 가이드북 마스터원`
+  const { magazineId } = useParams<{ magazineId: string }>();
 
-const PostDetail: React.FC<SaveTipDetailPageProps> = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // TODO: 추후 API 연동 시, 실제 데이터 불러오도록 수정
+  const detail = saveTipDetailPageDataList.find((item) => item.id === magazineId);
+
+  if (!detail) {
+    return <PostView>해당 매거진을 찾을 수 없습니다.</PostView>;
+  }
 
   const theme = useTheme();
   return (
@@ -29,7 +29,7 @@ const PostDetail: React.FC<SaveTipDetailPageProps> = () => {
           <Typography 
             variant="headingXxSmall"
             style={{color: theme.colors.primary[900]}}
-          >title titletitletitletitletitle</Typography>
+          >{detail.title}</Typography>
           <PostInfo>
             <InfoDetail>
               <Author>
@@ -38,7 +38,7 @@ const PostDetail: React.FC<SaveTipDetailPageProps> = () => {
                   <Typography 
                     variant="titleXxSmall"
                     style={{color: theme.colors.text.black}}
-                  >nickname</Typography>
+                  >{detail.author}</Typography>
                   <Bestnum>
                     <Typography
                       variant="bodySmall"
@@ -47,13 +47,13 @@ const PostDetail: React.FC<SaveTipDetailPageProps> = () => {
                     <Typography
                       variant="bodySmall"
                       style={{color: theme.colors.text.lightGray}}
-                    >16회</Typography>
+                    >{detail.bestnum}회</Typography>
                   </Bestnum>
                 </AuthorInfo>
               </Author>
               <Tags>
-                {dummyInterests.map((interest, index) => (
-                    <Tag key={index} selected={true} text={interest}></Tag>
+                {detail.tags.map((tag, index) => (
+                    <Tag key={index} selected={true} text={tag}></Tag>
                 ))}
               </Tags>
             </InfoDetail>
@@ -61,17 +61,17 @@ const PostDetail: React.FC<SaveTipDetailPageProps> = () => {
               <Typography 
                 variant="bodySmall"
                 style={{color: theme.colors.text.black}}
-              >2024.12.30</Typography>
+              >{detail.date}</Typography>
               <Typography 
                 variant="bodySmall"
                 style={{color: theme.colors.text.black}}
-              >01:45</Typography>
+              >{detail.time}</Typography>
             </PostDate>
           </PostInfo>
           <Typography 
             variant="bodySmall"
             style={{color: theme.colors.text.black}}
-          >{content}</Typography>
+          >{detail.description}</Typography>
         </PostView>
   );
 };
