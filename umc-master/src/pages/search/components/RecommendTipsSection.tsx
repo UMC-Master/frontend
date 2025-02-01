@@ -4,6 +4,7 @@ import BigCard from '../../../components/Card/BigCard';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useGetTips } from '@hooks/queries/useGetTips';
 import SkeletonBigCard from '@components/Skeleton/SkeletonBigCard';
+import { useNavigate } from 'react-router-dom';
 
 interface TipsSectionProps {
   title?: string;
@@ -18,6 +19,7 @@ interface TipItem {
   likes?: number;
   bookmarks?: number;
   date?: string;
+  id: string;
 }
 
 const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
@@ -35,6 +37,12 @@ const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
 
   if (isError) return <div>Something went wrong...</div>;
 
+  const navigate = useNavigate();
+
+  const handleCardClick = (id: string) => {
+    navigate(`/save-tip/${id}`);
+  };
+
   return (
     <SectionContainer>
       <CardsWrapper>
@@ -48,6 +56,9 @@ const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
                 likes={item.likes || 0}
                 bookmarks={item.bookmarks || 0}
                 date={item.date || ''}
+                onClick={() => {
+                  handleCardClick(item.id);
+                }}
               />
             ))}
       </CardsWrapper>
