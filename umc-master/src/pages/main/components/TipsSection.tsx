@@ -27,7 +27,7 @@ interface TipItem {
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
-  title = 'tips', //TODO: 수정 필요 => useTipList에 title 받는 이유가 뭔지?
+  title = 'tips', // 디폴트값
   showArrows = false,
   showLikes = true,
   showRecent = false,
