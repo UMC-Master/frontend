@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import Typography from "@components/common/typography";
 import Tag from "@components/Tag/Tag";
 import { useEffect } from "react";
@@ -9,14 +8,16 @@ import { saveTipDetailPageDataList } from "../dummydata/dummydata";
 
 const PostDetail: React.FC = () => {
 
-  const { magazineId } = useParams<{ magazineId: string }>();
+  const { tipId } = useParams<{ tipId: string }>();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   // TODO: 추후 API 연동 시, 실제 데이터 불러오도록 수정
-  const detail = saveTipDetailPageDataList.find((item) => item.id === magazineId);
+  const detail = saveTipDetailPageDataList.find((item) => item.id === tipId);
+  console.log(tipId);
+
 
   if (!detail) {
     return <PostView>해당 포스트를 찾을 수 없습니다.</PostView>;
