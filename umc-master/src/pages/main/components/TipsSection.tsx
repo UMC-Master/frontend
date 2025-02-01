@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-import Card from '@components/Card/Card';
-import Typography from '@components/common/typography';
-import { useGetTips } from '@hooks/queries/useGetTips';
-import usePagination from '@hooks/usePagination';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
-import dummyData from '@assets/dummy/dummyData';
+import { useNavigate } from 'react-router-dom';
+import { useTipList } from '@apis/queries/useTipQueries';
+import Card from '@components/Card/Card';
 import SkeletonCard from '@components/Skeleton/SkeletonCard';
+import Typography from '@components/common/typography';
+import usePagination from '@hooks/usePagination';
+import dummyData from '@assets/dummy/dummyData';
 
 interface TipsSectionProps {
-  title?: string;
+  title: string;
   showArrows?: boolean;
   showLikes?: boolean;
   showRecent?: boolean;
@@ -23,6 +23,7 @@ interface TipItem {
   likes?: number;
   bookmarks?: number;
   date?: string;
+  id: string;
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
@@ -32,23 +33,15 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   showRecent = false,
   defaultSort = 'latest',
 }) => {
+  const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
   const { page, handlePrevPage, handleNextPage } = usePagination(1);
+  const { data: tipsData, isFetching, isError } = useTipList({ title, page, sortOption });
 
-  const {
-    isError,
-    data: tips,
-    isFetching,
-  } = useQuery({
-    queryKey: [title, page, sortOption],
-    queryFn: () => useGetTips({ pageParam: page, sorted: sortOption }),
-    placeholderData: keepPreviousData,
-  });
-
-  const tipss = tips?.data?.length > 0 ? tips.data : dummyData;
+  const tips = tipsData?.data?.length > 0 ? tipsData.data : dummyData;
 
   // 정렬된 아이템
-  const sortedItems = (tipss || []).sort((a: TipItem, b: TipItem) => {
+  const sortedItems = (tips || []).sort((a: TipItem, b: TipItem) => {
     if (sortOption === 'likes') return (b.likes || 0) - (a.likes || 0);
     if (sortOption === 'latest') return new Date(a.date || '').getTime() - new Date(b.date || '').getTime();
     if (sortOption === 'bookmarks') return (b.bookmarks || 0) - (a.bookmarks || 0);
@@ -57,8 +50,11 @@ const TipsSection: React.FC<TipsSectionProps> = ({
 
   if (isError) return <div>Something went wrong...</div>; // 에러 발생 시 표시
 
-  console.log(tips);
+  const handleCardClick = (id: string) => {
+    navigate(`/save-tip/${id}`);
+  };
 
+  console.log(tips);
   return (
     <SectionContainer>
       <SectionHeader>
@@ -94,6 +90,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
                   likes={item.likes || 0}
                   bookmarks={item.bookmarks || 0}
                   date={item.date || ''}
+                  onClick={() => handleCardClick(item.id)}
                 />
               ))}
           {showArrows && <RightArrow onClick={() => handleNextPage(5)}>{'>'}</RightArrow>}
