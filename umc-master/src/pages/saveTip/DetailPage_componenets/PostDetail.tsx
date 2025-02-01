@@ -19,7 +19,7 @@ const PostDetail: React.FC = () => {
   const detail = saveTipDetailPageDataList.find((item) => item.id === magazineId);
 
   if (!detail) {
-    return <PostView>해당 매거진을 찾을 수 없습니다.</PostView>;
+    return <PostView>해당 포스트를 찾을 수 없습니다.</PostView>;
   }
 
   const theme = useTheme();
