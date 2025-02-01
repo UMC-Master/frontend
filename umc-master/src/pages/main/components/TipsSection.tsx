@@ -10,7 +10,7 @@ import usePagination from '@hooks/usePagination';
 import dummyData from '@assets/dummy/dummyData';
 
 interface TipsSectionProps {
-  title: string;
+  title?: string;
   showArrows?: boolean;
   showLikes?: boolean;
   showRecent?: boolean;
@@ -27,7 +27,7 @@ interface TipItem {
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
-  title,
+  title = 'tips', //TODO: 수정 필요 => useTipList에 title 받는 이유가 뭔지?
   showArrows = false,
   showLikes = true,
   showRecent = false,
