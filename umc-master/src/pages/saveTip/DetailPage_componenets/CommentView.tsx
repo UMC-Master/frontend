@@ -17,7 +17,7 @@ const CommentText: React.FC<{ text: string }> = ({ text }) => {
     return (
       <div>
         <Typography variant="bodySmall" style={{ color: theme.colors.text.black }}>
-          {isExpanded ? text : `${text.slice(0, MAX_LENGTH)}...`}
+          {isExpanded ? text : `${text.slice(0, MAX_LENGTH)}`}
         </Typography>
         {shouldShowMore && (
           <button onClick={() => setIsExpanded(!isExpanded)} style={{ marginLeft: "4px", color: "gray", cursor: "pointer", background: "none", border: "none" }}>
