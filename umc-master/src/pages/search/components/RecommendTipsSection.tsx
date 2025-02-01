@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
-import BigCard from '../../../components/Card/BigCard';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useGetTips } from '@hooks/queries/useGetTips';
+import BigCard from '@components/Card/BigCard';
+import { useTipList } from '@apis/queries/useTipQueries';
 import SkeletonBigCard from '@components/Skeleton/SkeletonBigCard';
+import { useNavigate } from 'react-router-dom';
 
 interface TipsSectionProps {
   title?: string;
@@ -18,29 +18,28 @@ interface TipItem {
   likes?: number;
   bookmarks?: number;
   date?: string;
+  id: string;
 }
 
-const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
-  const {
-    isError,
-    data: tips,
-    isFetching,
-  } = useQuery({
-    queryKey: ['recommend'],
-    queryFn: () => useGetTips({ pageParam: 1, sorted: 'latest' }),
-    placeholderData: keepPreviousData,
-  });
+const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ title = 'recommendTip', items }) => {
+  const { data: tipsData, isFetching, isError } = useTipList({ title, page: 1, sortOption: 'latest' });
 
-  const tipss = tips?.data?.length > 0 ? tips.data : items;
+  const tips = tipsData?.data?.length > 0 ? tipsData.data : items;
 
   if (isError) return <div>Something went wrong...</div>;
+
+  const navigate = useNavigate();
+
+  const handleCardClick = (id: string) => {
+    navigate(`/save-tip/${id}`);
+  };
 
   return (
     <SectionContainer>
       <CardsWrapper>
         {isFetching
           ? Array.from({ length: 8 }).map((_, index) => <SkeletonBigCard key={index} />) // ✅ SkeletonCard 컴포넌트 활용
-          : tipss.map((item: TipItem, index: number) => (
+          : tips.map((item: TipItem, index: number) => (
               <BigCard
                 key={index}
                 image={item.image}
@@ -48,6 +47,9 @@ const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ items }) => {
                 likes={item.likes || 0}
                 bookmarks={item.bookmarks || 0}
                 date={item.date || ''}
+                onClick={() => {
+                  handleCardClick(item.id);
+                }}
               />
             ))}
       </CardsWrapper>

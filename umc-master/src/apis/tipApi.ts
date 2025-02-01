@@ -5,9 +5,9 @@ interface GetTipsParams {
   sorted: string;
 }
 
-const useGetTips = async ({ pageParam, sorted }: GetTipsParams) => {
+export const getTips = async ({ pageParam, sorted }: GetTipsParams) => {
   const { data } = await axiosInstance.get(`/tips/sorted?page=${pageParam}&limit=10&sort=${sorted}`);
   return data;
 };
 
-export { useGetTips };
+// 다른 Tips 관련 API들...

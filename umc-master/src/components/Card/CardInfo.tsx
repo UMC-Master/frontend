@@ -1,22 +1,17 @@
-import Typography from '@components/common/typography';
 import React from 'react';
 import styled from 'styled-components';
+import Typography from '@components/common/typography';
 
-interface CardProps {
-  image: string;
+interface CardInfoProps {
   text: string;
   likes: number;
   bookmarks: number;
   date: string;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const BigCard: React.FC<CardProps> = ({ image, text, likes, bookmarks, date, onClick }) => {
+const CardInfo: React.FC<CardInfoProps> = ({ text, likes, bookmarks, date }) => {
   return (
-    <CardContainer onClick={onClick}>
-      <CardImageWrapper>
-        <CardImage src={image} alt={text} />
-      </CardImageWrapper>
+    <>
       <CardText>
         <Typography variant="titleXxxSmall">{text}</Typography>
       </CardText>
@@ -39,32 +34,11 @@ const BigCard: React.FC<CardProps> = ({ image, text, likes, bookmarks, date, onC
           <CardDate>{date}</CardDate>
         </Typography>
       </DateWrapper>
-    </CardContainer>
+    </>
   );
 };
 
-export default BigCard;
-
-const CardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  text-align: center;
-  background-color: #ffffff;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
-const CardImageWrapper = styled.div`
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
-const CardImage = styled.img`
-  min-width: 300px;
-  height: 250px;
-  object-fit: cover;
-`;
+export default CardInfo;
 
 const CardText = styled.div`
   margin: 3px 0;
@@ -72,9 +46,8 @@ const CardText = styled.div`
 
 const CardDetails = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 `;
 
 const IconWrapper = styled.div`
@@ -102,5 +75,5 @@ const DateWrapper = styled.div`
 `;
 
 const CardDate = styled.span`
-  color: #7f8c8d;
+  color: ${({ theme }) => theme.colors.text[500]};
 `;

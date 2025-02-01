@@ -21,12 +21,20 @@ const createPost = async (newPost: NewPost): Promise<void> => {
   console.log('임시로 네트워크 요청 생략 후 성공 처리');
   return;
   try {
-    await axiosInstance.post<void>('/tips', newPost);
+    await axiosInstance.post<void>('/tips', newPost, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`,
+      },
+    });
   } catch (error: any) {
+    console.error('서버 응답 데이터:', error.response?.data);
+    console.error('에러 상세 정보:', error); // 추가 로그
     if (error.response && error.response.data) {
-      throw new Error(error.response.data.message || '게시물 등록에 실패했습니다.');
+      throw new Error(`서버 에러: ${error.response.status} - ${error.response.data.message}`);
+    } else if (error.request) {
+      throw new Error('서버에 응답이 없습니다. (네트워크 문제일 수 있습니다)');
     } else {
-      throw new Error('서버와의 연결에 실패했습니다.');
+      throw new Error(`요청 설정 에러: ${error.message}`);
     }
   }
 };
@@ -102,10 +110,12 @@ const CreatePostPage: React.FC = () => {
         $isActive={isFormValid}
         onClick={() => {
           if (isFormValid) {
+            const formattedTags = selectedTags.map((tag) => `#${tag}`);
+
             mutation.mutate({
               title: text,
               content: context,
-              hashtags: selectedTags,
+              hashtags: formattedTags,
             });
           } else {
             alert('모든 필드를 입력해주세요.');
