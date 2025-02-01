@@ -27,7 +27,7 @@ const SkeletonContainer = styled.div`
 `;
 
 const SkeletonImage = styled.div`
-  width: 100%;
+  width: 240px;
   height: 200px;
   background-color: ${({ theme }) => theme.colors.text['lightGray']};
   border-radius: 12px;

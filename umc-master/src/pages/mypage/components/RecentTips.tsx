@@ -2,6 +2,7 @@
 import styled, { useTheme } from 'styled-components';
 import Card from '@components/Card/Card';
 import Typography from '@components/common/typography';
+import { useNavigate } from 'react-router-dom';
 
 interface TipCardItem {
   id: string;
@@ -19,6 +20,13 @@ interface RecentTipsProps {
 const RecentTips: React.FC<RecentTipsProps> = ({ items }) => {
 
   const theme = useTheme();
+
+  const navigate = useNavigate(); // 추가
+
+  const handleCardClick = (id: string) => {
+    navigate(`/save-tip/${id}`); // 상세 페이지로 이동
+  };
+
   return (
     <RecentGoodTip>
       <Typography 
@@ -37,6 +45,7 @@ const RecentTips: React.FC<RecentTipsProps> = ({ items }) => {
               likes={item.likes || 0} 
               bookmarks={item.bookmarks || 0} 
               date={item.date || ''}
+              onClick={() => handleCardClick(item.id)}
             />
           ))}
       </TipCardList>
