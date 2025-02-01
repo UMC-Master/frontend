@@ -1,33 +1,63 @@
 /* eslint-disable react/prop-types */
 import Card from '@components/Card/Card';
 import Typography from '@components/common/typography';
+import { useGetTips } from '@hooks/queries/useGetTips';
+import usePagination from '@hooks/usePagination';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import styled from 'styled-components';
+import dummyData from '@assets/dummy/dummyData';
+import SkeletonCard from '@components/Skeleton/SkeletonCard';
 
 interface TipsSectionProps {
   title?: string;
-  items: { image: string; text: string; likes?: number; bookmarks?: number; date?: string }[];
   showArrows?: boolean;
   showLikes?: boolean;
   showRecent?: boolean;
+  defaultSort?: 'latest' | 'likes' | 'bookmarks';
+}
+
+interface TipItem {
+  image: string;
+  text: string;
+  likes?: number;
+  bookmarks?: number;
+  date?: string;
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
   title,
-  items,
   showArrows = false,
   showLikes = true,
   showRecent = false,
+  defaultSort = 'latest',
 }) => {
-  const [sortOption, setSortOption] = useState<'likes' | 'recent' | 'bookmarks'>('likes');
+  const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
+  const { page, handlePrevPage, handleNextPage } = usePagination(1);
+
+  const {
+    isError,
+    data: tips,
+    isFetching,
+  } = useQuery({
+    queryKey: [title, page, sortOption],
+    queryFn: () => useGetTips({ pageParam: page, sorted: sortOption }),
+    placeholderData: keepPreviousData,
+  });
+
+  const tipss = tips?.data?.length > 0 ? tips.data : dummyData;
 
   // 정렬된 아이템
-  const sortedItems = [...items].sort((a, b) => {
+  const sortedItems = (tipss || []).sort((a: TipItem, b: TipItem) => {
     if (sortOption === 'likes') return (b.likes || 0) - (a.likes || 0);
-    if (sortOption === 'recent') return new Date(a.date || '').getTime() - new Date(b.date || '').getTime();
+    if (sortOption === 'latest') return new Date(a.date || '').getTime() - new Date(b.date || '').getTime();
     if (sortOption === 'bookmarks') return (b.bookmarks || 0) - (a.bookmarks || 0);
     return 0;
   });
+
+  if (isError) return <div>Something went wrong...</div>; // 에러 발생 시 표시
+
+  console.log(tips);
 
   return (
     <SectionContainer>
@@ -39,7 +69,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
           {showLikes && (
             <>
               {showRecent && (
-                <SortButton $active={sortOption === 'recent'} onClick={() => setSortOption('recent')}>
+                <SortButton $active={sortOption === 'latest'} onClick={() => setSortOption('latest')}>
                   <Typography variant="bodyXSmall">최신순</Typography>
                 </SortButton>
               )}
@@ -53,18 +83,20 @@ const TipsSection: React.FC<TipsSectionProps> = ({
           )}
         </SortButtonGroup>
         <CardsWrapper>
-          {showArrows && <LeftArrow>{'<'}</LeftArrow>}
-          {sortedItems.map((item, index) => (
-            <Card
-              key={index}
-              image={item.image}
-              text={item.text}
-              likes={item.likes || 0}
-              bookmarks={item.bookmarks || 0}
-              date={item.date || ''}
-            />
-          ))}
-          {showArrows && <RightArrow>{'>'}</RightArrow>}
+          {showArrows && <LeftArrow onClick={handlePrevPage}>{'<'}</LeftArrow>}
+          {isFetching
+            ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />) // ✅ SkeletonCard 컴포넌트 활용
+            : sortedItems.map((item: TipItem, index: number) => (
+                <Card
+                  key={index}
+                  image={item.image}
+                  text={item.text}
+                  likes={item.likes || 0}
+                  bookmarks={item.bookmarks || 0}
+                  date={item.date || ''}
+                />
+              ))}
+          {showArrows && <RightArrow onClick={() => handleNextPage(5)}>{'>'}</RightArrow>}
         </CardsWrapper>
       </SortAndCardWrapper>
     </SectionContainer>

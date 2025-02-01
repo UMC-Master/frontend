@@ -81,7 +81,7 @@ const SearchPage = () => {
         onSearch={handleSearch}
         marginTop="80px"
       />
-      <TipsSection items={dummyData.slice(0, 5)} showLikes={false} />
+      <TipsSection showLikes={false} />
       <RecommendTitle title={searchValue} />
       <RecommendedTipsSection items={dummyData.slice(0, 8)} />
     </>
