@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 
 interface SectionScrollIndicatorProps {
   sectionCount: number;
@@ -40,7 +40,7 @@ const SectionScrollIndicator: React.FC<SectionScrollIndicatorProps> = ({ section
   return (
     <IndicatorContainer>
       {Array.from({ length: sectionCount }).map((_, index) => (
-        <Dot key={index} active={index === activeIndex} onClick={() => scrollToSection(index)} />
+        <Dot key={index} $active={index === activeIndex} onClick={() => scrollToSection(index)} />
       ))}
     </IndicatorContainer>
   );
@@ -59,12 +59,13 @@ const IndicatorContainer = styled.div`
   z-index: 1000;
 `;
 
-const Dot = styled.div<{ active: boolean }>`
+// transient prop $active: DOM으로 전달되지 않음
+const Dot = styled.div<{ $active: boolean }>`
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: ${({ active }) => (active ? '#fff' : 'transparent')};
-  border: 2px solid ${({ active }) => (active ? 'transparent' : '#fff')};
+  background-color: ${({ $active }) => ($active ? '#fff' : 'transparent')};
+  border: 2px solid ${({ $active }) => ($active ? 'transparent' : '#fff')};
   cursor: pointer;
 
   &:hover {
