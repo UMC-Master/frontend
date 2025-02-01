@@ -11,7 +11,7 @@ const commentCount = 1000; // 실제 데이터에서 가져올 값
 const formattedNumber = new Intl.NumberFormat().format(commentCount);
 
 const MAX_LENGTH = 100;
-const COMMENTS_PER_LOAD = 5;
+const COMMENTS_PER_LOAD = 3;
 
 const CommentText: React.FC<{ text: string }> = ({ text }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -37,7 +37,7 @@ const CommentView: React.FC = () => {
   const theme = useTheme();
   // const { tipId } = useParams<{ tipId: string }>();
 
-  const comment = generateComments(300);
+  const comment = generateComments(1300);
   
   const [comments, setComments] = useState<{ author: string; date: string; time: string; comment: string }[]>(comment.slice(0, COMMENTS_PER_LOAD * 2));
   const [inputValue, setInputValue] = useState("");
