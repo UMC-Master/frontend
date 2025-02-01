@@ -31,10 +31,7 @@ const CommentText: React.FC<{ text: string }> = ({ text }) => {
 const CommentView: React.FC = () => {
 
   const theme = useTheme();
-  const [comments, setComments] = useState<string[]>([
-    "첫 번째 댓글입니다!",
-    "여기에 새로운 댓글이 추가될 거예요!"
-  ]);
+  const [comments, setComments] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
 
   const handleAddComment = () => {
