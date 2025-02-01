@@ -1,6 +1,10 @@
-import useScrollAnimation from '@hooks/useScrollAnimation';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import theme from '@styles/theme';
+import CharacterImg from '@assets/character/landing.png';
+import Typography from '@components/common/typography';
+import useScrollAnimation from '@hooks/useScrollAnimation';
+import StartButton from './StartButton';
 
 const TitleSection: React.FC = () => {
   const animation = useScrollAnimation({ direction: 'up', duration: 1 });
@@ -8,12 +12,16 @@ const TitleSection: React.FC = () => {
     <Section as={motion.section} {...animation}>
       <Content>
         <TextContainer>
-          <SubTitle>1인 가구를 위한 가이드북</SubTitle>
-          <Title>나만의 자취 꿀팁 완성하기</Title>
-          <StartButton>지금 시작하기</StartButton>
+          <Typography variant="headingXSmall" style={{ color: theme.colors.text.white }}>
+            1인 가구를 위한 가이드북
+          </Typography>
+          <Typography variant="headingMedium" style={{ color: theme.colors.text.white }}>
+            나만의 자취 꿀팁 완성하기
+          </Typography>
+          <StartButton style={{ marginTop: 60, width: '60%' }} />
         </TextContainer>
         <ImageContainer>
-          <Character src={''} alt="Character" />
+          <Character src={CharacterImg} alt="Character" />
         </ImageContainer>
       </Content>
     </Section>
@@ -25,7 +33,7 @@ export default TitleSection;
 const Section = styled.section`
   width: 100%;
   height: 100vh;
-  background-color: #1b8c78;
+  background-color: ${({ theme }) => theme.colors.primary[500]};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,45 +50,16 @@ const Content = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-`;
-
-const SubTitle = styled.p`
-  font-size: 18px;
-  color: #e0f2f1;
-`;
-
-const Title = styled.h1`
-  font-size: 36px;
-  font-weight: bold;
-  color: #ffffff;
-`;
-
-const StartButton = styled.button`
-  width: 150px;
-  padding: 10px 4px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
+  gap: 4px;
 `;
 
 const ImageContainer = styled.div`
-  width: 300px;
-  height: 300px;
-  background-color: #ffffff;
-  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const Character = styled.img`
-  width: 80%;
+  width: 100%;
   height: auto;
 `;
