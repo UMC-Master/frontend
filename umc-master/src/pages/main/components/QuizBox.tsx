@@ -48,6 +48,7 @@ const QuizBox: React.FC = () => {
   const [step, setStep] = useState<QuizStep>(QuizStep.CHARACTER);
   const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
   const [userSelectedOption, setUserSelectedOption] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
 
   const { hideQuiz } = useQuizStore();
 
@@ -73,7 +74,13 @@ const QuizBox: React.FC = () => {
   };
 
   const handleClose = () => {
-    setTimeout(() => hideQuiz(), 500);
+    setIsVisible(false);
+  };
+
+  const handleAnimationComplete = () => {
+    if (!isVisible) {
+      hideQuiz();
+    }
   };
 
   //if (!quizData) return <div>퀴즈 데이터가 없습니다.</div>;
@@ -86,73 +93,74 @@ const QuizBox: React.FC = () => {
 
   return (
     <AnimatePresence mode="wait">
-      (
-      <MotionContainer
-        key="quiz-container"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
-      >
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+      {isVisible && (
+        <MotionContainer
+          key="quiz-container"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          onAnimationComplete={handleAnimationComplete}
         >
-          {step === QuizStep.CHARACTER && (
-            <MotionContentWrapper>
-              <StyledTypography color="white" variant="headingXxSmall">
-                오늘의 QUIZ를 맞혀보세요!
-              </StyledTypography>
-              <Card onClick={handleCharacterClick} role="button">
-                <Image src={mainCharacter} />
-              </Card>
-            </MotionContentWrapper>
-          )}
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {step === QuizStep.CHARACTER && (
+              <MotionContentWrapper>
+                <StyledTypography color="white" variant="headingXxSmall">
+                  오늘의 QUIZ를 맞혀보세요!
+                </StyledTypography>
+                <Card onClick={handleCharacterClick} role="button">
+                  <Image src={mainCharacter} />
+                </Card>
+              </MotionContentWrapper>
+            )}
 
-          {step === QuizStep.QUIZ && (
-            <MotionContentWrapper>
-              <TodayQuizDiv>
-                <Typography variant="headingXxxSmall">오늘의 Quiz</Typography>
-              </TodayQuizDiv>
-              <QuizDescription>
-                <Typography variant="titleXxSmall">{quizData.description}</Typography>
-              </QuizDescription>
-              <ButtonContainer>
-                <QuizButton onClick={() => handleAnswerClick(true)}>
-                  <Typography variant="headingMedium">O</Typography>
+            {step === QuizStep.QUIZ && (
+              <MotionContentWrapper>
+                <TodayQuizDiv>
+                  <Typography variant="headingXxxSmall">오늘의 Quiz</Typography>
+                </TodayQuizDiv>
+                <QuizDescription>
+                  <Typography variant="titleXxSmall">{quizData.description}</Typography>
+                </QuizDescription>
+                <ButtonContainer>
+                  <QuizButton onClick={() => handleAnswerClick(true)}>
+                    <Typography variant="headingMedium">O</Typography>
+                  </QuizButton>
+                  <QuizButton onClick={() => handleAnswerClick(false)}>
+                    <Typography variant="headingMedium">X</Typography>
+                  </QuizButton>
+                </ButtonContainer>
+              </MotionContentWrapper>
+            )}
+
+            {step === QuizStep.RESULT && (
+              <MotionContentWrapper>
+                <ResultTextDiv>
+                  <Typography variant="headingXxSmall">
+                    {userAnswer === quizData?.answer ? '정답이에요!' : '틀렸습니다. 아쉽네요ㅠㅠ'}
+                  </Typography>
+                </ResultTextDiv>
+                <QuizButton>
+                  <Typography variant="headingMedium">{userSelectedOption}</Typography>
                 </QuizButton>
-                <QuizButton onClick={() => handleAnswerClick(false)}>
-                  <Typography variant="headingMedium">X</Typography>
-                </QuizButton>
-              </ButtonContainer>
-            </MotionContentWrapper>
-          )}
+                <DescriptionText>
+                  <Typography variant="bodyMedium">{quizData.answerDescription}</Typography>
+                </DescriptionText>
+              </MotionContentWrapper>
+            )}
+          </motion.div>
 
-          {step === QuizStep.RESULT && (
-            <MotionContentWrapper>
-              <ResultTextDiv>
-                <Typography variant="headingXxSmall">
-                  {userAnswer === quizData?.answer ? '정답이에요!' : '틀렸습니다. 아쉽네요ㅠㅠ'}
-                </Typography>
-              </ResultTextDiv>
-              <QuizButton>
-                <Typography variant="headingMedium">{userSelectedOption}</Typography>
-              </QuizButton>
-              <DescriptionText>
-                <Typography variant="bodyMedium">{quizData.answerDescription}</Typography>
-              </DescriptionText>
-            </MotionContentWrapper>
-          )}
-        </motion.div>
-
-        <CloseBTN onClick={handleClose}>
-          <CloseIcon />
-        </CloseBTN>
-      </MotionContainer>
-      )
+          <CloseBTN onClick={handleClose}>
+            <CloseIcon />
+          </CloseBTN>
+        </MotionContainer>
+      )}
     </AnimatePresence>
   );
 };
