@@ -8,11 +8,12 @@ interface CardProps {
   likes: number;
   bookmarks: number;
   date: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const BigCard: React.FC<CardProps> = ({ image, text, likes, bookmarks, date }) => {
+const BigCard: React.FC<CardProps> = ({ image, text, likes, bookmarks, date, onClick }) => {
   return (
-    <CardContainer>
+    <CardContainer onClick={onClick}>
       <CardImageWrapper>
         <CardImage src={image} alt={text} />
       </CardImageWrapper>
