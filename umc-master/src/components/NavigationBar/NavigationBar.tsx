@@ -7,6 +7,7 @@ import RoutePaths from '@router/routePaths';
 import Typography from '@components/common/typography';
 import AlarmIcon from '@assets/icons/alarm.svg?react';
 import AlarmModal from '@components/Modal/alarm';
+import ProfileModal from '@components/Modal/profile';
 
 interface NavigationBarProps {
   login: boolean;
@@ -14,7 +15,10 @@ interface NavigationBarProps {
 
 const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
   const toggleAlarmModal = () => setIsAlarmModalOpen((prev) => !prev);
+  const toggleProfileModal = () => setIsProfileModalOpen((prev) => !prev);
 
   return (
     <Container>
@@ -38,10 +42,10 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
             </MenuItems>
           </Typography>
         </div>
-        {!login ? (
+        {login ? (
           <UserSection>
             <AlarmIcon onClick={toggleAlarmModal} />
-            <ProfileImg />
+            <ProfileImg onClick={toggleProfileModal} />
           </UserSection>
         ) : (
           <LoginBtn to={RoutePaths.LOGIN}>
@@ -50,9 +54,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
         )}
       </Nav>
       <AlarmModal isOpen={isAlarmModalOpen} onClose={toggleAlarmModal} />
+      <ProfileModal isOpen={isProfileModalOpen} onClose={toggleProfileModal} />
     </Container>
   );
 };
+
 export default NavigationBar;
 
 const Container = styled.div`
@@ -110,6 +116,7 @@ const UserSection = styled.div`
 const ProfileImg = styled.div`
   width: 40px;
   height: 40px;
-  background: #e0e0e0; /**TODO: 프로필 이미지 추가*/
+  background: #e0e0e0; /** TODO: 프로필 이미지 추가 */
   border-radius: 50%;
+  cursor: pointer;
 `;
