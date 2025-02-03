@@ -22,17 +22,16 @@ interface TipItem {
 }
 
 const RecommendedTipsSection: React.FC<TipsSectionProps> = ({ title = 'recommendTip', items }) => {
-  const { data: tipsData, isFetching, isError } = useTipList({ title, page: 1, sortOption: 'latest' });
-
-  const tips = tipsData?.data?.length > 0 ? tipsData.data : items;
-
-  if (isError) return <div>Something went wrong...</div>;
-
   const navigate = useNavigate();
+  const { data: tipsData, isFetching, isError } = useTipList({ title, page: 1, sortOption: 'latest' });
 
   const handleCardClick = (id: string) => {
     navigate(`/save-tip/${id}`);
   };
+
+  if (isError) return <div>Something went wrong...</div>;
+
+  const tips = tipsData?.data?.length > 0 ? tipsData.data : items;
 
   return (
     <SectionContainer>
