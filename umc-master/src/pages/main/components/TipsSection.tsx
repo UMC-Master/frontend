@@ -86,31 +86,33 @@ const TipsSection: React.FC<TipsSectionProps> = ({
             </>
           )}
         </SortButtonGroup>
-        <AnimatePresence initial={false} custom={direction} mode="wait">
-          <CardsWrapper
-            key={page}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.5 }}
-          >
-            {isFetching
-              ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
-              : sortedItems.map((item: TipItem, index: number) => (
-                  <Card
-                    key={index}
-                    image={item.image}
-                    text={item.text}
-                    likes={item.likes || 0}
-                    bookmarks={item.bookmarks || 0}
-                    date={item.date || ''}
-                    onClick={() => handleCardClick(item.id)}
-                  />
-                ))}
-          </CardsWrapper>
-        </AnimatePresence>
+        <CardsOuterWrapper>
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <CardsWrapper
+              key={page}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.5 }}
+            >
+              {isFetching
+                ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
+                : sortedItems.map((item: TipItem, index: number) => (
+                    <Card
+                      key={index}
+                      image={item.image}
+                      text={item.text}
+                      likes={item.likes || 0}
+                      bookmarks={item.bookmarks || 0}
+                      date={item.date || ''}
+                      onClick={() => handleCardClick(item.id)}
+                    />
+                  ))}
+            </CardsWrapper>
+          </AnimatePresence>
+        </CardsOuterWrapper>
 
         {showArrows && (
           <>
@@ -187,6 +189,14 @@ const SectionHeader = styled.div`
   color: ${({ theme }) => theme.colors.primary[900]};
 `;
 
+const CardsOuterWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* 필요에 따라 고정 높이 또는 min-height를 지정 */
+  min-height: 300px;
+`;
+
 const CardsWrapper = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(5, minmax(240px, 1fr));
@@ -194,6 +204,7 @@ const CardsWrapper = styled(motion.div)`
   position: relative;
   max-width: 1280px; /* 원하는 최대 너비 설정 */
   margin: 0 auto; /* 가운데 정렬 */
+  z-index: 0;
 `;
 
 const LeftArrow = styled.span`
