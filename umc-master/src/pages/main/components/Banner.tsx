@@ -48,7 +48,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 320px;
+  height: 280px;
   background-color: ${({ theme }) => theme.colors.primary[500]};
   color: white;
   text-align: center;
