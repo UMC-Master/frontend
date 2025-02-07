@@ -3,14 +3,17 @@ import Typography from "@components/common/typography";
 import styled from "styled-components";
 import Input from "@components/Input/Input";
 import useInput from "@hooks/useInput";
-import { validateEmailFormat, validatePasswordFormat, validateEmailOnServer, validatePasswordOnServer } from "@utils/validation";
+import { validateEmailFormat, validatePasswordFormat } from "@utils/validation";
 import { useState } from "react";
 import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@apis/axios-instance";
+import { useAuthStore } from "@store/auth";
 
 const InputForm: React.FC = () => {
+
+  const { setAuth } = useAuthStore();
 
   const handleKakaoLogin = () => {
     const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -20,7 +23,7 @@ const InputForm: React.FC = () => {
 
   const handleEmailLogin = async () => {
     try {
-      const response = await axiosInstance.post("/api/v1/login", {
+      const response = await axiosInstance.post("/login", {
         email, 
         password, 
       });
@@ -29,6 +32,7 @@ const InputForm: React.FC = () => {
       localStorage.setItem("refrestToken", response.data.refrestToken);
 
       alert("로그인 성공!");
+      setAuth(true);
       navigate("/main");
     } catch (error: any) {
       console.error("로그인 실패:", error.response?.data || error.message);
@@ -83,19 +87,19 @@ const InputForm: React.FC = () => {
       }
     }
     
-    // 서버에서 이메일과 비밀번호 검증
-    // 예시로 콘솔 로그로 확인
-    const emailExistsError = await validateEmailOnServer(email);
-    if (!emailExistsError.success) {
-      handleEmailError(emailExistsError.message);
-      return;
-    }
+    // // 서버에서 이메일과 비밀번호 검증
+    // // 예시로 콘솔 로그로 확인
+    // const emailExistsError = await validateEmailOnServer(email);
+    // if (!emailExistsError.success) {
+    //   handleEmailError(emailExistsError.message);
+    //   return;
+    // }
 
-    const passwordMatchError = await validatePasswordOnServer(email, password);
-    if (!passwordMatchError.success) {
-      handlePasswordError(passwordMatchError.message);
-      return;
-    }
+    // const passwordMatchError = await validatePasswordOnServer(email, password);
+    // if (!passwordMatchError.success) {
+    //   handlePasswordError(passwordMatchError.message);
+    //   return;
+    // }
 
     console.log(isSubmitted);
 
