@@ -41,6 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
             <Year>2025년</Year>
           </Typography>
           <Typography variant="bodySmall">
+            {/* TODO: 챗봇 연결 */}
             <Item>1인 가구를 위한 가이드북 마스테어</Item>
             <Item>질문2</Item>
             <Item>질문3</Item>
