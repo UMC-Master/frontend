@@ -17,14 +17,27 @@ const PrivacyForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = (
   const [districts, setDistricts] = useState<District[]>([]);
 
   const [nickname, setNickname] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   // 닉네임 입력값을 업데이트하는 함수
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newNickname = e.target.value;
     setNickname(newNickname);
+    const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣._]+$/;
 
-    // 닉네임이 0글자 이상일 때만 "다음" 버튼을 활성화
-    onCheckRequired(newNickname.length > 0);
+    if (newNickname.length === 0) {
+      setErrorMessage("닉네임을 입력해주세요.");
+      onCheckRequired(false);
+    } else if (newNickname.length > 11) {
+      setErrorMessage("닉네임을 최대 10자까지 입력 가능합니다.");
+      onCheckRequired(false);
+    } else if (!nicknameRegex.test(newNickname)) {
+      setErrorMessage("닉네임은 한글, 영문, 숫자, '.', '_' 만 사용할 수 있습니다.");
+      onCheckRequired(false);
+    } else {
+      setErrorMessage("");
+      onCheckRequired(true);
+    }
   };
 
   // 도시 선택시 구 목록을 업데이트하는 함수
@@ -105,6 +118,7 @@ const PrivacyForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = (
             style={{color: theme.colors.primary[700]}}
           >닉네임 (필수) *</Typography>
           <Input 
+            errorMessage={errorMessage} 
             type={'nickname'} 
             placeholder={'닉네임 입력 (최대 10자 이내)'}
             value={nickname}
