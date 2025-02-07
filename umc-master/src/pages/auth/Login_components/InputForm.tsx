@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Typography from "@components/common/typography";
 import styled from "styled-components";
 import Input from "@components/Input/Input";
@@ -7,6 +8,7 @@ import { useState } from "react";
 import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "@apis/axios-instance";
 
 const InputForm: React.FC = () => {
 
@@ -14,6 +16,24 @@ const InputForm: React.FC = () => {
     const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
     const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
     window.location.href = kakaoAuthUrl;
+  };
+
+  const handleEmailLogin = async () => {
+    try {
+      const response = await axiosInstance.post("/api/v1/login", {
+        email, 
+        password, 
+      });
+
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refrestToken", response.data.refrestToken);
+
+      alert("로그인 성공!");
+      navigate("/main");
+    } catch (error: any) {
+      console.error("로그인 실패:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "로그인에 실패했습니다.");
+    }
   };
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -77,8 +97,9 @@ const InputForm: React.FC = () => {
       return;
     }
 
-    alert("로그인 성공!");
     console.log(isSubmitted);
+
+    await handleEmailLogin();
   };
 
   const navigate = useNavigate(); // 추가
