@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import CloseIcon from '@assets/icons/close.svg?react';
@@ -7,7 +7,9 @@ import TipIcon from '@assets/icons/tip.svg?react';
 import LogoutIcon from '@assets/icons/logout.svg?react';
 import Typography from '@components/common/typography';
 import theme from '@styles/theme';
-import { useAuthStore } from '@store/auth';
+import { useAuthStore } from '@store/authStore';
+import { useUserStore } from '@store/userStore';
+import { getUsers } from '@apis/profileApi';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -18,6 +20,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const navigate = useNavigate();
   const { clearAuth } = useAuthStore();
+  const { user, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser();  // 컴포넌트 마운트 시 사용자 정보 가져오기
+  }, []);  
+  getUsers();
 
   const handleLogout = () => {
     clearAuth();
@@ -32,7 +40,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
         </CloseButton>
         <ProfileWrapper>
           <ProfileImage />
-          <Typography variant="titleXSmall">애니 님</Typography>
+          <Typography variant="titleXSmall">{user?.nickname} 님</Typography>
         </ProfileWrapper>
         <MenuList>
           <Typography variant="titleXxSmall" style={{ color: theme.colors.primary[600] }}>

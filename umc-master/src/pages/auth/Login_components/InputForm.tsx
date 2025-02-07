@@ -9,11 +9,13 @@ import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@apis/axios-instance";
-import { useAuthStore } from "@store/auth";
+import { useAuthStore } from "@store/authStore";
+import { useTokenStore } from "@store/tokenStore";
 
 const InputForm: React.FC = () => {
 
   const { setAuth } = useAuthStore();
+  const { setTokens } = useTokenStore.getState();
 
   const handleKakaoLogin = () => {
     const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -28,9 +30,12 @@ const InputForm: React.FC = () => {
         password, 
       });
 
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refrestToken", response.data.refrestToken);
+      const { accessToken, refreshToken } = response.data.result;
 
+      setTokens({ accessToken, refreshToken });
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      
       alert("로그인 성공!");
       setAuth(true);
       navigate("/main");

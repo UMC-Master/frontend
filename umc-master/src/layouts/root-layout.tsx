@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import NavigationBar from '@components/NavigationBar/NavigationBar';
 import Footer from '@components/Footer/Footer';
-import { useAuthStore } from '@store/auth';
+import { useAuthStore } from '@store/authStore';
 
 const RootLayout: React.FC = () => {
 
