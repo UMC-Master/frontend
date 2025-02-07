@@ -1,3 +1,4 @@
+import RoutePaths from '@router/routePaths';
 import { useTokenStore } from '@store/tokenStore';
 import axios, { AxiosInstance } from 'axios';
 
@@ -68,7 +69,7 @@ axiosInstance.interceptors.response.use(
         useTokenStore.getState().clearTokens();
 
         // 로그인 페이지로 리다이렉트
-        window.location.href = '/login';
+        window.location.href = RoutePaths.LOGIN;
 
         return Promise.reject(refreshError);
       }
