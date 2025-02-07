@@ -10,7 +10,7 @@ interface SearchInputProps {
 const SearchInput: React.FC<SearchInputProps> = ({ inputValue, setInputValue }) => (
   <SearchBox>
     <Input placeholder="궁금한 점을 입력해주세요!" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-    <StyledSendIcon hasText={inputValue.length > 0} />
+    <StyledSendIcon $hasText={inputValue.length > 0} />
   </SearchBox>
 );
 
@@ -33,8 +33,10 @@ const Input = styled.input`
   border-radius: 20px;
 `;
 
-const StyledSendIcon = styled(SendIcon)<{ hasText: boolean }>`
+const StyledSendIcon = styled(SendIcon).withConfig({
+  shouldForwardProp: (prop) => prop !== '$hasText',
+})<{ $hasText: boolean }>`
   cursor: pointer;
-  fill: ${({ hasText, theme }) => (hasText ? theme.colors.primary[500] : theme.colors.text.gray)};
+  fill: ${({ $hasText, theme }) => ($hasText ? theme.colors.primary[500] : theme.colors.text.gray)};
   transition: fill 0.3s ease;
 `;
