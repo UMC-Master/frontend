@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CloseIcon from '@assets/icons/close.svg?react';
 import UserIcon from '@assets/icons/user.svg?react';
 import TipIcon from '@assets/icons/tip.svg?react';
 import LogoutIcon from '@assets/icons/logout.svg?react';
 import Typography from '@components/common/typography';
 import theme from '@styles/theme';
+import { useAuthStore } from '@store/auth';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -15,6 +16,13 @@ interface ProfileModalProps {
 
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  const navigate = useNavigate();
+  const { clearAuth } = useAuthStore();
+
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/");
+  };
 
   return (
     <ModalWrapper onClick={onClose}>
@@ -34,12 +42,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             <MenuItem onClick={onClose}>
               <TipIcon /> 마이꿀팁
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                // TODO: 추후 API를 사용하여 로그아웃 기능 연결
-                onClose();
-              }}
-            >
+            <MenuItem onClick={() => { handleLogout(); onClose(); }}>
               <LogoutIcon /> 로그아웃
             </MenuItem>
           </Typography>
