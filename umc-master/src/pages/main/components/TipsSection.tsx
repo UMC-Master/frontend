@@ -28,7 +28,7 @@ interface TipItem {
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
-  title = 'tips', // 디폴트값
+  title,
   showArrows = false,
   showLikes = true,
   showRecent = false,
@@ -37,7 +37,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
   const { page, handlePrevPage, handleNextPage } = usePagination(1);
-  const { data: tipsData, isFetching, isError } = useTipList({ title, page, sortOption });
+  const { data: tipsData, isFetching, isError } = useTipList({ title: title || '', page, sortOption });
   const [direction, setDirection] = useState<number>(0);
 
   const tips = tipsData?.data?.length > 0 ? tipsData.data : dummyData;
