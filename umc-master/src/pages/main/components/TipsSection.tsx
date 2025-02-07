@@ -8,6 +8,7 @@ import SkeletonCard from '@components/Skeleton/SkeletonCard';
 import Typography from '@components/common/typography';
 import usePagination from '@hooks/usePagination';
 import dummyData from '@assets/dummy/dummyData';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface TipsSectionProps {
   title?: string;
@@ -37,6 +38,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
   const { page, handlePrevPage, handleNextPage } = usePagination(1);
   const { data: tipsData, isFetching, isError } = useTipList({ title, page, sortOption });
+  const [direction, setDirection] = useState<number>(0);
 
   const tips = tipsData?.data?.length > 0 ? tipsData.data : dummyData;
 
@@ -52,6 +54,12 @@ const TipsSection: React.FC<TipsSectionProps> = ({
 
   const handleCardClick = (id: string) => {
     navigate(`/save-tip/${id}`);
+  };
+
+  const handleSlide = (direction: number) => {
+    setDirection(direction);
+    if (direction === -1) handlePrevPage();
+    if (direction === 1) handleNextPage(5);
   };
 
   console.log(tips);
@@ -78,23 +86,38 @@ const TipsSection: React.FC<TipsSectionProps> = ({
             </>
           )}
         </SortButtonGroup>
-        <CardsWrapper>
-          {showArrows && <LeftArrow onClick={handlePrevPage}>{'<'}</LeftArrow>}
-          {isFetching
-            ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />) // ✅ SkeletonCard 컴포넌트 활용
-            : sortedItems.map((item: TipItem, index: number) => (
-                <Card
-                  key={index}
-                  image={item.image}
-                  text={item.text}
-                  likes={item.likes || 0}
-                  bookmarks={item.bookmarks || 0}
-                  date={item.date || ''}
-                  onClick={() => handleCardClick(item.id)}
-                />
-              ))}
-          {showArrows && <RightArrow onClick={() => handleNextPage(5)}>{'>'}</RightArrow>}
-        </CardsWrapper>
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <CardsWrapper
+            key={page}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.5 }}
+          >
+            {isFetching
+              ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
+              : sortedItems.map((item: TipItem, index: number) => (
+                  <Card
+                    key={index}
+                    image={item.image}
+                    text={item.text}
+                    likes={item.likes || 0}
+                    bookmarks={item.bookmarks || 0}
+                    date={item.date || ''}
+                    onClick={() => handleCardClick(item.id)}
+                  />
+                ))}
+          </CardsWrapper>
+        </AnimatePresence>
+
+        {showArrows && (
+          <>
+            <LeftArrow onClick={() => handleSlide(-1)}>{'<'}</LeftArrow>
+            <RightArrow onClick={() => handleSlide(1)}>{'>'}</RightArrow>
+          </>
+        )}
       </SortAndCardWrapper>
     </SectionContainer>
   );
@@ -102,7 +125,23 @@ const TipsSection: React.FC<TipsSectionProps> = ({
 
 export default TipsSection;
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+};
+
 const SortAndCardWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -148,7 +187,7 @@ const SectionHeader = styled.div`
   color: ${({ theme }) => theme.colors.primary[900]};
 `;
 
-const CardsWrapper = styled.div`
+const CardsWrapper = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(5, minmax(240px, 1fr));
   gap: 20px;
@@ -165,6 +204,7 @@ const LeftArrow = styled.span`
   top: 50%;
   left: -62px;
   transform: translateY(-50%);
+  z-index: 10;
   cursor: pointer;
 `;
 
@@ -176,5 +216,6 @@ const RightArrow = styled.span`
   top: 50%;
   right: -62px;
   transform: translateY(-50%);
+  z-index: 10;
   cursor: pointer;
 `;
