@@ -22,7 +22,7 @@ interface TypographyProps {
     | 'captionDefault';
 }
 
-const Typography = styled.p<TypographyProps>`
+const Typography = styled.div<TypographyProps>`
   ${({ theme, variant }) => {
     const typography = theme.typography;
 

@@ -14,12 +14,10 @@ import { useModalStore } from '@store/modalStore';
 interface NewPost {
   title: string;
   content: string;
-  hashtags: string[];
+  hashtags: string[][];
 }
 
 const createPost = async (newPost: NewPost): Promise<void> => {
-  console.log('임시로 네트워크 요청 생략 후 성공 처리');
-  return;
   try {
     await axiosInstance.post<void>('/tips', newPost, {
       headers: {
@@ -115,7 +113,7 @@ const CreatePostPage: React.FC = () => {
             mutation.mutate({
               title: text,
               content: context,
-              hashtags: formattedTags,
+              hashtags: [formattedTags],
             });
           } else {
             alert('모든 필드를 입력해주세요.');

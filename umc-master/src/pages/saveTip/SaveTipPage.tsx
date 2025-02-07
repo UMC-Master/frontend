@@ -6,13 +6,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SkeletonCard from "@components/Skeleton/SkeletonCard";
 import { useNavigate } from "react-router-dom";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 const SaveTipPage: React.FC = () => {
   
   const theme = useTheme();
 
-  const [data, setData] = useState(initialData.slice(0, PAGE_SIZE * 3));
+  const [data, setData] = useState(initialData.slice(0, PAGE_SIZE * 6));
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialData.length > PAGE_SIZE);
   const observerRef = useRef<IntersectionObserver | null>(null);
