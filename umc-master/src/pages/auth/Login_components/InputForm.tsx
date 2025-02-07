@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Typography from "@components/common/typography";
 import styled from "styled-components";
 import Input from "@components/Input/Input";
