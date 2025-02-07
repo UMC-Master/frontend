@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Title from "./Login_components/Title";
-import ButtonBox from "./Login_components/ButtonBox";
 import InputForm from "./Login_components/InputForm";
 
 const LoginPage: React.FC = () => {
@@ -10,7 +9,6 @@ const LoginPage: React.FC = () => {
       <LoginForm>
         <Title/>
         <InputForm/>
-        <ButtonBox/>
       </LoginForm>
     </Container>
   );
@@ -24,14 +22,14 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 90px;
-  padding-bottom: 90px;
+  padding-top: 84px;
+  padding-bottom: 84px;
   background: #FFF;
 `
 
 const LoginForm = styled.div`
   display: flex;
-  width: 700px;
+  width: 616px;
   flex-direction: column;
   align-items: center;
   gap: 40px;

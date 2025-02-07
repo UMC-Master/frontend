@@ -2,51 +2,39 @@ import styled from 'styled-components';
 
 interface TypographyProps {
   variant:
-    | 'displayLarge'
-    | 'displayMedium'
-    | 'displaySmall'
     | 'headingLarge'
     | 'headingMedium'
     | 'headingSmall'
     | 'headingXSmall'
+    | 'headingXxSmall'
+    | 'headingXxxSmall'
     | 'titleLarge'
     | 'titleMedium'
     | 'titleSmall'
     | 'titleXSmall'
+    | 'titleXxSmall'
+    | 'titleXxxSmall'
     | 'bodyContent'
     | 'bodyLarge'
     | 'bodyMedium'
-    | 'bodySmall';
+    | 'bodySmall'
+    | 'bodyXSmall'
+    | 'captionDefault';
 }
 
-const Typography = styled.p<TypographyProps>`
+const Typography = styled.div<TypographyProps>`
   ${({ theme, variant }) => {
     const typography = theme.typography;
 
     switch (variant) {
-      /* Display */
-      case 'displayLarge':
+      /* Caption */
+      case 'captionDefault':
         return `
-          font-size: ${typography.display.large.size};
-          font-weight: ${typography.display.large.weight};
-          line-height: ${typography.display.large.lineHeight};
-          letter-spacing: ${typography.display.large.letterSpacing};
-        `;
-      case 'displayMedium':
-        return `
-          font-size: ${typography.display.medium.size};
-          font-weight: ${typography.display.medium.weight};
-          line-height: ${typography.display.medium.lineHeight};
-          letter-spacing: ${typography.display.medium.letterSpacing};
-        `;
-      case 'displaySmall':
-        return `
-          font-size: ${typography.display.small.size};
-          font-weight: ${typography.display.small.weight};
-          line-height: ${typography.display.small.lineHeight};
-          letter-spacing: ${typography.display.small.letterSpacing};
-        `;
-
+        font-size: ${typography.caption.default.size};
+        font-weight: ${typography.caption.default.weight};
+        line-height: ${typography.caption.default.lineHeight};
+        letter-spacing: ${typography.caption.default.letterSpacing};
+      `;
       /* Heading */
       case 'headingLarge':
         return `
@@ -76,6 +64,20 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.heading.xsmall.lineHeight};
           letter-spacing: ${typography.heading.xsmall.letterSpacing};
         `;
+      case 'headingXxSmall':
+        return `
+          font-size: ${typography.heading.xxsmall.size};
+          font-weight: ${typography.heading.xxsmall.weight};
+          line-height: ${typography.heading.xxsmall.lineHeight};
+          letter-spacing: ${typography.heading.xxsmall.letterSpacing};
+        `;
+      case 'headingXxxSmall':
+        return `
+            font-size: ${typography.heading.xxxsmall.size};
+            font-weight: ${typography.heading.xxxsmall.weight};
+            line-height: ${typography.heading.xxxsmall.lineHeight};
+            letter-spacing: ${typography.heading.xxxsmall.letterSpacing};
+          `;
 
       /* Title */
       case 'titleLarge':
@@ -106,7 +108,20 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.title.xsmall.lineHeight};
           letter-spacing: ${typography.title.xsmall.letterSpacing};
         `;
-
+      case 'titleXxSmall':
+        return `
+            font-size: ${typography.title.xxsmall.size};
+            font-weight: ${typography.title.xxsmall.weight};
+            line-height: ${typography.title.xxsmall.lineHeight};
+            letter-spacing: ${typography.title.xxsmall.letterSpacing};
+          `;
+      case 'titleXxxSmall':
+        return `
+            font-size: ${typography.title.xxxsmall.size};
+            font-weight: ${typography.title.xxxsmall.weight};
+            line-height: ${typography.title.xxxsmall.lineHeight};
+            letter-spacing: ${typography.title.xxxsmall.letterSpacing};
+          `;
       /* Body */
       case 'bodyContent':
         return `
@@ -136,6 +151,13 @@ const Typography = styled.p<TypographyProps>`
           line-height: ${typography.body.small.lineHeight};
           letter-spacing: ${typography.body.small.letterSpacing};
         `;
+      case 'bodyXSmall':
+        return `
+        font-size: ${typography.body.xsmall.size};
+        font-weight: ${typography.body.xsmall.weight};
+        line-height: ${typography.body.xsmall.lineHeight};
+        letter-spacing: ${typography.body.xsmall.letterSpacing};
+      `;
 
       default:
         return '';

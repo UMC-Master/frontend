@@ -1,5 +1,6 @@
+import Typography from "@components/common/typography";
 import React from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,11 +9,24 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = ({ label, errorMessage, ...props }) => {
 
+    const theme = useTheme();
     return (
       <InputWrapper>
-        {label && <InputLabel>{label}</InputLabel>}
-        <StyledInput {...props} />
-        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+        {label && (<Typography variant="bodySmall" style={{color: theme.colors.text.gray}} as="label">{label}</Typography>)}
+        <StyledInput {...props} errorMessage={errorMessage} />
+        {errorMessage && (
+          <Typography 
+            variant="bodySmall" 
+            style={{
+              color: theme.colors.red[500], 
+              fontFamily: theme.fontFamily.medium, 
+              fontSize: theme.typography.body.xsmall.size, 
+              fontWeight: theme.typography.body.xsmall.weight, 
+            }} 
+            as="span">
+              {errorMessage}
+          </Typography>
+        )}
       </InputWrapper>
     );
 };
@@ -26,50 +40,33 @@ const InputWrapper = styled.div`
   width: 100%;
 `
 
-const InputLabel = styled.label`
-  color: var(--text-gray, #636363);
-  font-family: Pretendard, sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.5;
-`
-
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ errorMessage?: string }>`
   display: flex;
-  height: 90px;
-  padding: 35px 32px;
+  height: 72px;
+  padding: 23px 32px;
   align-items: center;
   gap: 10px;
   align-self: stretch;
   border-radius: 20px;
-  border: 2px solid var(--Color-gray, #9C9C9C);
-  background: #FFF;
+  border: 2px solid ${({ theme, errorMessage }) => 
+    errorMessage ? theme.colors.red[500] : theme.colors.text.lightGray};
+  background: ${({ theme }) => theme.colors.text.white};
 
-  color: var(--Text-gray, #636363);
+  color: ${({ theme }) => theme.colors.text.gray};
 
-  font-family: Pretendard;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 36px; /* 150% */
+  font-family: ${({ theme }) => theme.fontFamily.regular};
+  font-size: ${({ theme }) => theme.typography.body.small.size};
+  font-weight: ${({ theme }) => theme.typography.body.small.weight};
+  line-height: ${({ theme }) => theme.typography.body.small.lineHeight};
   letter-spacing: -0.48px;
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary, #636363);
+    border-color: ${({ theme }) => theme.colors.text.gray};
   }
 
   &:disabled {
-    background-color: var(--color-disabled, #f5f5f5);
-    border-color: var(--color-gray-light, #e0e0e0);
+    border-color: ${({ theme }) => theme.colors.red[500]};
     cursor: not-allowed;
   }
-`
-
-const ErrorText = styled.span`
-  color: var(--color-error, #d32f2f);
-  font-family: Pretendard, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
 `

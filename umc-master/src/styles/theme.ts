@@ -6,7 +6,7 @@ const theme: DefaultTheme = {
       400: '#49BA9B',
       500: '#1B8C78',
       600: '#137870',
-      700: '#137870',
+      700: '#0D6364',
       800: '#084951',
       900: '#053643',
     },
@@ -27,21 +27,10 @@ const theme: DefaultTheme = {
     },
   },
   typography: {
-    display: {
-      large: {
-        size: '99px',
-        weight: 700,
-        lineHeight: '66px',
-      },
-      medium: {
-        size: '56px',
-        weight: 700,
-        lineHeight: '84px',
-      },
-      small: {
-        size: '50px',
-        weight: 700,
-        lineHeight: '75px',
+    caption: {
+      default: {
+        size: '12px',
+        weight: 400,
       },
     },
     heading: {
@@ -65,6 +54,16 @@ const theme: DefaultTheme = {
         weight: 600,
         lineHeight: '45px',
       },
+      xxsmall: {
+        size: '28px',
+        weight: 600,
+        lineHeight: '42px',
+      },
+      xxxsmall: {
+        size: '24px',
+        weight: 600,
+        lineHeight: '36px',
+      },
     },
     title: {
       large: {
@@ -78,17 +77,30 @@ const theme: DefaultTheme = {
         lineHeight: '45px',
       },
       small: {
+        size: '28px',
+        weight: 500,
+        lineHeight: '42px',
+      },
+      xsmall: {
         size: '24px',
         weight: 500,
         lineHeight: '36px',
       },
-      xsmall: {
+      xxsmall: {
+        size: '20px',
+        weight: 500,
+      },
+      xxxsmall: {
         size: '18px',
-        weight: 400,
-        lineHeight: '27px',
+        weight: 500,
       },
     },
     body: {
+      content: {
+        size: '28px',
+        weight: 400,
+        lineHeight: '42px',
+      },
       large: {
         size: '24px',
         weight: 400,
@@ -104,10 +116,9 @@ const theme: DefaultTheme = {
         weight: 400,
         lineHeight: '27px',
       },
-      content: {
-        size: '28px',
+      xsmall: {
+        size: '16px',
         weight: 400,
-        lineHeight: '42px',
       },
     },
   },

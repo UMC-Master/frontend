@@ -1,13 +1,32 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components';
-import InterestTag from '@components/InterestTag/InterestTag';
+import { useState } from 'react';
+import styled, { useTheme } from 'styled-components';
 import Section from './Section';
+import Typography from '@components/common/typography';
+import Tag from '@components/Tag/Tag';
+import InterestEditModal from '../modal/InterestEditModal';
 
 interface BestInterestProps {
     interests: string[];
 }
 
+const dummyCategories = [
+  { section: '계절', tags: ['봄', '여름', '가을', '겨울'] },
+  { section: '패션', tags: ['패션', '맨투맨', '니트', '바지', '치마', '블라우스', '자켓'] },
+  { section: '청소', tags: ['청소', '방', '정리', '인테리어', '가구', '청소도구'] },
+  {
+    section: '요리 / 식재료',
+    tags: ['요리', '음식', '보관', '냉장', '냉동', '면', '밥', '술', '반찬', '레시피', '냉장고'],
+  },
+  { section: '재활용 / 분리수거', tags: ['재활용', '분리수거', '리폼', '플라스틱', '스티로폼', '종이', '유리'] },
+  { section: '주거', tags: ['주택', '원룸', '빌라', '아파트', '기숙사'] },
+];
+
 const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const theme = useTheme();
   return (
       <BestInterestContainer>
         <Section_1>
@@ -16,12 +35,17 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
             content={
               <>
                 <BestChoice>
-                  <BestNum>10</BestNum>
-                  <BestNumber>회</BestNumber>
+                  <Typography 
+                    variant='headingXxxSmall'
+                    style={{color: theme.colors.text.black}}
+                  >10</Typography>
+                  <Typography 
+                    variant='headingXxxSmall'
+                    style={{color: theme.colors.text.black}}
+                  >회</Typography>
                 </BestChoice>
               </>
             }
-            goToText='보러가기'
           />
         </Section_1>
         <Section_2>
@@ -31,12 +55,18 @@ const BestInterest: React.FC<BestInterestProps> = ({ interests }) => {
               <>
                 <InterestTagList>
                   {interests.map((interest, index) => (
-                      <InterestTag key={index} label={interest}></InterestTag>
+                      <Tag key={index} text={interest} backgroundColor="white"></Tag>
                   ))}
                 </InterestTagList>
               </>
             }
-            goToText='편집하기'
+          />
+          <InterestEdit onClick={() => setIsModalOpen(true)}>편집하기</InterestEdit>
+          <InterestEditModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onEdit={() => console.log("Edit")}
+            categories={dummyCategories}
           />
         </Section_2>
       </BestInterestContainer>
@@ -52,24 +82,26 @@ const BestInterestContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 47px;
-  padding: 0px 9px 0px 0px; /* top right bottom left */
+  gap: 28px;
 `
 
 const Section_1 = styled.div`
   display: flex;
-  width: 630px;
+  height: 72px;
+  align-self: stretch;
   flex-direction: column;
   align-items: flex-end;
-  gap: 50px;
+  gap: 6px;
 `
 
 const Section_2 = styled.div`
+  position: relative;
   display: flex;
-  width: 630px;
+  height: 201px;
+  align-self: stretch;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
+  gap: 65px;
 `
 
 const BestChoice = styled.div`
@@ -77,32 +109,38 @@ const BestChoice = styled.div`
   align-items: center;
 `
 
-const BestNum = styled.div`
-  color: var(--Main-800, #084951);
-
-  /* Display/medium */
-  font-family: Pretendard;
-  font-size: 56px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 75px; /* 133.929% */
-  letter-spacing: 0.56px;
-`
-
-const BestNumber = styled.div`
-  color: var(--Main-800, #084951);
-
-  /* Heading/large */
-  font-family: Pretendard;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 75px; /* 150% */
-  letter-spacing: 0.5px;
-`
-
 const InterestTagList = styled.div`
   display: flex;
+  width: 626px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+`
+
+const InterestEdit = styled.button`
+  position: absolute;
+  top: 23px;
+  right: 0px;
+
+  display: flex;
+  width: 120px;
+  height: 36px;
+  padding: 7px;
+  justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: ${({ theme }) => theme.colors.primary[500]};
+  color: #FFF;
+
+  font-family: ${({ theme }) => theme.fontFamily.medium};
+  font-size: ${({ theme }) => theme.typography.title.xxxsmall.size};
+  font-weight: ${({ theme }) => theme.typography.title.xxxsmall.weight};
+  line-height: ${({ theme }) => theme.typography.title.xxxsmall.lineHeight};
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary[600]};
+  }
 `
