@@ -14,7 +14,7 @@ import { useModalStore } from '@store/modalStore';
 interface NewPost {
   title: string;
   content: string;
-  hashtags: string[][];
+  hashtags: string[];
 }
 
 const createPost = async (newPost: NewPost): Promise<void> => {
@@ -113,7 +113,7 @@ const CreatePostPage: React.FC = () => {
             mutation.mutate({
               title: text,
               content: context,
-              hashtags: [formattedTags],
+              hashtags: formattedTags,
             });
           } else {
             alert('모든 필드를 입력해주세요.');
