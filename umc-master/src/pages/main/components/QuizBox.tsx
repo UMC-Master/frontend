@@ -1,13 +1,11 @@
 import Typography from '@components/common/typography';
 import styled from 'styled-components';
 import mainCharacter from '@assets/mainCharacter.png';
-//import axiosInstance from '@apis/axios-instance';
 import { useState } from 'react';
-//import { useQuery } from '@tanstack/react-query';
-//import { AxiosError } from 'axios';
 import CloseIcon from '@assets/icons/x.svg?react';
 import { useQuizStore } from '@store/quizStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuizList } from '@apis/queries/useQuizList';
 
 enum QuizStep {
   CHARACTER,
@@ -15,59 +13,21 @@ enum QuizStep {
   RESULT,
 }
 
-interface QuizData {
-  description: string;
-  answer: boolean;
-  answerDescription: string;
-}
-
-/* interface QuizResponse {
-  numberOfQuiz: number;
-  quizList: QuizData[];
-} */
-
-const dummyQuizData: QuizData = {
-  description: 'LED 전극을 양방향으로 적용해야 한다.',
-  answer: true,
-  answerDescription: `LED 전구의 종류에 따라 배출 방법이 다릅니다. 
-전구형, 직관형 LED는 형광등 분리배출함에 배출하지만, 
-평판형, 십자형, 일자형, 원반형 LED는 대형폐기물로 처리해야 합니다`,
-};
-
-/* const fetchQuizData = async (): Promise<QuizData> => {
-  const response = await axiosInstance.get<QuizResponse>('quizzes');
-
-  if (!response.data || !response.data.quizList || response.data.quizList.length === 0) {
-    throw new Error('퀴즈 데이터가 없습니다.');
-  }
-
-  return response.data.quizList[0];
-}; */
-
 const QuizBox: React.FC = () => {
   const [step, setStep] = useState<QuizStep>(QuizStep.CHARACTER);
-  const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
+  const [userAnswer, setUserAnswer] = useState<number | null>(null);
   const [userSelectedOption, setUserSelectedOption] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
+  const { data: quizData, isFetching, error } = useQuizList();
 
   const { hideQuiz } = useQuizStore();
-
-  const quizData = dummyQuizData;
-
-  /*   const {
-    data: quizData,
-    isFetching,
-    error,
-  } = useQuery<QuizData, AxiosError>({
-    queryKey: ['quiz'],
-    queryFn: fetchQuizData,
-    refetchOnWindowFocus: false,
-  }); */
 
   const handleCharacterClick = () => {
     setStep(QuizStep.QUIZ);
   };
-  const handleAnswerClick = (answer: boolean) => {
+
+  const handleAnswerClick = (answer: number) => {
+    console.log(answer);
     setUserAnswer(answer);
     setUserSelectedOption(answer ? 'O' : 'X');
     setStep(QuizStep.RESULT);
@@ -83,13 +43,15 @@ const QuizBox: React.FC = () => {
     }
   };
 
-  //if (!quizData) return <div>퀴즈 데이터가 없습니다.</div>;
+  if (!quizData) return <div>퀴즈 데이터가 없습니다.</div>;
 
-  //if (isFetching) return <div>로딩중</div>;
+  if (isFetching) return <div>로딩중</div>;
 
-  //if (error) return <div>Error</div>;
+  if (error) return <div>Error</div>;
 
-  console.log(quizData);
+  const quiz = quizData?.result?.response.quiz_list[0];
+
+  console.log(quiz.answer);
 
   return (
     <AnimatePresence mode="wait">
@@ -126,13 +88,13 @@ const QuizBox: React.FC = () => {
                   <Typography variant="headingXxxSmall">오늘의 Quiz</Typography>
                 </TodayQuizDiv>
                 <QuizDescription>
-                  <Typography variant="titleXxSmall">{quizData.description}</Typography>
+                  <Typography variant="titleXxSmall">{quiz?.question}</Typography>
                 </QuizDescription>
                 <ButtonContainer>
-                  <QuizButton onClick={() => handleAnswerClick(true)}>
+                  <QuizButton onClick={() => handleAnswerClick(1)}>
                     <Typography variant="headingMedium">O</Typography>
                   </QuizButton>
-                  <QuizButton onClick={() => handleAnswerClick(false)}>
+                  <QuizButton onClick={() => handleAnswerClick(0)}>
                     <Typography variant="headingMedium">X</Typography>
                   </QuizButton>
                 </ButtonContainer>
@@ -143,14 +105,14 @@ const QuizBox: React.FC = () => {
               <MotionContentWrapper>
                 <ResultTextDiv>
                   <Typography variant="headingXxSmall">
-                    {userAnswer === quizData?.answer ? '정답이에요!' : '틀렸습니다. 아쉽네요ㅠㅠ'}
+                    {userAnswer === quiz?.answer ? '정답이에요!' : '틀렸습니다. 아쉽네요ㅠㅠ'}
                   </Typography>
                 </ResultTextDiv>
                 <QuizButton>
                   <Typography variant="headingMedium">{userSelectedOption}</Typography>
                 </QuizButton>
                 <DescriptionText>
-                  <Typography variant="bodyMedium">{quizData.answerDescription}</Typography>
+                  <Typography variant="bodyMedium">{quiz?.description}</Typography>
                 </DescriptionText>
               </MotionContentWrapper>
             )}
@@ -253,7 +215,7 @@ const QuizDescription = styled.div`
 `;
 
 const DescriptionText = styled.div`
-  margin-top: 18px;
+  margin-top: 25px;
   color: ${({ theme }) => theme.colors.text['white']};
   line-height: 30px;
   text-align: center;
