@@ -5,8 +5,8 @@ import { useState } from 'react';
 import CloseIcon from '@assets/icons/x.svg?react';
 import { useQuizStore } from '@store/quizStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useQuizList } from '@apis/queries/useQuizList';
-import { usePostQuizAnswer } from '@apis/queries/useQuizAnswer';
+import { useQuizList } from '@apis/queries/useQuizQueries';
+import { usePostQuizAnswer } from '@apis/queries/useQuizMutations';
 
 enum QuizStep {
   CHARACTER,
