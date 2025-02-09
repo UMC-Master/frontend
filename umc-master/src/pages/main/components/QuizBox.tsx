@@ -36,13 +36,17 @@ const QuizBox: React.FC = () => {
     setUserAnswer(answer);
     setUserSelectedOption(answer ? 'O' : 'X');
 
-    try {
-      await postQuizAnswer.mutateAsync({
-        quizId: quiz?.id,
-        isCorrect: answer === quiz?.answer,
-      });
-    } catch (error) {
-      console.error('Failed to submit quiz answer:', error);
+    const isCorrect = answer === quiz.answer;
+
+    if (isCorrect) {
+      try {
+        await postQuizAnswer.mutateAsync({
+          quizId: quiz.id,
+          isCorrect: true,
+        });
+      } catch (error) {
+        console.error('Failed to submit quiz answer:', error);
+      }
     }
     setStep(QuizStep.RESULT);
   };
