@@ -23,13 +23,13 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { user, fetchUser } = useUserStore();
 
   useEffect(() => {
-    fetchUser();  // 컴포넌트 마운트 시 사용자 정보 가져오기
-  }, []);  
+    fetchUser(); // 컴포넌트 마운트 시 사용자 정보 가져오기
+  }, []);
   getUsers();
 
   const handleLogout = () => {
     clearAuth();
-    navigate("/");
+    navigate('/');
   };
 
   return (
@@ -50,7 +50,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             <MenuItem onClick={onClose}>
               <TipIcon /> 마이꿀팁
             </MenuItem>
-            <MenuItem onClick={() => { handleLogout(); onClose(); }}>
+            <MenuItem
+              onClick={() => {
+                handleLogout();
+                onClose();
+              }}
+            >
               <LogoutIcon /> 로그아웃
             </MenuItem>
           </Typography>
