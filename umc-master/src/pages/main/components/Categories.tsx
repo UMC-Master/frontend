@@ -5,12 +5,6 @@ import Tag from '@components/Tag/Tag';
 import { useState } from 'react';
 import CategoryInputSection from './CategoriesInputSection';
 
-const dummyInterests = [
-  { text: '청소', selected: true },
-  { text: '요리', selected: true },
-  { text: '재활용', selected: true },
-];
-
 const dummyCategories = [
   { section: '계절', tags: ['봄', '여름', '가을', '겨울'] },
   { section: '패션', tags: ['패션', '맨투맨', '니트', '바지', '치마', '블라우스', '자켓'] },
@@ -41,7 +35,8 @@ const InterestsAndCategories: React.FC = () => {
   };
 
   const handleComplete = () => {
-    alert(`선택된 태그: ${selectedTags.join(', ')}`);
+    alert('관심사 재설정이 완료되었습니다.');
+    setIsCategoryVisible(false);
   };
 
   const toggleCategoryVisibility = () => {
@@ -61,8 +56,8 @@ const InterestsAndCategories: React.FC = () => {
           <Typography variant="titleXSmall"> 님의 관심사</Typography>
         </StyledTypographyWrapper>
         <TagsWrapper>
-          {dummyInterests.map((interest, index) => (
-            <Tag key={index} text={interest.text} selected={interest.selected} />
+          {selectedTags.map((tag, index) => (
+            <Tag key={index} text={tag} selected={true} />
           ))}
         </TagsWrapper>
       </Section>

@@ -1,10 +1,11 @@
 import SearchSection from '@components/SearchBar/SearchSection';
 import TipsSection from '@pages/main/components/TipsSection';
-import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import RecommendTitle from './components/RecommendTitle';
 import RecommendedTipsSection from './components/RecommendTipsSection';
 import dummyImage from '@assets/dummyImage/dummy.jpeg';
+import { useSearchList } from '@apis/queries/useSearchList';
+import { Tip } from '@apis/searchApi';
 
 const dummyData = [
   {
@@ -65,24 +66,49 @@ const dummyData = [
   },
 ];
 
+interface TipItem {
+  image: string;
+  title: string;
+  likes?: number;
+  saves?: number;
+  created_at?: string;
+  tips_id: string;
+}
+
+const transformTipToTipItem = (tip: Tip): TipItem => ({
+  image: dummyImage,
+  title: tip.title,
+  likes: tip.likesCount,
+  saves: tip.commentsCount,
+  created_at: tip.createdAt,
+  tips_id: tip.tipId.toString(),
+});
+
 const SearchPage = () => {
-  const [searchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState<string>(searchParams.get('query') || '');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query') || '';
+  const page = Number(searchParams.get('page')) || 1;
+
+  // 검색 API 호출
+  const { data: searchResults, isFetching } = useSearchList({ query, page, limit: 10 });
+  const tipsFromApi = searchResults ? searchResults.result : [];
+
+  // API 데이터 변환
+  const transformedItems = tipsFromApi.map(transformTipToTipItem);
 
   const handleSearch = (value: string) => {
-    setSearchValue(value);
+    setSearchParams({ query: value, page: '1' });
   };
-
   return (
     <>
       <SearchSection
-        highlight={`'${searchValue || '검색어'}'`}
+        highlight={`'${query || '검색어'}'`}
         backText="에 대한 검색 결과입니다."
         onSearch={handleSearch}
         marginTop="80px"
       />
-      <TipsSection showLikes={false} />
-      <RecommendTitle title={searchValue} />
+      <TipsSection showLikes={false} items={transformedItems} isLoading={isFetching} />
+      <RecommendTitle title={query} />
       <RecommendedTipsSection items={dummyData.slice(0, 8)} />
     </>
   );
