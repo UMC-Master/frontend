@@ -81,7 +81,7 @@ export default Banner;
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 1000 : -1000,
+    x: direction > 0 ? '100vw' : '-100vw', // 뷰포트 기준으로 이동
     opacity: 0,
   }),
   center: {
@@ -89,7 +89,7 @@ const slideVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 1000 : -1000,
+    x: direction < 0 ? '100vw' : '-100vw',
     opacity: 0,
   }),
 };
@@ -107,6 +107,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.primary[500]};
   color: white;
   text-align: center;
+  overflow: hidden;
 `;
 
 const ArrowButtonBase = styled.button`
