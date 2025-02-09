@@ -20,11 +20,7 @@ export interface QuizResponse {
 }
 
 export const fetchQuizData = async (): Promise<QuizResponse> => {
-  const response = await axiosInstance.get<QuizResponse>('/quizzes', {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`,
-    },
-  });
+  const response = await axiosInstance.get<QuizResponse>('/quizzes');
 
   if (!response?.data || !response.data.result) {
     throw new Error('퀴즈 데이터가 없습니다.');
