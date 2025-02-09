@@ -1,15 +1,49 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Typography from "@components/common/typography";
 import styled from "styled-components";
 import Input from "@components/Input/Input";
 import useInput from "@hooks/useInput";
-import { validateEmailFormat, validatePasswordFormat, validateEmailOnServer, validatePasswordOnServer } from "@utils/validation";
+import { validateEmailFormat, validatePasswordFormat } from "@utils/validation";
 import { useState } from "react";
 import Button from "@components/Button/Button";
 import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png"
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "@apis/axios-instance";
+import { useAuthStore } from "@store/authStore";
+import { useTokenStore } from "@store/tokenStore";
 
 const InputForm: React.FC = () => {
+
+  const { setAuth } = useAuthStore();
+  const { setTokens } = useTokenStore.getState();
+
+  const handleKakaoLogin = () => {
+    const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`;
+    window.location.href = kakaoAuthUrl;
+  };
+
+  const handleEmailLogin = async () => {
+    try {
+      const response = await axiosInstance.post("/login", {
+        email, 
+        password, 
+      });
+
+      const { accessToken, refreshToken } = response.data.result;
+
+      setTokens({ accessToken, refreshToken });
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      
+      alert("로그인 성공!");
+      setAuth(true);
+      navigate("/main");
+    } catch (error: any) {
+      console.error("로그인 실패:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "로그인에 실패했습니다.");
+    }
+  };
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -58,23 +92,26 @@ const InputForm: React.FC = () => {
       }
     }
     
-    // 서버에서 이메일과 비밀번호 검증
-    // 예시로 콘솔 로그로 확인
-    const emailExistsError = await validateEmailOnServer(email);
-    if (!emailExistsError.success) {
-      handleEmailError(emailExistsError.message);
-      return;
-    }
+    // // 서버에서 이메일과 비밀번호 검증
+    // // 예시로 콘솔 로그로 확인
+    // const emailExistsError = await validateEmailOnServer(email);
+    // if (!emailExistsError.success) {
+    //   handleEmailError(emailExistsError.message);
+    //   return;
+    // }
 
-    const passwordMatchError = await validatePasswordOnServer(email, password);
-    if (!passwordMatchError.success) {
-      handlePasswordError(passwordMatchError.message);
-      return;
-    }
+    // const passwordMatchError = await validatePasswordOnServer(email, password);
+    // if (!passwordMatchError.success) {
+    //   handlePasswordError(passwordMatchError.message);
+    //   return;
+    // }
 
-    alert("로그인 성공!");
     console.log(isSubmitted);
+
+    await handleEmailLogin();
   };
+
+  const navigate = useNavigate(); // 추가
 
   return (
       <LoginInputForm onSubmit={formSubmitHandler}>
@@ -94,7 +131,7 @@ const InputForm: React.FC = () => {
           </LoginInput>
           <Buttons>
             <Button variant="primary" type="submit">로그인하기</Button>
-            <Button variant="kakao">
+            <Button variant="kakao" onClick={handleKakaoLogin}>
               <KakaoImage src={Kakao_Image} alt="Kakao Login" />
             </Button>
           </Buttons>
@@ -104,9 +141,9 @@ const InputForm: React.FC = () => {
                   <StyledTypography variant="bodySmall">자동로그인</StyledTypography>
               </AutoLoginWrapper>
               <Options>
-                  <StyledTypography variant="bodySmall">회원 정보 찾기</StyledTypography>
+                  <StyledTypography variant="bodySmall" onClick={() => navigate(`/find-privacy`)}>회원 정보 찾기</StyledTypography>
                   <Separator />
-                  <StyledTypography variant="bodySmall">회원 가입</StyledTypography>
+                  <StyledTypography variant="bodySmall" onClick={() => navigate(`/signup`)}>회원 가입</StyledTypography>
               </Options>
           </LoginDetail>
       </LoginInputForm>
