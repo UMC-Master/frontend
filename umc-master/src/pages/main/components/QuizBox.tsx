@@ -19,7 +19,7 @@ const QuizBox: React.FC = () => {
   const [userAnswer, setUserAnswer] = useState<number | null>(null);
   const [userSelectedOption, setUserSelectedOption] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
-  const { data: quizData, isFetching, error } = useQuizList();
+  const { data: quizData, /*isFetching,*/ error } = useQuizList();
   const postQuizAnswer = usePostQuizAnswer();
 
   const { hideQuiz } = useQuizStore();
@@ -57,9 +57,9 @@ const QuizBox: React.FC = () => {
     }
   };
 
-  if (!quizData) return <div>퀴즈 데이터가 없습니다.</div>;
+  // if (!quizData) return <div>퀴즈 데이터가 없습니다.</div>;
 
-  if (isFetching) return <div>로딩중</div>;
+  // if (isFetching) return <div>로딩중</div>;
 
   if (error) return <div>Error</div>;
 
