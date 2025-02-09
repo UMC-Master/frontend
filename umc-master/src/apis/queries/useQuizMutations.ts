@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { submitQuizAnswer } from '@apis/quizAnswerApi';
+import { submitQuizAnswer } from '@apis/quizApi';
 
 // useMutation 훅 정의
 export const usePostQuizAnswer = () => {
