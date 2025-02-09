@@ -1,7 +1,7 @@
 import axiosInstance from './axios-instance';
 
 export interface QuizData {
-  quiz_id: number;
+  id: number;
   question: string;
   answer: number;
   description: string;
