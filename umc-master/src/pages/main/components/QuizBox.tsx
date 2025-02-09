@@ -6,6 +6,7 @@ import CloseIcon from '@assets/icons/x.svg?react';
 import { useQuizStore } from '@store/quizStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuizList } from '@apis/queries/useQuizList';
+import { usePostQuizAnswer } from '@apis/queries/useQuizAnswer';
 
 enum QuizStep {
   CHARACTER,
@@ -19,6 +20,7 @@ const QuizBox: React.FC = () => {
   const [userSelectedOption, setUserSelectedOption] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const { data: quizData, isFetching, error } = useQuizList();
+  const postQuizAnswer = usePostQuizAnswer();
 
   const { hideQuiz } = useQuizStore();
 
@@ -26,10 +28,22 @@ const QuizBox: React.FC = () => {
     setStep(QuizStep.QUIZ);
   };
 
-  const handleAnswerClick = (answer: number) => {
-    console.log(answer);
+  const handleAnswerClick = async (answer: number) => {
+    const quiz = quizData?.result?.response.quiz_list[0];
+    if (!quiz) return;
+    console.log('quiz ID', quiz.id);
+
     setUserAnswer(answer);
     setUserSelectedOption(answer ? 'O' : 'X');
+
+    try {
+      await postQuizAnswer.mutateAsync({
+        quizId: quiz?.id,
+        isCorrect: answer === quiz?.answer,
+      });
+    } catch (error) {
+      console.error('Failed to submit quiz answer:', error);
+    }
     setStep(QuizStep.RESULT);
   };
 
@@ -50,8 +64,6 @@ const QuizBox: React.FC = () => {
   if (error) return <div>Error</div>;
 
   const quiz = quizData?.result?.response.quiz_list[0];
-
-  console.log(quiz.answer);
 
   return (
     <AnimatePresence mode="wait">
@@ -91,10 +103,10 @@ const QuizBox: React.FC = () => {
                   <Typography variant="titleXxSmall">{quiz?.question}</Typography>
                 </QuizDescription>
                 <ButtonContainer>
-                  <QuizButton onClick={() => handleAnswerClick(1)}>
+                  <QuizButton disabled={postQuizAnswer.isPending} onClick={() => handleAnswerClick(1)}>
                     <Typography variant="headingMedium">O</Typography>
                   </QuizButton>
-                  <QuizButton onClick={() => handleAnswerClick(0)}>
+                  <QuizButton disabled={postQuizAnswer.isPending} onClick={() => handleAnswerClick(0)}>
                     <Typography variant="headingMedium">X</Typography>
                   </QuizButton>
                 </ButtonContainer>
