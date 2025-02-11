@@ -1,15 +1,17 @@
+// src/components/ButtonList.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Typography from '@components/common/typography';
 
 interface ButtonListProps {
   buttonTexts: string[];
+  onButtonClick: (text: string) => void;
 }
 
-const ButtonList: React.FC<ButtonListProps> = ({ buttonTexts }) => (
+const ButtonList: React.FC<ButtonListProps> = ({ buttonTexts, onButtonClick }) => (
   <ButtonContainer>
     {buttonTexts.map((text, index) => (
-      <ActionButton key={index}>
+      <ActionButton key={index} onClick={() => onButtonClick(text)}>
         <Typography variant="titleXxxSmall">{text}</Typography>
       </ActionButton>
     ))}
