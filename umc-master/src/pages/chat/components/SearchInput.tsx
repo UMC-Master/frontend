@@ -5,12 +5,18 @@ import SendIcon from '@assets/icons/send.svg?react';
 interface SearchInputProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  onSend: () => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ inputValue, setInputValue }) => (
+const SearchInput: React.FC<SearchInputProps> = ({ inputValue, setInputValue, onSend }) => (
   <SearchBox>
-    <Input placeholder="궁금한 점을 입력해주세요!" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-    <StyledSendIcon $hasText={inputValue.length > 0} />
+    <Input
+      placeholder="궁금한 점을 입력해주세요!"
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      onKeyDown={(e) => e.key === 'Enter' && onSend()} // 엔터 키 입력 시 전송
+    />
+    <StyledSendIcon $hasText={inputValue.length > 0} onClick={onSend} />
   </SearchBox>
 );
 
