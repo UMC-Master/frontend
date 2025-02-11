@@ -5,9 +5,12 @@ import Typography from '@components/common/typography';
 
 interface SidebarProps {
   onToggle: (isOpen: boolean) => void;
+  chatRooms: { id: number; history: { question: string; answer: string }[] }[];
+  setCurrentRoomId: (id: number) => void;
+  createNewChatRoom: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onToggle, chatRooms, setCurrentRoomId, createNewChatRoom }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
@@ -37,15 +40,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
             <CloseButton onClick={handleClose}>✕</CloseButton>
           </Header>
           <Divider />
-          <Typography variant="headingXxxSmall">
-            <Year>2025년</Year>
-          </Typography>
-          <Typography variant="bodySmall">
-            {/* TODO: 챗봇 연결 */}
-            <Item>1인 가구를 위한 가이드북 마스테어</Item>
-            <Item>질문2</Item>
-            <Item>질문3</Item>
-          </Typography>
+          {chatRooms.map((room) => (
+            <ChatRoomItem key={room.id} onClick={() => setCurrentRoomId(room.id)}>
+              채팅방 {room.id}
+            </ChatRoomItem>
+          ))}
+          <AddRoomButton onClick={createNewChatRoom}>+ 새 채팅방 만들기</AddRoomButton>
         </ContentWrapper>
       </SidebarContent>
     </SidebarWrapper>
@@ -59,7 +59,7 @@ const SidebarWrapper = styled.div`
   top: 80px;
   bottom: 140px;
   left: -10px;
-  height: calc(100vh - 220px);
+  height: 80vh;
   display: flex;
   align-items: stretch;
   z-index: 2000;
@@ -77,12 +77,10 @@ const SidebarButton = styled.div.withConfig({
     width 0.5s ease,
     transform 0.3s ease,
     background-color 0.5s ease;
-
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-
   &:hover {
     transform: ${({ $isOpen }) => ($isOpen ? 'none' : 'translateX(10px)')};
     background-color: ${({ theme }) => theme.colors.primary[500]};
@@ -105,7 +103,6 @@ const SidebarContent = styled.div.withConfig({
     width 0.5s ease,
     padding 0.5s ease,
     background-color 0.5s ease;
-
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -135,7 +132,6 @@ const CloseButton = styled.div`
   padding: 5px;
   color: white;
   transition: color 0.3s ease;
-
   &:hover {
     color: ${({ theme }) => theme.colors.primary[500]};
   }
@@ -148,10 +144,18 @@ const Divider = styled.hr`
   margin: 24px 0;
 `;
 
-const Year = styled.p`
-  margin-bottom: 24px;
+const ChatRoomItem = styled.div`
+  margin-bottom: 16px;
+  cursor: pointer;
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary[300]};
+  }
 `;
 
-const Item = styled.p`
-  margin-bottom: 16px;
+const AddRoomButton = styled.button`
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 `;
