@@ -76,7 +76,7 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1100px;
+  width: 1240px;
   height: 140px;
   padding: 18px 56px 20px 56px;
   gap: 10px;
