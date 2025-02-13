@@ -21,7 +21,7 @@ const KakaoCallback: React.FC = () => {
         const response = await axios.post('https://kauth.kakao.com/oauth/token', {
           grant_type: 'authorization_code',
           client_id: import.meta.env.VITE_KAKAO_API_KEY,
-          redirect_uri: 'http://localhost:3000/oauth/kakao/callback',
+          redirect_uri: 'https://umc-master-frontend-athk6j8o4-minzee09s-projects.vercel.app/oauth/kakao/callback',
           code,
         });
 
