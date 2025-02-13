@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImage from '@assets/logo.png';
@@ -8,6 +8,9 @@ import Typography from '@components/common/typography';
 import AlarmIcon from '@assets/icons/alarm.svg?react';
 import AlarmModal from '@components/Modal/alarm';
 import ProfileModal from '@components/Modal/profile';
+import { useUserStore } from '@store/userStore';
+import { getUsers } from '@apis/profileApi';
+import gray_character from '@assets/gray-character.png';
 
 interface NavigationBarProps {
   login: boolean;
@@ -16,6 +19,12 @@ interface NavigationBarProps {
 const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const { user, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser(); // 컴포넌트 마운트 시 사용자 정보 가져오기
+  }, []);
+  getUsers();
 
   const toggleAlarmModal = () => setIsAlarmModalOpen((prev) => !prev);
   const toggleProfileModal = () => setIsProfileModalOpen((prev) => !prev);
@@ -45,7 +54,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
         {login ? (
           <UserSection>
             <AlarmIcon onClick={toggleAlarmModal} />
-            <ProfileImg onClick={toggleProfileModal} />
+            <ProfileImg 
+              src={user?.profile_image_url || gray_character} 
+              alt="Profile Image" 
+              onClick={toggleProfileModal} 
+            />
           </UserSection>
         ) : (
           <LoginBtn to={RoutePaths.LOGIN}>
@@ -113,7 +126,7 @@ const UserSection = styled.div`
   cursor: pointer;
 `;
 
-const ProfileImg = styled.div`
+const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   background: #e0e0e0; /** TODO: 프로필 이미지 추가 */

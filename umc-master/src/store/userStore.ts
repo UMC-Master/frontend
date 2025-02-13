@@ -22,6 +22,7 @@ interface UserState {
   user: User | null;
   fetchUser: () => Promise<void>;
   clearUser: () => void;
+  setProfileImageUrl: (imageUrl: string) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -46,4 +47,11 @@ export const useUserStore = create<UserState>((set) => ({
   },
 
   clearUser: () => set({ user: null }),
+
+  setProfileImageUrl: (imageUrl: string) => set((state) => {
+    if (state.user) {
+      state.user.profile_image_url = imageUrl;
+    }
+    return state
+  })
 }));
