@@ -2,7 +2,7 @@ import styled, { useTheme } from "styled-components";
 import ProfileSection from "./components/ProfileSection";
 import RecentTips from "./components/RecentTips";
 import BestInterest from "./components/BestInterest";
-import { dummyData, dummyInterests } from "./dummyData/dummyData";
+import { dummyInterests } from "./dummyData/dummyData";
 import Typography from "@components/common/typography";
 
 const MyPage: React.FC = () => {
@@ -17,7 +17,7 @@ const MyPage: React.FC = () => {
             >마이페이지</Typography>
           <ProfileSection/>
           <ProfileCard>
-            <RecentTips items={dummyData}/>
+            <RecentTips/>
             <BestInterest interests={dummyInterests}/>
           </ProfileCard>
         </MyPageForm>

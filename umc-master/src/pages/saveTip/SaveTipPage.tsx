@@ -5,6 +5,7 @@ import { dummyData as initialData } from "./dummydata/dummydata";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SkeletonCard from "@components/Skeleton/SkeletonCard";
 import { useNavigate } from "react-router-dom";
+import { recentStore } from "@store/recentStore";
 
 const PAGE_SIZE = 5;
 
@@ -12,6 +13,7 @@ const SaveTipPage: React.FC = () => {
   
   const theme = useTheme();
 
+  const { addRecentTip } = recentStore();
   const [data, setData] = useState(initialData.slice(0, PAGE_SIZE * 6));
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialData.length > PAGE_SIZE);
@@ -49,6 +51,12 @@ const SaveTipPage: React.FC = () => {
   const navigate = useNavigate(); // 추가
 
   const handleCardClick = (id: string) => {
+    // 클릭 시 팁을 최근에 본 리스트에 추가
+    const clickedTip = data.find((item) => item.id === id);
+    if (clickedTip) {
+      addRecentTip(clickedTip);
+    }
+
     navigate(`/save-tip/${id}`); // 상세 페이지로 이동
   };
 
