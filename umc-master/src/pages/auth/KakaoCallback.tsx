@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '@apis/axios-instance';
+import axios from 'axios';
 
 const KakaoCallback: React.FC = () => {
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const KakaoCallback: React.FC = () => {
         const kakaoAccessToken = response.data.access_token;
 
         // 백엔드로 카카오 Access Token 전송
-        const backendResponse = await axios.post('http://localhost:3000/login/kakao', {
+        const backendResponse = await axiosInstance.post('/login/kakao', {
           kakaoAccessToken,
         });
 
