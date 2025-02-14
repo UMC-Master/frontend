@@ -15,6 +15,7 @@ import MagazineDetailPage from '@pages/magazine/MagazineDetailPage';
 import RootLayout from '@layouts/root-layout';
 import KakaoCallback from '@pages/auth/KakaoCallback';
 import FindPrivacy from '@pages/auth/FindPrivacy';
+import ChallengePage from '@pages/challenge/ChallengePage';
 
 const Router: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ const Router: React.FC = () => {
           <Route path={RoutePaths.MAGAZINE} element={<MagazinePage />} />
           <Route path={RoutePaths.MAGAZINE_DETAIL} element={<MagazineDetailPage />} />
           <Route path={RoutePaths.KAKAO_CALLBACK} element={<KakaoCallback />} />
+          <Route path={RoutePaths.CHALLENGE} element={<ChallengePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
