@@ -75,7 +75,7 @@ const CreatePostPage: React.FC = () => {
               title: text,
               content: context,
               hashtags: selectedTags,
-              images,
+              imageUrls: images,
             });
           } else {
             alert('모든 필드를 입력해주세요.');
