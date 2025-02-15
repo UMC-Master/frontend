@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '@styles/theme';
 import Typography from '@components/common/typography';
@@ -21,12 +21,21 @@ const ChatPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chatRooms, setChatRooms] = useState<{ id: number; history: { question: string; answer: string }[] }[]>([]);
   const [currentRoomId, setCurrentRoomId] = useState<number | null>(null);
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
 
   const createNewChatRoom = () => {
     const newRoomId = chatRooms.length + 1;
     setChatRooms((prevRooms) => [...prevRooms, { id: newRoomId, history: [] }]);
     setCurrentRoomId(newRoomId);
   };
+
+  useEffect(() => {
+    if (currentRoomId !== null && pendingQuestion !== null) {
+      addQuestionToHistory(pendingQuestion);
+      askQuestion(pendingQuestion);
+      setPendingQuestion(null);
+    }
+  }, [currentRoomId]);
 
   const updateChatHistory = (answer: string) => {
     if (currentRoomId !== null) {
@@ -47,9 +56,14 @@ const ChatPage: React.FC = () => {
 
   const handleStartChat = (index: number) => {
     const question = questions[index];
-    if (currentRoomId === null) createNewChatRoom();
-    addQuestionToHistory(question);
-    askQuestion(question);
+
+    if (currentRoomId === null) {
+      createNewChatRoom();
+      setPendingQuestion(question);
+    } else {
+      addQuestionToHistory(question);
+      askQuestion(question);
+    }
   };
 
   const addQuestionToHistory = (question: string) => {

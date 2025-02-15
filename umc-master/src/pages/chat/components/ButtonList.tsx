@@ -1,4 +1,3 @@
-// src/components/ButtonList.tsx
 import React from 'react';
 import styled from 'styled-components';
 import Typography from '@components/common/typography';
