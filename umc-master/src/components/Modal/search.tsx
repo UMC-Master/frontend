@@ -40,7 +40,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSearch, ca
     const searchParams = new URLSearchParams();
 
     if (query) searchParams.append('query', query);
-    if (tags) searchParams.append('tags', tags);
+    if (tags) searchParams.append('hashtags', tags);
 
     onSearch(searchParams.toString()); // 조합된 쿼리 문자열 전달
     onClose();
