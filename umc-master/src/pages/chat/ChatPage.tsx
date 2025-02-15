@@ -9,6 +9,12 @@ import { updateChat } from '@apis/queries/useChatMutations';
 import ChatbotIcon from '@assets/icons/chatbot.svg?react';
 
 const buttonTexts = ['꿀팁 검색 관련', '정책 관련', '챌린지 관련', '서비스 이용 관련'];
+const questions = [
+  '홈마스터의 꿀팁 관련해서 알려줘.',
+  '홈마스터의 정책 관련해서 알려줘.',
+  '홈마스터의 챌린지 관련해서 알려줘.',
+  '홈마스터의 전반적인 서비스 이용 관련해서 알려줘.',
+];
 
 const ChatPage: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -39,7 +45,8 @@ const ChatPage: React.FC = () => {
 
   const { askQuestion } = updateChat(updateChatHistory);
 
-  const handleStartChat = (question: string) => {
+  const handleStartChat = (index: number) => {
+    const question = questions[index];
     if (currentRoomId === null) createNewChatRoom();
     addQuestionToHistory(question);
     askQuestion(question);

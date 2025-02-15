@@ -5,13 +5,13 @@ import Typography from '@components/common/typography';
 
 interface ButtonListProps {
   buttonTexts: string[];
-  onButtonClick: (text: string) => void;
+  onButtonClick: (text: number) => void;
 }
 
 const ButtonList: React.FC<ButtonListProps> = ({ buttonTexts, onButtonClick }) => (
   <ButtonContainer>
     {buttonTexts.map((text, index) => (
-      <ActionButton key={index} onClick={() => onButtonClick(text)}>
+      <ActionButton key={index} onClick={() => onButtonClick(index)}>
         <Typography variant="titleXxxSmall">{text}</Typography>
       </ActionButton>
     ))}
