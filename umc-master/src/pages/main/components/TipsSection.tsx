@@ -20,13 +20,27 @@ interface TipsSectionProps {
   items?: TipItem[];
 }
 
+interface Hashtag {
+  hashtagId: number;
+  name: string;
+}
+
+interface Image {
+  media_url: string;
+  media_type: string;
+}
+
 interface TipItem {
-  image: string;
+  tips_id: number;
+  user_id: number;
   title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  hashtags: Hashtag[];
+  images: Image[];
   likes?: number;
   saves?: number;
-  created_at?: string;
-  tips_id: string;
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
@@ -69,7 +83,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
 
   if (isError) return <div>Something went wrong...</div>; // 에러 발생 시 표시
 
-  const handleCardClick = (id: string) => {
+  const handleCardClick = (id: number) => {
     navigate(`/save-tip/${id}`);
   };
 
@@ -121,7 +135,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
                     .map((item: TipItem, index: number) => (
                       <Card
                         key={index}
-                        image={item.image || dummyImage}
+                        image={item.images?.[0]?.media_url || dummyImage}
                         text={item.title}
                         likes={item.likes || 0}
                         bookmarks={item.saves || 0}

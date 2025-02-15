@@ -7,10 +7,11 @@ interface GetTipsParams {
 }
 
 export interface NewPost {
-  userId: number;
+  userId?: number;
   title: string;
   content: string;
   hashtags: string[];
+  images: File[];
 }
 
 export const getTips = async ({ pageParam, sorted }: GetTipsParams) => {

@@ -72,10 +72,10 @@ const CreatePostPage: React.FC = () => {
         onClick={() => {
           if (isFormValid) {
             mutation.mutate({
-              userId: user?.user_id,
               title: text,
               content: context,
               hashtags: selectedTags,
+              images,
             });
           } else {
             alert('모든 필드를 입력해주세요.');
