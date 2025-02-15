@@ -67,21 +67,29 @@ const dummyData = [
 ];
 
 interface TipItem {
-  image: string;
+  tips_id: number;
+  user_id: number;
   title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  hashtags: { hashtagId: number; name: string }[];
+  images: { media_url: string; media_type: string }[];
   likes?: number;
   saves?: number;
-  created_at?: string;
-  tips_id: string;
 }
 
 const transformTipToTipItem = (tip: Tip): TipItem => ({
-  image: dummyImage,
+  tips_id: tip.tipId,
+  user_id: tip.author.userId || 0,
   title: tip.title,
+  content: tip.description || '',
+  created_at: tip.createdAt,
+  updated_at: tip.updatedAt || tip.createdAt,
+  hashtags: [],
+  images: [{ media_url: dummyImage, media_type: 'image/jpeg' }],
   likes: tip.likesCount,
   saves: tip.commentsCount,
-  created_at: tip.createdAt,
-  tips_id: tip.tipId.toString(),
 });
 
 const SearchPage = () => {
