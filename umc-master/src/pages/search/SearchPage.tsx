@@ -5,7 +5,6 @@ import RecommendTitle from './components/RecommendTitle';
 import RecommendedTipsSection from './components/RecommendTipsSection';
 import dummyImage from '@assets/dummyImage/dummy.jpeg';
 import { useSearchList } from '@apis/queries/useSearchList';
-import { Tip } from '@apis/searchApi';
 
 const dummyData = [
   {
@@ -66,39 +65,21 @@ const dummyData = [
   },
 ];
 
-interface TipItem {
-  image: string;
-  title: string;
-  likes?: number;
-  saves?: number;
-  created_at?: string;
-  tips_id: string;
-}
-
-const transformTipToTipItem = (tip: Tip): TipItem => ({
-  image: dummyImage,
-  title: tip.title,
-  likes: tip.likesCount,
-  saves: tip.commentsCount,
-  created_at: tip.createdAt,
-  tips_id: tip.tipId.toString(),
-});
-
-const SearchPage = () => {
+const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
   const page = Number(searchParams.get('page')) || 1;
+  const hashtagsParam = searchParams.get('hashtags') || '';
+  const tags = hashtagsParam ? hashtagsParam.split(',') : [];
 
-  // 검색 API 호출
-  const { data: searchResults, isFetching } = useSearchList({ query, page, limit: 10 });
+  const { data: searchResults, isFetching } = useSearchList({ query, tags, page, limit: 10 });
+
   const tipsFromApi = searchResults ? searchResults.result : [];
-
-  // API 데이터 변환
-  const transformedItems = tipsFromApi.map(transformTipToTipItem);
 
   const handleSearch = (value: string) => {
     setSearchParams({ query: value, page: '1' });
   };
+
   return (
     <>
       <SearchSection
@@ -107,7 +88,8 @@ const SearchPage = () => {
         onSearch={handleSearch}
         marginTop="80px"
       />
-      <TipsSection showLikes={false} items={transformedItems} isLoading={isFetching} />
+      <TipsSection showLikes={false} items={tipsFromApi} isLoading={isFetching} />
+
       <RecommendTitle title={query} />
       <RecommendedTipsSection items={dummyData.slice(0, 8)} />
     </>
