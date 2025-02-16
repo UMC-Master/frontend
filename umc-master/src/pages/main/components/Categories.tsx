@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import '@fortawesome/fontawesome-free/css/all.css';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryInputSection from './CategoriesInputSection';
+import { useUserStore } from '@store/userStore';
 
 const dummyCategories = [
   { section: '계절', tags: ['봄', '여름', '가을', '겨울'] },
@@ -20,6 +21,11 @@ const dummyCategories = [
 const InterestsAndCategories: React.FC = () => {
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const { user, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleTagClick = (tag: string) => {
     setSelectedTags((prev) => {
@@ -51,7 +57,7 @@ const InterestsAndCategories: React.FC = () => {
       <Section>
         <StyledTypographyWrapper>
           <Typography style={{ marginRight: '4px' }} variant="headingXxxSmall">
-            애니
+            {user?.nickname}
           </Typography>
           <Typography variant="titleXSmall"> 님의 관심사</Typography>
         </StyledTypographyWrapper>

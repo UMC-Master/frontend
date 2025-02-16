@@ -20,13 +20,32 @@ interface TipsSectionProps {
   items?: TipItem[];
 }
 
+interface Hashtag {
+  hashtagId: number;
+  name: string;
+}
+
+interface Image {
+  media_url: string;
+  media_type: string;
+}
+interface Author {
+  userId: number;
+  nickname: string;
+  profileImageUrl: string | null;
+}
+
 interface TipItem {
-  image: string;
+  tipId: number;
   title: string;
-  likes?: number;
-  saves?: number;
-  created_at?: string;
-  tips_id: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  hashtags: Hashtag[];
+  imageUrls: Image[];
+  likesCount: number;
+  savesCount: number;
+  author: Author;
 }
 
 const TipsSection: React.FC<TipsSectionProps> = ({
@@ -59,17 +78,17 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   const sortedItems =
     tips.length > 0
       ? [...tips].sort((a, b) => {
-          if (sortOption === 'likes') return (b.likes || 0) - (a.likes || 0);
+          if (sortOption === 'likes') return (b.likesCount || 0) - (a.likesCount || 0);
           if (sortOption === 'latest')
-            return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime();
-          if (sortOption === 'bookmarks') return (b.saves || 0) - (a.saves || 0);
+            return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
+          if (sortOption === 'bookmarks') return (b.savesCount || 0) - (a.savesCount || 0);
           return 0;
         })
       : [];
 
   if (isError) return <div>Something went wrong...</div>; // 에러 발생 시 표시
 
-  const handleCardClick = (id: string) => {
+  const handleCardClick = (id: number) => {
     navigate(`/save-tip/${id}`);
   };
 
@@ -121,12 +140,12 @@ const TipsSection: React.FC<TipsSectionProps> = ({
                     .map((item: TipItem, index: number) => (
                       <Card
                         key={index}
-                        image={item.image || dummyImage}
+                        image={item?.imageUrls[0]?.media_url || dummyImage}
                         text={item.title}
-                        likes={item.likes || 0}
-                        bookmarks={item.saves || 0}
-                        date={item.created_at?.slice(0, 10) || ''}
-                        onClick={() => handleCardClick(item.tips_id)}
+                        likes={item.likesCount || 0}
+                        bookmarks={item.savesCount || 0}
+                        date={item.createdAt?.slice(0, 10) || ''}
+                        onClick={() => handleCardClick(item.tipId)}
                       />
                     ))}
             </CardsWrapper>
