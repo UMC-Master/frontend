@@ -20,7 +20,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const navigate = useNavigate();
   const { clearAuth } = useAuthStore();
-  const { user, fetchUser } = useUserStore();
+  const { user, fetchUser, clearUser } = useUserStore();
 
   useEffect(() => {
     fetchUser();  // 컴포넌트 마운트 시 사용자 정보 가져오기
@@ -28,8 +28,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   getUsers();
 
   const handleLogout = () => {
+    clearUser();
     clearAuth();
-    navigate("/");
+    navigate("/login");
   };
 
   return (
