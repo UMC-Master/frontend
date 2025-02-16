@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { sendVerificationEmail } from "@apis/emailVerificationApi";
 import Button from "@components/Button/Button";
 import Typography from "@components/common/typography";
 import Input from "@components/Input/Input";
@@ -20,6 +21,8 @@ const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ 
 
   const [email, setEmail] = useState<string>('');
   const [authCode, setAuthCode] = useState<string>('');
+  const [domain, setDomain] = useState<string>(emails[0].value);  // 기본 도메인 설정
+  const [isEmailSent, setIsEmailSent] = useState<boolean>(false);  // 이메일 전송 상태
 
   // 이메일과 인증번호 입력이 모두 채워졌는지 확인하는 useEffect
   useEffect(() => {
@@ -29,6 +32,20 @@ const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ 
       onCheckRequired(false); // 유효성 체크
     }
   }, [email, authCode, onCheckRequired]);
+
+  const handleEmailVerification = async () => {
+    const fullEmail = `${email}@${domain}`;
+    try {
+      const response = await sendVerificationEmail(fullEmail); // API 호출
+      if (response.status === 200) {
+        setIsEmailSent(true);  // 이메일 전송 성공 시 상태 업데이트
+        alert('이메일 인증이 발송되었습니다.');
+      }
+    } catch (error) {
+      console.error('이메일 인증 실패:', error);
+      alert('이메일 인증 요청에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <Container>
@@ -48,25 +65,30 @@ const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ 
           variant="titleSmall"
           style={{color: theme.colors.text.lightGray}}
         >@</Typography>
-        <EmailSelect>
+        <EmailSelect
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)} // 도메인 선택 시 업데이트
+        >
           {emails.map((email) => (
             <option key={email.value} value={email.value}>
               {email.label}
             </option>
           ))}
         </EmailSelect>
-        <Button variant="emailCheck">이메일 인증</Button>
+        <Button variant="emailCheck" onClick={handleEmailVerification}>이메일 인증</Button>
       </Email>
-      <Email>
-        <Input 
-          errorMessage="" 
-          type={'email'} 
-          placeholder={'인증번호를 입력해주세요.'} 
-          value={authCode}
-          onChange={(e) => setAuthCode(e.target.value)}
-        />
-        <Button variant="emailCheck">인증 확인</Button>
-      </Email>
+      {isEmailSent && (
+        <Email>
+          <Input 
+            errorMessage="" 
+            type={'text'} 
+            placeholder={'인증번호를 입력해주세요.'} 
+            value={authCode}
+            onChange={(e) => setAuthCode(e.target.value)}
+          />
+          <Button variant="emailCheck">인증 확인</Button>
+        </Email>
+      )}
     </Container>
   );
 };
