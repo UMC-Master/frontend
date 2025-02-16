@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import Img from '@assets/dummyImage/dummy.jpeg';
+import Img from '@assets/character/magazine.png';
 import theme from '@styles/theme';
 import Typography from '@components/common/typography';
 
