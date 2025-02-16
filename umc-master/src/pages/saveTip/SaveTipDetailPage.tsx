@@ -8,24 +8,53 @@ import Saves from "@assets/savetipdetail/saves.svg";
 import Saved from "@assets/savetipdetail/saved.svg";
 import Link from "@assets/savetipdetail/link.svg";
 import Typography from "@components/common/typography";
-import { dummyData } from "./dummydata/dummydata";
 import { useParams } from "react-router-dom";
 import theme from "@styles/theme";
 import { useEffect, useState } from "react";
+import { useTipDetail } from "@apis/queries/useTipDetailQuery";
 
-const SaveTipDetailPage: React.FC = () => {
+interface Hashtag {
+  hashtagId: number;
+  name: string;
+}
+
+interface Image {
+  media_url: string;
+  media_type: string;
+}
+interface Author {
+  userId: number;
+  nickname: string;
+  profileImageUrl: string | null;
+}
+
+interface TipItem {
+  tipId: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  hashtags: Hashtag[];
+  imageUrls: Image[];
+  likesCount: number;
+  savesCount: number;
+  author: Author;
+}
+
+const SaveTipDetailPage: React.FC<TipItem> = () => {
 
   const { tipId } = useParams<{ tipId: string }>();
 
-  const detail = dummyData.find((item) => item.id === tipId);
+  // 상세 데이터 가져오기
+  const { data: detail, isLoading, error } = useTipDetail(tipId!);
 
-  if (!detail) {
-    return <div>데이터를 찾을 수 없습니다.</div>;
-  }
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  if (!detail) return <div>데이터를 찾을 수 없습니다.</div>;
   
-  const [likes, setLikes] = useState(detail.likes);
+  const [likes, setLikes] = useState(detail.likesCount);
   const [liked, setLiked] = useState(false);
-  const [saves, setSaves] = useState(detail.bookmarks);
+  const [saves, setSaves] = useState(detail.savesCount);
   const [saved, setSaved] = useState(false);
 
   const handleLikeClick = () => {
@@ -96,9 +125,9 @@ const SaveTipDetailPage: React.FC = () => {
   return (
     <Container>
       <SaveTipDatail>
-        <PostDetail/>
+        <PostDetail detail={detail}/>
         <Line/>
-        <CommentView/>
+        <CommentView tipId={tipId}/>
       </SaveTipDatail>
       <InteractionButtons>
         <Interaction onClick={handleLikeClick}>

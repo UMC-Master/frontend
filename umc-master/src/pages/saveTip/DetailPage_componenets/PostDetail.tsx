@@ -1,23 +1,46 @@
+/* eslint-disable react/prop-types */
 import Typography from "@components/common/typography";
 import Tag from "@components/Tag/Tag";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import styled, { useTheme } from "styled-components";
-import { saveTipDetailPageDataList } from "../dummydata/dummydata";
 
+interface Hashtag {
+  hashtagId: number;
+  name: string;
+}
 
-const PostDetail: React.FC = () => {
+interface Image {
+  media_url: string;
+  media_type: string;
+}
+interface Author {
+  userId: number;
+  nickname: string;
+  profileImageUrl: string | null;
+}
 
-  const { tipId } = useParams<{ tipId: string }>();
+interface TipItem {
+  tipId: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  hashtags: Hashtag[];
+  imageUrls: Image[];
+  likesCount: number;
+  savesCount: number;
+  author: Author;
+}
+
+interface PostDetailProps {
+  detail: TipItem; // detail의 타입을 TipItem으로 정의
+}
+
+const PostDetail: React.FC<PostDetailProps> = ({ detail }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // TODO: 추후 API 연동 시, 실제 데이터 불러오도록 수정
-  const detail = saveTipDetailPageDataList.find((item) => item.id === tipId);
-  console.log(tipId);
-
 
   if (!detail) {
     return <PostView>해당 포스트를 찾을 수 없습니다.</PostView>;
@@ -39,7 +62,7 @@ const PostDetail: React.FC = () => {
                   <Typography 
                     variant="titleXxSmall"
                     style={{color: theme.colors.text.black}}
-                  >{detail.author}</Typography>
+                  >{detail.author.nickname}</Typography>
                   <Bestnum>
                     <Typography
                       variant="bodySmall"
@@ -48,13 +71,13 @@ const PostDetail: React.FC = () => {
                     <Typography
                       variant="bodySmall"
                       style={{color: theme.colors.text.lightGray}}
-                    >{detail.bestnum}회</Typography>
+                    >num 회</Typography>
                   </Bestnum>
                 </AuthorInfo>
               </Author>
               <Tags>
-                {detail.tags.map((tag, index) => (
-                    <Tag key={index} selected={true} text={tag}></Tag>
+                {detail.hashtags.map((tag, index) => (
+                    <Tag key={index} selected={true} text={tag.name}></Tag>
                 ))}
               </Tags>
             </InfoDetail>
@@ -62,17 +85,13 @@ const PostDetail: React.FC = () => {
               <Typography 
                 variant="bodySmall"
                 style={{color: theme.colors.text.black}}
-              >{detail.date}</Typography>
-              <Typography 
-                variant="bodySmall"
-                style={{color: theme.colors.text.black}}
-              >{detail.time}</Typography>
+              >{detail.createdAt}</Typography>
             </PostDate>
           </PostInfo>
           <Typography 
             variant="bodySmall"
             style={{color: theme.colors.text.black}}
-          >{detail.description}</Typography>
+          >{detail.content}</Typography>
         </PostView>
   );
 };
