@@ -65,5 +65,10 @@ export const getSavedTips = async () => {
   }
 };
 
+export const getTipDetail = async (tipId: string) => {
+  const { data } = await axiosInstance.get(`/tips/${tipId}`);
+  return data;
+};
+
 
 // 다른 Tips 관련 API들...
