@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from "styled-components";
 import PostDetail from "./DetailPage_componenets/PostDetail";
 import CommentView from "./DetailPage_componenets/CommentView";
@@ -10,7 +11,7 @@ import Typography from "@components/common/typography";
 import { dummyData } from "./dummydata/dummydata";
 import { useParams } from "react-router-dom";
 import theme from "@styles/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SaveTipDetailPage: React.FC = () => {
 
@@ -24,28 +25,72 @@ const SaveTipDetailPage: React.FC = () => {
   
   const [likes, setLikes] = useState(detail.likes);
   const [liked, setLiked] = useState(false);
-
-  const handleLikeClick = () => {
-    if (!liked) {
-      setLikes(likes + 1); // 좋아요 수 증가
-      setLiked(true); // 좋아요 상태로 변경
-    } else {
-      setLikes(likes - 1); // 좋아요 취소 시 수 감소
-      setLiked(false); // 좋아요 취소 상태로 변경
-    }
-  };
-
   const [saves, setSaves] = useState(detail.bookmarks);
   const [saved, setSaved] = useState(false);
 
+  const handleLikeClick = () => {
+    setLikes((prevLikes) => prevLikes + (liked ? -1 : 1));
+    setLiked(!liked);
+  };
+
   const handleSaveClick = () => {
-    if (!saved) {
-      setSaves(saves + 1); // 좋아요 수 증가
-      setSaved(true); // 좋아요 상태로 변경
-    } else {
-      setSaves(saves - 1); // 좋아요 취소 시 수 감소
-      setSaved(false); // 좋아요 취소 상태로 변경
-    }
+    setSaves((prevSaves) => prevSaves + (saved ? -1 : 1));
+    setSaved(!saved);
+  };
+
+  const Kakao = (window as any).Kakao;
+  // const realUrl = "https://umc-master-frontend.vercel.app"; // 실제 URL을 여기에 설정하세요
+  const realUrl = window.location.href; // 현재 보고 있는 페이지의 URL
+
+
+  const loadKakaoSDK = () => {
+    const script = document.createElement("script");
+    script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js";
+    script.integrity = import.meta.env.VITE_INTEGRITY_VALUE; // 환경 변수 사용
+    script.crossOrigin = "anonymous";
+    script.onload = () => {
+      console.log("Kakao SDK 로드 완료");
+    };
+    document.head.appendChild(script);
+  };
+  
+  loadKakaoSDK();
+  
+
+  useEffect(() => {
+      if (!Kakao) return;
+      if (!Kakao.isInitialized()) {
+          Kakao.init(`${import.meta.env.VITE_JAVASCRIPT_KEY}`); // 여기에 카카오 앱 키를 넣어주세요
+      }
+  }, []);
+
+  const shareKakao = () => {
+    
+      if (!Kakao) {
+          console.error("Kakao SDK가 로드되지 않았습니다.");
+          return;
+      }
+
+      Kakao.Share.sendDefault({
+          objectType: "feed",
+          content: {
+              title: "오늘의 꿀팁",
+              description: "오늘의 꿀팁을 보러 갈까요?",
+              imageUrl:
+                  "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+              link: {
+                  mobileWebUrl: realUrl,
+              },
+          },
+          buttons: [
+              {
+                  title: "나도 꿀팁 보러가기",
+                  link: {
+                      mobileWebUrl: realUrl,
+                  },
+              },
+          ],
+      });
   };
   
   return (
@@ -71,7 +116,7 @@ const SaveTipDetailPage: React.FC = () => {
           >{saves}</Typography>
         </Interaction>
         <Interaction>
-          <Img src={Link} alt="공유하기"/>
+          <Img src={Link} alt="공유하기" onClick={shareKakao}/>
           <Typography 
             variant="bodyXSmall"
             style={{color: theme.colors.text.lightGray}}
