@@ -1,25 +1,43 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
 import { usePolicyGuide } from '@apis/queries/usePolicyQueries';
+import ImageModal from '@components/Modal/image';
 
 const MagazineDetailPage: React.FC = () => {
   const { magazineId } = useParams<{ magazineId: string }>();
-  const { data } = usePolicyGuide({ policyId: Number(magazineId) });
+  const { data, isLoading } = usePolicyGuide({ policyId: Number(magazineId) });
   console.log('매거진', data);
+
   const formattedDescription = data?.description
     .replace(/ {5,}/g, '\n\n') // 공백 5칸 이상 -> \n\n
     .replace(/ {3,4}/g, '\n'); // 공백 3~4칸 -> \n
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  if (isLoading) {
+    return;
+  }
+
   return (
     <Container>
-      <Image src={data?.image_url_list || '/placeholder.svg'} alt={data?.title} />
+      <Image
+        src={data?.image_url_list || '/placeholder.svg'}
+        alt={data?.title}
+        onClick={() => data?.image_url_list && handleImageClick(data?.image_url_list)}
+      />
       <Title>
         <Typography variant="titleMedium">{data?.title}</Typography>
       </Title>
@@ -38,7 +56,7 @@ const MagazineDetailPage: React.FC = () => {
           <Typography variant="bodySmall">{data?.updated_at.slice(0, 10)}</Typography>
         </Date>
       </AuthorContainer>
-      <Tags>{data?.hashtag.map((tag) => <Tag key={tag.id} text={tag.name} selected />)}</Tags>
+      <Tags>{data?.hashtag?.map((tag) => <Tag key={tag.id} text={tag.name} selected />) ?? []}</Tags>
       <Description>
         <Typography variant="bodySmall">{formattedDescription}</Typography>
       </Description>
@@ -46,9 +64,12 @@ const MagazineDetailPage: React.FC = () => {
       <Button href={data?.policy_url} target="_blank" rel="noopener noreferrer">
         <Typography variant="titleXSmall">해당 페이지로 이동하기</Typography>
       </Button>
+      {isModalOpen && selectedImage && <ImageModal imageUrl={selectedImage} onClose={() => setIsModalOpen(false)} />}
     </Container>
   );
 };
+
+export default MagazineDetailPage;
 
 const Container = styled.div`
   max-width: 1280px;
@@ -58,10 +79,11 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 200px;
+  height: 400px;
   object-fit: cover;
   border-radius: 20px;
   margin-bottom: 32px;
+  cursor: pointer;
 `;
 
 const Title = styled.div`
@@ -132,5 +154,3 @@ const Button = styled.a`
     background-color: ${({ theme }) => theme.colors.primary[600]};
   }
 `;
-
-export default MagazineDetailPage;
