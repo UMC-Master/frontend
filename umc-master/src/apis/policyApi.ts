@@ -1,5 +1,4 @@
 import axiosInstance from '@apis/axios-instance';
-//TODO: api 연결시 구조 바뀔 수도 있음
 interface GetPoliciesParams {
   locationId: number;
 }
@@ -45,6 +44,12 @@ export interface PolicyMutationParams {
   data: CreatePolicyParams;
 }
 
+export interface Hashtag {
+  hashtag_id: number;
+  name: string;
+  popularity: number;
+}
+
 export const getPolicies = async ({ locationId }: GetPoliciesParams): Promise<Policy[]> => {
   const { data } = await axiosInstance.get(`/policies?location_id=${locationId}`);
   return data.result;
@@ -68,4 +73,10 @@ export const updatePolicy = async ({ policyId, data }: PolicyMutationParams): Pr
 export const deletePolicy = async ({ policyId }: { policyId: number }): Promise<boolean> => {
   const response = await axiosInstance.delete(`/policies/${policyId}`);
   return response.data.isSuccess;
+};
+
+// 인기 관심사 조회 (기본값 6개)
+export const getPopularHashtags = async ({ limit }: { limit: number }): Promise<Hashtag[]> => {
+  const response = await axiosInstance.get(`/hashtags/popular?limit=${limit}`);
+  return response.data.result;
 };
