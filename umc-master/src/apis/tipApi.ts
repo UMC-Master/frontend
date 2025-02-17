@@ -57,8 +57,8 @@ export const createPost = async (newPost: NewPost): Promise<void> => {
 export const getSavedTips = async () => {
   try {
     const { data } = await axiosInstance.get(`/users/saved-tips`);
-    console.log('저장된 꿀팁 API 응답:', data);
-    return data;
+    console.log('저장된 꿀팁 API 응답:', data.result);
+    return data.result;
   } catch (error: any) {
     console.error('저장된 꿀팁 API 에러 발생:', error.response?.status, error.response?.data);
     throw new Error(`저장된 꿀팁 API 요청 실패: ${error.response?.status}`);
