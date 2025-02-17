@@ -10,15 +10,13 @@ export interface Policy {
   created_at: string;
   updated_at: string;
   policy_url: string;
-  magazine_image_url_list: {
-    image_name: string;
-    image_url: string;
-  }[];
+  image_url_list: [];
   magazine_likes: number;
   magazine_bookmarks: number;
   organization: {
     id: number;
     name: string;
+    image: string;
   };
   location: {
     id: number;
