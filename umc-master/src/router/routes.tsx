@@ -16,6 +16,7 @@ import RootLayout from '@layouts/root-layout';
 import KakaoCallback from '@pages/auth/KakaoCallback';
 import FindPrivacy from '@pages/auth/FindPrivacy';
 import ChallengePage from '@pages/challenge/ChallengePage';
+import ChatPage from '@pages/chat/ChatPage';
 import ErrorPage from '@pages/error/ErrorPage';
 
 const router = createBrowserRouter([
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
           { path: RoutePaths.MAGAZINE_DETAIL, element: <MagazineDetailPage /> },
           { path: RoutePaths.KAKAO_CALLBACK, element: <KakaoCallback /> },
           { path: RoutePaths.CHALLENGE, element: <ChallengePage /> },
+          { path: RoutePaths.CHAT, element: <ChatPage /> },
         ],
       },
     ],
