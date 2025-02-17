@@ -18,6 +18,7 @@ interface TipsSectionProps {
   defaultSort?: 'latest' | 'likes' | 'bookmarks';
   isLoading?: boolean;
   items?: TipItem[];
+  timeFilter?: '7days' | 'today' | '24h' | 'none';
 }
 
 interface Hashtag {
@@ -48,6 +49,34 @@ interface TipItem {
   author: Author;
 }
 
+type TimeFilter = '7days' | 'today' | '24h' | 'none';
+
+function filterByTime(tips: TipItem[], timeFilter: TimeFilter) {
+  if (timeFilter === 'none') return tips;
+
+  const now = new Date();
+  const filterDates: Record<TimeFilter, () => { start: Date; end?: Date }> = {
+    '7days': () => ({
+      start: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
+    }),
+    '24h': () => ({
+      start: new Date(now.getTime() - 24 * 60 * 60 * 1000),
+    }),
+    today: () => ({
+      start: new Date(now.setHours(0, 0, 0, 0)),
+      end: new Date(now.setHours(23, 59, 59, 999)),
+    }),
+    none: () => ({ start: new Date(0) }),
+  };
+
+  const { start, end } = filterDates[timeFilter]();
+
+  return tips.filter((tip) => {
+    const created = new Date(tip.createdAt);
+    return end ? created >= start && created <= end : created >= start;
+  });
+}
+
 const TipsSection: React.FC<TipsSectionProps> = ({
   title,
   showArrows = false,
@@ -56,6 +85,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   items,
   isLoading,
   defaultSort = 'latest',
+  timeFilter = 'none',
 }) => {
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
@@ -74,10 +104,12 @@ const TipsSection: React.FC<TipsSectionProps> = ({
 
   const [direction, setDirection] = useState<number>(0);
 
+  const filteredTips = filterByTime(tips, timeFilter);
+
   // 정렬된 아이템
   const sortedItems =
-    tips.length > 0
-      ? [...tips].sort((a, b) => {
+    filteredTips.length > 0
+      ? [...filteredTips].sort((a, b) => {
           if (sortOption === 'likes') return (b.likesCount || 0) - (a.likesCount || 0);
           if (sortOption === 'latest')
             return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
