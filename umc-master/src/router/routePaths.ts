@@ -15,6 +15,7 @@ const RoutePaths = Object.freeze({
   KAKAO_CALLBACK: '/oauth/kakao/callback',
   CHALLENGE: '/challenge',
   MYCHALLENGE: '/mychallenge',
+  CHAT: '/chat',
 });
 
 export default RoutePaths;
