@@ -6,36 +6,47 @@ export interface Author {
   profileImageUrl: string | null;
 }
 
-export interface Tip {
+export interface Hashtag {
+  hashtagId: number;
+  name: string;
+}
+
+export interface Image {
+  media_url: string;
+  media_type: string;
+}
+
+export interface TipItem {
   tipId: number;
   title: string;
-  description: string;
+  content: string;
   author: Author;
+  hashtags: Hashtag[];
+  imageUrls: Image[];
+  likesCount: number;
+  savesCount: number;
   createdAt: string;
   updatedAt: string;
-  likesCount: number;
-  commentsCount: number;
-  hashtags: string[];
 }
 
 export interface TipsResponse {
   isSuccess: boolean;
   message: string;
-  result: Tip[];
+  result: TipItem[];
 }
 
 export interface GetTipsParams {
   query: string;
   page: number;
   limit: number;
+  tags?: string[];
 }
 
-export const getSearchTips = async ({ query, /* tags, */ page, limit }: GetTipsParams): Promise<TipsResponse> => {
+export const getSearchTips = async ({ query, tags, page, limit }: GetTipsParams): Promise<TipsResponse> => {
   const response = await axiosInstance.get<TipsResponse>('/tips/search', {
     params: {
       query,
-      // TODO: 백엔드 태그 검색 기능 구현 후 주석 해제
-      // tags: tags?.join(','),
+      hashtags: tags?.length ? tags.join(',') : undefined,
       page,
       limit,
     },

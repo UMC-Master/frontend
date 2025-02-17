@@ -7,10 +7,11 @@ interface GetTipsParams {
 }
 
 export interface NewPost {
-  userId: number;
+  userId?: number;
   title: string;
   content: string;
   hashtags: string[];
+  imageUrls: File[];
 }
 
 export const getTips = async ({ pageParam, sorted }: GetTipsParams) => {
@@ -20,7 +21,24 @@ export const getTips = async ({ pageParam, sorted }: GetTipsParams) => {
 
 export const createPost = async (newPost: NewPost): Promise<void> => {
   try {
-    await axiosInstance.post<void>('/tips', newPost);
+    const formData = new FormData();
+
+    formData.append('title', newPost.title);
+    formData.append('content', newPost.content);
+    formData.append('hashtags', newPost.hashtags.join(','));
+
+    if (newPost.userId !== undefined) {
+      formData.append('userId', String(newPost.userId));
+    }
+    newPost.imageUrls.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    await axiosInstance.post<void>('/tips', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   } catch (error: any) {
     if (error.response && error.response.data) {
       throw new Error(`서버 에러: ${error.response.status} - ${error.response.data.message}`);
