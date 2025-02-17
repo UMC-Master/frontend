@@ -17,6 +17,7 @@ import KakaoCallback from '@pages/auth/KakaoCallback';
 import FindPrivacy from '@pages/auth/FindPrivacy';
 import ChallengePage from '@pages/challenge/ChallengePage';
 import ErrorPage from '@pages/error/ErrorPage';
+import MyChallengePage from '@pages/mychallenge/MyChallenge';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
           { path: RoutePaths.MAGAZINE_DETAIL, element: <MagazineDetailPage /> },
           { path: RoutePaths.KAKAO_CALLBACK, element: <KakaoCallback /> },
           { path: RoutePaths.CHALLENGE, element: <ChallengePage /> },
+          { path: RoutePaths.MYCHALLENGE, element: <MyChallengePage /> },
         ],
       },
     ],
