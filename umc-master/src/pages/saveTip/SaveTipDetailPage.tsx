@@ -10,7 +10,7 @@ const SaveTipDetailPage: React.FC = () => {
   const { data: detail, isLoading, error } = useTipDetail(Number(tipId));
   console.log('꿀팁 상세', detail);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return;
   if (error) return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
   if (!detail) return <div>데이터를 찾을 수 없습니다.</div>;
 
