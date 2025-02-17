@@ -56,19 +56,26 @@ export const createPost = async (newPost: NewPost): Promise<void> => {
 
 export const getSavedTips = async () => {
   try {
-    const { data } = await axiosInstance.get(`/users/bookmarks`);
-    console.log("저장된 꿀팁 API 응답:", data);
+    const { data } = await axiosInstance.get(`/users/saved-tips`);
+    console.log('저장된 꿀팁 API 응답:', data);
     return data;
   } catch (error: any) {
-    console.error("저장된 꿀팁 API 에러 발생:", error.response?.status, error.response?.data);
+    console.error('저장된 꿀팁 API 에러 발생:', error.response?.status, error.response?.data);
     throw new Error(`저장된 꿀팁 API 요청 실패: ${error.response?.status}`);
   }
 };
 
-export const getTipDetail = async (tipId: string) => {
+export const getTipDetail = async (tipId: number) => {
   const { data } = await axiosInstance.get(`/tips/${tipId}`);
-  return data;
+  return data.result;
 };
 
+export const toggleLike = async (tipId: number) => {
+  const response = await axiosInstance.post(`/tips/${tipId}/like`);
+  return response.data;
+};
 
-// 다른 Tips 관련 API들...
+export const toggleBookmark = async (tipId: number) => {
+  const response = await axiosInstance.post(`/tips/${tipId}/bookmark`);
+  return response.data;
+};
