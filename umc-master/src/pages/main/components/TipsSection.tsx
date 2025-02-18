@@ -9,6 +9,9 @@ import Typography from '@components/common/typography';
 import usePagination from '@hooks/usePagination';
 import dummyImage from '@assets/dummyImage/dummy.jpeg';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useSearchList } from '@apis/queries/useSearchList';
+import BigCard from '@components/Card/BigCard';
+import SkeletonBigCard from '@components/Skeleton/SkeletonBigCard';
 
 interface TipsSectionProps {
   title?: string;
@@ -18,7 +21,10 @@ interface TipsSectionProps {
   defaultSort?: 'latest' | 'likes' | 'bookmarks';
   isLoading?: boolean;
   items?: TipItem[];
+  tags?: string[];
   timeFilter?: '7days' | 'today' | '24h' | 'none';
+  isSearchSection?: boolean;
+  isBigCard?: boolean;
 }
 
 interface Hashtag {
@@ -82,31 +88,45 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   showArrows = false,
   showLikes = true,
   showRecent = false,
-  items,
-  isLoading,
   defaultSort = 'latest',
   timeFilter = 'none',
+  tags,
+  items,
+  isSearchSection = false,
+  isBigCard = false,
 }) => {
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
   const { page, handlePrevPage, handleNextPage } = usePagination(1);
+  const [direction, setDirection] = useState<number>(0);
+
+  const {
+    data: searchData,
+    isFetching: isSearchFetching,
+    isError: isSearchError,
+  } = isSearchSection && !items
+    ? useSearchList({
+        tags,
+        page,
+        limit: 5,
+      })
+    : { data: undefined, isFetching: false, isError: false };
+
   const {
     data: tipsData,
-    isFetching,
-    isError,
-  } = items
-    ? { data: undefined, isFetching: false, isError: false } // 이미 데이터가 주입된 경우 API 호출하지 않음
-    : useTipList({ title: title || '', page, sortOption });
+    isFetching: isTipsFetching,
+    isError: isTipsError,
+  } = !isSearchSection
+    ? useTipList({ title: title || '', page, sortOption })
+    : { data: undefined, isFetching: false, isError: false };
 
   // 만약 외부 데이터가 없으면 내부 데이터 사용
-  const tips: TipItem[] = items || tipsData?.result?.tips || [];
-  const loading = isLoading ?? (items ? false : isFetching);
-
-  const [direction, setDirection] = useState<number>(0);
+  const tips: TipItem[] = items || (isSearchSection ? searchData?.result : tipsData?.result?.tips) || [];
+  const isFetching = isSearchFetching || isTipsFetching;
+  const isError = isSearchError || isTipsError;
 
   const filteredTips = filterByTime(tips, timeFilter);
 
-  // 정렬된 아이템
   const sortedItems =
     filteredTips.length > 0
       ? [...filteredTips].sort((a, b) => {
@@ -127,10 +147,18 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   const handleSlide = (direction: number) => {
     setDirection(direction);
     if (direction === -1) handlePrevPage();
-    if (direction === 1) handleNextPage(5);
+    if (direction === 1) handleNextPage(100);
   };
 
-  console.log(tips);
+  /** Card or BigCard 분기 */
+  const CardComponent = isBigCard ? BigCard : Card;
+  const SkeletonComponent = isBigCard ? SkeletonBigCard : SkeletonCard;
+
+  /** 열 개수 분기 */
+  const columns = isBigCard ? 4 : 5;
+  /** 스켈레톤/카드 표시 개수 분기 */
+  const itemCount = isBigCard ? 8 : 5;
+
   return (
     <SectionContainer>
       <SectionHeader>
@@ -158,6 +186,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <CardsWrapper
               key={page}
+              columns={columns}
               custom={direction}
               variants={slideVariants}
               initial="enter"
@@ -165,12 +194,12 @@ const TipsSection: React.FC<TipsSectionProps> = ({
               exit="exit"
               transition={{ duration: 0.5 }}
             >
-              {loading
-                ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
+              {isFetching
+                ? Array.from({ length: itemCount }).map((_, index) => <SkeletonComponent key={index} />)
                 : sortedItems
-                    .slice(0, 5)
+                    .slice(0, itemCount)
                     .map((item: TipItem, index: number) => (
-                      <Card
+                      <CardComponent
                         key={index}
                         image={item?.imageUrls[0]?.media_url || dummyImage}
                         text={item.title}
@@ -267,9 +296,9 @@ const CardsOuterWrapper = styled.div`
   min-height: 300px;
 `;
 
-const CardsWrapper = styled(motion.div)`
+const CardsWrapper = styled(motion.div)<{ columns: number }>`
   display: grid;
-  grid-template-columns: repeat(5, minmax(240px, 1fr));
+  grid-template-columns: repeat(${(p) => p.columns}, minmax(240px, 1fr));
   gap: 20px;
   position: relative;
   max-width: 1280px; /* 원하는 최대 너비 설정 */
