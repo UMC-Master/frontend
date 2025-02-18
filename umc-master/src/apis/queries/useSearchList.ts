@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getSearchTips, TipsResponse } from '@apis/searchApi';
 
 interface UseSearchListParams {
-  query: string;
+  query?: string;
   tags?: string[];
   page: number;
   limit?: number;

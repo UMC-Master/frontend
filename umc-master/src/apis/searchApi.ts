@@ -36,7 +36,7 @@ export interface TipsResponse {
 }
 
 export interface GetTipsParams {
-  query: string;
+  query?: string;
   page: number;
   limit: number;
   tags?: string[];
