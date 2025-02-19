@@ -27,10 +27,10 @@ const SearchPage: React.FC = () => {
         onSearch={handleSearch}
         marginTop="80px"
       />
-      <TipsSection showLikes={false} items={tipsFromApi} isLoading={isFetching} isSearchSection />
+      <TipsSection showLikes={false} items={tipsFromApi} isLoading={isFetching} isSearchSection defaultSort="likes" />
 
       <RecommendTitle title={query || (tags && `선택한 태그`) || '검색어'} />
-      <TipsSection items={tipsFromApi} isBigCard showLikes={false} />
+      <TipsSection items={tipsFromApi} isBigCard showLikes={false} defaultSort="bookmarks" />
     </>
   );
 };
