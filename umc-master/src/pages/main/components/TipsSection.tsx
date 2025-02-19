@@ -109,6 +109,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
         tags,
         page,
         limit: 5,
+        sort: sortOption,
       })
     : { data: undefined, isFetching: false, isError: false };
 
