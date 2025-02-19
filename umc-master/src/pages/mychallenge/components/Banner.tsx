@@ -42,6 +42,7 @@ const TipCreateBTN = styled.button`
   background-color: ${({ theme }) => theme.colors.text['white']};
   border-radius: 50px;
   color: ${({ theme }) => theme.colors.text['black']};
+  cursor: pointer;
 `;
 
 const Image = styled.img`
