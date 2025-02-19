@@ -71,8 +71,6 @@ const InterestsAndCategories: React.FC<InterestsAndCategoriesProps> = ({ userHas
     setIsCategoryVisible((prev) => !prev);
   };
 
-  console.log(selectedTags);
-  console.log(user);
   return (
     <Container>
       <TopRightIcon onClick={toggleCategoryVisibility}>
