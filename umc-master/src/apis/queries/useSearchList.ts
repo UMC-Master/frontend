@@ -6,7 +6,7 @@ interface UseSearchListParams {
   tags?: string[];
   page: number;
   limit?: number;
-  sort?: 'latest' | 'likes' | 'bookmarks';
+  sort?: 'latest' | 'likes' | 'saves';
 }
 
 export const useSearchList = ({ query, tags, page, limit = 10, sort }: UseSearchListParams) => {

@@ -40,7 +40,7 @@ export interface GetTipsParams {
   page: number;
   limit: number;
   tags?: string[];
-  sort?: 'latest' | 'likes' | 'bookmarks';
+  sort?: 'latest' | 'likes' | 'saves';
 }
 
 export const getSearchTips = async ({
