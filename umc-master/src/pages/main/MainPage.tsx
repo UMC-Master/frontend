@@ -27,8 +27,6 @@ const MainPage: React.FC = () => {
     return null; // 또는 로딩 컴포넌트 표시
   }
 
-  console.log(user?.hashtags);
-
   return (
     <>
       <>
