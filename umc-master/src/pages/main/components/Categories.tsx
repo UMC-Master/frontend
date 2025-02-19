@@ -24,7 +24,7 @@ interface InterestsAndCategoriesProps {
 }
 
 const InterestsAndCategories: React.FC<InterestsAndCategoriesProps> = ({ userHashtags }) => {
-  const [isCategoryVisible, setIsCategoryVisible] = useState(true);
+  const [isCategoryVisible, setIsCategoryVisible] = useState(false);
   const [selectedTags, setSelectedTags] = useState<string[]>(userHashtags || []); // 초기값으로 userHashtags 설정
   const { user, updateProfile, fetchUser } = useUserStore();
 
