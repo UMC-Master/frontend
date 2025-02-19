@@ -1,19 +1,13 @@
 import SearchSection from '@components/SearchBar/SearchSection';
 import { useSearchParams } from 'react-router-dom';
 import RecommendTitle from './components/RecommendTitle';
-import { useSearchList } from '@apis/queries/useSearchList';
 import TipsSection from '@pages/main/components/TipsSection';
 
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
-  const page = Number(searchParams.get('page')) || 1;
-  const hashtagsParam = searchParams.get('hashtags') || '';
-  const tags = hashtagsParam ? hashtagsParam.split(',') : [];
-
-  const { data: searchResults, isFetching } = useSearchList({ query, tags, page, limit: 10 });
-
-  const tipsFromApi = searchResults ? searchResults.result : [];
+  const hashtagsParam = searchParams.get('hashtags');
+  const tags = hashtagsParam?.split(',').filter((tag) => tag.trim()) || [];
 
   const handleSearch = (value: string) => {
     setSearchParams({ query: value, page: '1' });
@@ -27,10 +21,18 @@ const SearchPage: React.FC = () => {
         onSearch={handleSearch}
         marginTop="80px"
       />
-      <TipsSection showLikes={false} items={tipsFromApi} isLoading={isFetching} isSearchSection defaultSort="likes" />
+      <TipsSection showLikes={false} query={query} tags={tags} isSearchSection defaultSort="likes" />
 
       <RecommendTitle title={query || (tags && `선택한 태그`) || '검색어'} />
-      <TipsSection items={tipsFromApi} isBigCard showLikes={false} defaultSort="bookmarks" />
+      <TipsSection
+        query={query}
+        tags={tags}
+        isBigCard
+        showLikes={false}
+        isSearchSection
+        defaultSort="saves"
+        isMoreLimit
+      />
     </>
   );
 };

@@ -18,13 +18,15 @@ interface TipsSectionProps {
   showArrows?: boolean;
   showLikes?: boolean;
   showRecent?: boolean;
-  defaultSort?: 'latest' | 'likes' | 'bookmarks';
+  defaultSort?: 'latest' | 'likes' | 'saves';
   isLoading?: boolean;
   items?: TipItem[];
   tags?: string[];
   timeFilter?: '7days' | 'today' | '24h' | 'none';
   isSearchSection?: boolean;
   isBigCard?: boolean;
+  query?: string;
+  isMoreLimit?: boolean;
 }
 
 interface Hashtag {
@@ -94,9 +96,11 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   items,
   isSearchSection = false,
   isBigCard = false,
+  query,
+  isMoreLimit = false,
 }) => {
   const navigate = useNavigate();
-  const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'bookmarks'>(defaultSort);
+  const [sortOption, setSortOption] = useState<'likes' | 'latest' | 'saves'>(defaultSort);
   const { page, handlePrevPage, handleNextPage } = usePagination(1);
   const [direction, setDirection] = useState<number>(0);
 
@@ -106,9 +110,10 @@ const TipsSection: React.FC<TipsSectionProps> = ({
     isError: isSearchError,
   } = isSearchSection && !items
     ? useSearchList({
+        query,
         tags,
         page,
-        limit: 5,
+        limit: isMoreLimit ? 10 : 5,
         sort: sortOption,
       })
     : { data: undefined, isFetching: false, isError: false };
@@ -134,7 +139,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
           if (sortOption === 'likes') return (b.likesCount || 0) - (a.likesCount || 0);
           if (sortOption === 'latest')
             return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
-          if (sortOption === 'bookmarks') return (b.savesCount || 0) - (a.savesCount || 0);
+          if (sortOption === 'saves') return (b.savesCount || 0) - (a.savesCount || 0);
           return 0;
         })
       : [];
@@ -177,7 +182,7 @@ const TipsSection: React.FC<TipsSectionProps> = ({
               <SortButton $active={sortOption === 'likes'} onClick={() => setSortOption('likes')}>
                 <Typography variant="bodyXSmall">좋아요순</Typography>
               </SortButton>
-              <SortButton $active={sortOption === 'bookmarks'} onClick={() => setSortOption('bookmarks')}>
+              <SortButton $active={sortOption === 'saves'} onClick={() => setSortOption('saves')}>
                 <Typography variant="bodyXSmall">저장많은순</Typography>
               </SortButton>
             </>
