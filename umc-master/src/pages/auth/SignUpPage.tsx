@@ -43,7 +43,8 @@ const handleNicknameChange = (nickname: string) => {
 };
 
 const handleHashtagChange = (hashtags: string[]) => {
-  setHashtag(hashtags);
+  const hashtagStrings = hashtags.map(hashtag => hashtag.toString());
+  setHashtag(hashtagStrings);
 };
 
 const handleSignUpComplete = async () => {
