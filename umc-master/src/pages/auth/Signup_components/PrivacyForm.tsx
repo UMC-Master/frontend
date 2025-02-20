@@ -11,7 +11,10 @@ interface District {
   label: string;
 }
 
-const PrivacyForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
+const PrivacyForm: React.FC<{ 
+  onCheckRequired: (isValid: boolean) => void;
+  onNicknameChange: (nickname: string) => void; 
+}> = ({ onCheckRequired, onNicknameChange }) => {
 
   const [selectedCity, setSelectedCity] = useState<string>("default");
   const [districts, setDistricts] = useState<District[]>([]);

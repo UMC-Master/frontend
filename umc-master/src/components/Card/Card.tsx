@@ -35,13 +35,12 @@ const CardContainer = styled.div`
 `;
 
 const CardImageWrapper = styled.div`
-  border-radius: 16px;
+  border-radius: 10px;
   overflow: hidden;
 `;
 
 const CardImage = styled.img`
-  min-width: 240px;
-  width: 100%;
+  width: 240px;
   height: 200px;
   object-fit: cover;
 `;
