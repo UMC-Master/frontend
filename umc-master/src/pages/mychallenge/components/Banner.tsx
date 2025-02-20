@@ -6,17 +6,18 @@ import mainCharacter from '@assets/mainCharacter2.png';
 const Banner: React.FC = () => {
   const navigate = useNavigate();
   const onClickCreateBTN = () => {
-    navigate(`/mychallenge`); /* MyChallengePage 나오면 수정 예정 */
+    navigate(`/challenge`); /* MyChallengePage 나오면 수정 예정 */
   };
+
   return (
     <Container>
       <Typography style={{ marginBottom: '12px' }} variant="headingSmall">
-        홈마스터와 챌린지를 하고 싶다면?
+        포인트를 쌓고 싶다면?
       </Typography>
-      <Typography variant="titleSmall">내가 저장한 챌린지를 수행하고 포인트를 받아가세요!</Typography>
+      <Typography variant="titleSmall">지금 현재 인기 챌린지와 신규 챌린지를 확인해보세요!</Typography>
       <Image src={mainCharacter} />
       <TipCreateBTN onClick={onClickCreateBTN}>
-        <Typography variant="bodyMedium">나의 챌린지 확인하기</Typography>
+        <Typography variant="bodyMedium">챌린지 페이지로</Typography>
       </TipCreateBTN>
     </Container>
   );
