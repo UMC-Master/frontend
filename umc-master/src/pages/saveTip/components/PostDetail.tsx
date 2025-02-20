@@ -5,35 +5,29 @@ import theme from '@styles/theme';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
 import ProfileDefault from '@assets/gray-character.png';
-
-interface Hashtag {
-  hashtag_id: number;
-  name: string;
-}
-
 interface Media {
-  media_url: string;
-  media_type: string;
+  mediaUrl: string;
+  mediaType: string;
 }
 
 interface User {
-  user_id: number;
+  userId: number;
   nickname: string;
-  profile_image_url: string | null;
+  profileImageUrl: string | null;
 }
 
 export interface TipItem {
-  tips_id: number;
+  tipId: number;
   title: string;
   content: string;
-  created_at: string;
+  createdAt: string;
   media: Media[];
-  hashtags: { hashtag: Hashtag }[];
+  hashtags: [];
   user: User;
-  _count: {
-    likes: number;
-    saves: number;
-  };
+  likesCount: number;
+  savesCount: number;
+  isLiked: boolean;
+  isBookmarked: boolean;
 }
 
 interface PostDetailProps {
@@ -51,14 +45,14 @@ const PostDetail: React.FC<PostDetailProps> = ({ detail }) => {
 
   return (
     <PostView>
-      {detail.media.length > 0 && <Img src={detail.media[0].media_url} alt="게시물 이미지" />}
+      {detail.media.length > 0 && <Img src={detail.media[0].mediaUrl} alt="게시물 이미지" />}
       <Typography variant="headingXxSmall" style={{ color: theme.colors.primary[900] }}>
         {detail.title}
       </Typography>
       <PostInfo>
         <InfoDetail>
           <Author>
-            <ProfileImg src={detail.user.profile_image_url || ProfileDefault} alt="프로필 이미지" />
+            <ProfileImg src={detail.user.profileImageUrl || ProfileDefault} alt="프로필 이미지" />
             <AuthorInfo>
               <Typography variant="titleXxSmall" style={{ color: theme.colors.text.black }}>
                 {detail.user.nickname}
@@ -75,13 +69,13 @@ const PostDetail: React.FC<PostDetailProps> = ({ detail }) => {
           </Author>
           <Tags>
             {detail.hashtags.map((tag, index) => (
-              <Tag key={index} selected={true} text={tag.hashtag.name}></Tag>
+              <Tag key={index} selected={true} text={tag}></Tag>
             ))}
           </Tags>
         </InfoDetail>
         <PostDate>
           <Typography variant="bodySmall" style={{ color: theme.colors.text.black }}>
-            {detail.created_at.slice(0, 10)}
+            {detail.createdAt.slice(0, 10)}
           </Typography>
         </PostDate>
       </PostInfo>
