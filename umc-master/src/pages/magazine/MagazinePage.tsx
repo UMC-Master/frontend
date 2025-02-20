@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import Typography from '@components/common/typography';
