@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getUsers } from '@apis/profileApi';
 import axiosInstance from '@apis/axios-instance';
+
 interface User {
   user_id: number;
   email: string;
@@ -27,6 +28,8 @@ interface ProfileUpdateData {
 
 interface UserState {
   user: User | null;
+  profileImageUrl: string;
+  setProfileImageUrl: (url: string) => void;
   fetchUser: () => Promise<void>;
   updateProfile: (profileData: ProfileUpdateData) => Promise<void>;
   clearUser: () => void;
@@ -64,4 +67,7 @@ export const useUserStore = create<UserState>((set) => ({
   },
 
   clearUser: () => set({ user: null }),
+
+  profileImageUrl: "",
+  setProfileImageUrl: (url) => set({ profileImageUrl: url }),
 }));
