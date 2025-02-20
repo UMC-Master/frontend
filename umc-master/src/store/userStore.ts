@@ -39,11 +39,11 @@ export const useUserStore = create<UserState>((set) => ({
   fetchUser: async () => {
     try {
       const data = await getUsers();
-      console.log('스토어에 저장할 데이터:', data);  // 가져온 데이터 확인
+      console.log('스토어에 저장할 데이터:', data); // 가져온 데이터 확인
 
       // 데이터가 존재하면 저장, 아니면 null 처리
       if (data) {
-        set({ user: data as User });  // User 타입으로 캐스팅 후 저장
+        set({ user: data as User }); // User 타입으로 캐스팅 후 저장
         console.log('저장된 상태:', useUserStore.getState().user);
       } else {
         console.warn('API 응답이 비어 있습니다.');
