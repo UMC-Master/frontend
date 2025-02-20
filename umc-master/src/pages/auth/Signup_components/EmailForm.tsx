@@ -30,7 +30,7 @@ const EmailForm: React.FC<{
   const [emailSent, setEmailSent] = useState<boolean>(false); 
   const [verified, setVerified] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(180);
-  const [retryEnabled, setRetryEnabled] = useState<boolean>(false);
+  const [isEmailDuplicate, setIsEmailDuplicate] = useState<boolean>(false);
 
   const fullEmail = localPart && domain ? `${localPart}@${domain}` : "";
 
@@ -49,9 +49,7 @@ const EmailForm: React.FC<{
       timerInterval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
-    } else if (timer === 0) {
-      setRetryEnabled(true);
-    }
+    } 
     return () => {
       if (timerInterval) {
         clearInterval(timerInterval);
@@ -115,6 +113,25 @@ const EmailForm: React.FC<{
     console.log("이메일 입력:", updatedFullEmail);
   };
   
+  // 이메일 중복 체크
+  const checkEmailDuplicate = async () => {
+    if (!fullEmail) {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("/check-email", { email: fullEmail });
+      if (!response.data.isSuccess) { // isSuccess가 false일 때 사용 가능한 이메일
+        setIsEmailDuplicate(false);
+        alert("이메일이 이미 존재합니다.");
+      } else {
+        setIsEmailDuplicate(true);
+        alert("사용 가능한 이메일입니다.");
+      }
+    } catch (error) {
+      alert("이메일 중복 확인에 실패했습니다.");
+    }
+  };
 
   const handleRetry = () => {
     setLocalPart("");
@@ -123,7 +140,6 @@ const EmailForm: React.FC<{
     setEmailSent(false);
     setVerified(false);
     setTimer(180);
-    setRetryEnabled(false); 
   };
 
   return (
@@ -147,7 +163,7 @@ const EmailForm: React.FC<{
         <EmailSelect
           value={domain}
           onChange={handleDomainChange}
-          disabled={emailSent}
+          disabled={emailSent || verified}
         >
           {emails.map((email) => (
             <option key={email.value} value={email.value}>
@@ -155,8 +171,16 @@ const EmailForm: React.FC<{
             </option>
           ))}
         </EmailSelect>
-        <Button variant="emailCheck" onClick={handleEmailRequest} disabled={emailSent}>
-          이메일 인증
+        <Button 
+          variant="emailCheck" 
+          onClick={isEmailDuplicate === false ? checkEmailDuplicate : handleEmailRequest} 
+          disabled={emailSent || verified}
+          style={{
+            backgroundColor: isEmailDuplicate === false ? theme.colors.primary[500] : theme.colors.primary[900],
+            transition: 'background-color 0.5s ease'
+          }}
+        >
+          {isEmailDuplicate === false && !emailSent ? "중복 확인" : "이메일 인증"}
         </Button>
       </Email>
       <Email>
@@ -175,7 +199,7 @@ const EmailForm: React.FC<{
             variant="titleXxxSmall"
             style={{color: theme.colors.red[500]}}
           >남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초</Typography>
-          <Button variant="emailCheck" onClick={handleRetry} disabled={retryEnabled} >
+          <Button variant="emailCheck" onClick={handleRetry} >
             재시도
           </Button>
         </Timer>
