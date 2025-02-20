@@ -24,10 +24,10 @@ const SaveTipDetailPage: React.FC = () => {
       {/* TODO: 유저 토글 여부 - 일단 false로 전달*/}
       <FloatingToggleBtn
         tipId={Number(tipId)}
-        initialLikes={detail._count.likes}
-        initialSaves={detail._count.saves}
-        userLiked={false}
-        userSaved={false}
+        initialLikes={detail.likesCount}
+        initialSaves={detail.savesCount}
+        userLiked={detail.isLiked}
+        userSaved={detail.isBookmarked}
       />
     </Container>
   );

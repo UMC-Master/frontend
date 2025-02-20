@@ -18,12 +18,18 @@ interface FloatingToggleBtnProps {
   userSaved: boolean;
 }
 
-const FloatingToggleBtn: React.FC<FloatingToggleBtnProps> = ({ tipId, initialLikes, initialSaves }) => {
+const FloatingToggleBtn: React.FC<FloatingToggleBtnProps> = ({
+  tipId,
+  initialLikes,
+  initialSaves,
+  userLiked,
+  userSaved,
+}) => {
   //TODO: 유저 추가 여부 서버에서 데이터 주면 추가 예정
   const [likes, setLikes] = useState(initialLikes);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(userLiked);
   const [saves, setSaves] = useState(initialSaves);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(userSaved);
 
   const { mutate: toggleLike } = useToggleLike(tipId);
   const { mutate: toggleBookmark } = useToggleBookmark(tipId);
@@ -40,53 +46,51 @@ const FloatingToggleBtn: React.FC<FloatingToggleBtnProps> = ({ tipId, initialLik
     setSaved(!saved);
   };
 
-  const realUrl = "https://umc-master-frontend.vercel.app"; // 실제 URL을 여기에 설정하세요
+  const realUrl = 'https://umc-master-frontend.vercel.app'; // 실제 URL을 여기에 설정하세요
   // const realUrl = window.location.href; // 현재 보고 있는 페이지의 URL
   const loadKakaoSDK = () => {
-    const script = document.createElement("script");
-    script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js";
+    const script = document.createElement('script');
+    script.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js';
     script.integrity = import.meta.env.VITE_INTEGRITY_VALUE; // 환경 변수 사용
-    script.crossOrigin = "anonymous";
+    script.crossOrigin = 'anonymous';
     script.onload = () => {
-      console.log("Kakao SDK 로드 완료");
+      console.log('Kakao SDK 로드 완료');
     };
     document.head.appendChild(script);
   };
-  
+
   loadKakaoSDK();
-  
+
   useEffect(() => {
-      if (!window.Kakao) return;
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init(`${import.meta.env.VITE_JAVASCRIPT_KEY}`); // 여기에 카카오 앱 키를 넣어주세요
-      }
+    if (!window.Kakao) return;
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(`${import.meta.env.VITE_JAVASCRIPT_KEY}`); // 여기에 카카오 앱 키를 넣어주세요
+    }
   }, []);
   const shareKakao = () => {
-    
-      if (!window.Kakao) {
-          console.error("Kakao SDK가 로드되지 않았습니다.");
-          return;
-      }
-      window.Kakao.Share.sendDefault({
-          objectType: "feed",
-          content: {
-              title: "오늘의 꿀팁",
-              description: "오늘의 꿀팁을 보러 갈까요?",
-              imageUrl:
-                  "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
-              link: {
-                  mobileWebUrl: realUrl,
-              },
+    if (!window.Kakao) {
+      console.error('Kakao SDK가 로드되지 않았습니다.');
+      return;
+    }
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '오늘의 꿀팁',
+        description: '오늘의 꿀팁을 보러 갈까요?',
+        imageUrl: 'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
+        link: {
+          mobileWebUrl: realUrl,
+        },
+      },
+      buttons: [
+        {
+          title: '나도 꿀팁 보러가기',
+          link: {
+            mobileWebUrl: realUrl,
           },
-          buttons: [
-              {
-                  title: "나도 꿀팁 보러가기",
-                  link: {
-                      mobileWebUrl: realUrl,
-                  },
-              },
-          ],
-      });
+        },
+      ],
+    });
   };
 
   return (
