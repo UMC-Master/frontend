@@ -4,6 +4,7 @@ import NumberCard from '@components/Card/NumberCard';
 import dummyImage from '@assets/dummyImage/clean.png';
 import styled from 'styled-components';
 import SkeletonCard from '@components/Skeleton/SkeletonCard';
+import { useNavigate } from 'react-router-dom';
 
 interface Tip {
   id: number;
@@ -94,6 +95,12 @@ const TipSection = () => {
     return () => observerRef.current?.disconnect();
   }, [isLoading, hasMore, loadMoreData]);
 
+  const navigate = useNavigate();
+
+  const handleCardClick = (id: number) => {
+    navigate(`/challenge/${id}`); // 상세 페이지로 이동
+  };
+
   return (
     <Container>
       <ChallengeHeader
@@ -103,7 +110,7 @@ const TipSection = () => {
         onSortChange={setSortBy}
       />
 
-      <NumberCard cards={displayedCards} showNumber={sortBy !== 'latest'} />
+      <NumberCard cards={displayedCards} showNumber={sortBy !== 'latest'} onCardClick={handleCardClick}/>
 
       {/* 마지막 요소 감지용 div */}
       {hasMore && !isLoading && <div ref={lastElementRef} style={{ height: '10px' }} />}
