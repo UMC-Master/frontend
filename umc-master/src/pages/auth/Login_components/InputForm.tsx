@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Input from '@components/Input/Input';
 import useInput from '@hooks/useInput';
 import { validateEmailFormat, validatePasswordFormat } from '@utils/validation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@components/Button/Button';
 import Kakao_Image from '@assets/kakao_login/kakao_login_large_wide.png';
 import { useNavigate } from 'react-router-dom';
@@ -15,12 +15,64 @@ import { useTokenStore } from '@store/tokenStore';
 const InputForm: React.FC = () => {
   const { setAuth } = useAuthStore();
   const { setTokens } = useTokenStore.getState();
+  const navigate = useNavigate();
 
+  // ✅ 카카오 SDK 로드
+  useEffect(() => {
+    if (!window.Kakao) {
+      const script = document.createElement("script");
+      script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+      script.async = true;
+      script.onload = () => {
+        if (window.Kakao) {
+          window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
+          console.log("✅ 카카오 SDK 초기화 완료");
+        }
+      };
+      document.head.appendChild(script);
+    }
+  }, []);
+
+
+  // ✅ 팝업 방식 카카오 로그인
   const handleKakaoLogin = () => {
-    const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=https://www.hmaster.shop/oauth/kakao/callback&response_type=code`;
-    window.location.href = kakaoAuthUrl;
+    if (!window.Kakao) {
+      alert("카카오 SDK 로드 실패");
+      return;
+    }
+
+    window.Kakao.Auth.login({
+      scope: "profile_nickname, account_email",
+      success: async (authObj: { access_token: any; }) => {
+        console.log("✅ 카카오 로그인 성공!", authObj);
+
+        try {
+          const response = await axiosInstance.post("/login/kakao", {
+            kakaoAccessToken: authObj.access_token,
+          });
+
+          const { accessToken, refreshToken } = response.data.result;
+
+          setTokens({ accessToken, refreshToken });
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+
+          alert("로그인 성공!");
+          setAuth(true);
+          navigate("/main");
+        } catch (error: any) {
+          console.error("카카오 로그인 실패:", error.response?.data || error.message);
+          alert(error.response?.data?.message || "카카오 로그인에 실패했습니다.");
+        }
+      },
+      fail: (err: any) => {
+        console.error("❌ 카카오 로그인 실패:", err);
+        alert("카카오 로그인에 실패했습니다.");
+      },
+    });
   };
+
+  
 
   const handleEmailLogin = async () => {
     try {
@@ -109,8 +161,6 @@ const InputForm: React.FC = () => {
 
     await handleEmailLogin();
   };
-
-  const navigate = useNavigate(); // 추가
 
   return (
     <LoginInputForm onSubmit={formSubmitHandler}>
