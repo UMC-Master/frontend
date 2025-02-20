@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import { useComments } from '@apis/queries/useCommentQueries';
-import { useAddComment, useDeleteComment, useUpdateComment } from '@apis/queries/useCommentMutations';
+import { Comment, useAddComment, useDeleteComment, useUpdateComment } from '@apis/queries/useCommentMutations';
 import { useUserStore } from '@store/userStore';
 import Typography from '@components/common/typography';
 import SkeletonComment from '@components/Skeleton/SkeletonComment';
@@ -89,7 +89,7 @@ const CommentView: React.FC = () => {
       <CommentList>
         {isLoading
           ? Array.from({ length: COMMENTS_PER_LOAD }).map((_, index) => <SkeletonComment key={index} />)
-          : comments.slice(0, visibleComments).map((cmt) => (
+          : comments.slice(0, visibleComments).map((cmt: Comment) => (
               <CommentCard key={cmt.comment_id}>
                 <CommentHeader>
                   <ProfileImg src={cmt.user.profileImageUrl || ProfileDefault} />

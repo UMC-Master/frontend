@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getComments, addComment, editComment, deleteComment } from '@apis/commentApi';
 import { useUserStore } from '@store/userStore';
-
-interface Comment {
+export interface Comment {
   comment_id: number;
   user: {
     user_id: number;
+    nickname: string;
+    profileImageUrl?: string | null;
   };
   comment: string;
+  created_at: string;
 }
 
 export const useAddComment = (tipId: number) => {
