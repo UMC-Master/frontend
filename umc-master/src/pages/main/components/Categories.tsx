@@ -1,15 +1,11 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-free/css/all.css';
 import Typography from '@components/common/typography';
 import Tag from '@components/Tag/Tag';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryInputSection from './CategoriesInputSection';
-
-const dummyInterests = [
-  { text: '청소', selected: true },
-  { text: '요리', selected: true },
-  { text: '재활용', selected: true },
-];
+import { useUserStore } from '@store/userStore';
 
 const dummyCategories = [
   { section: '계절', tags: ['봄', '여름', '가을', '겨울'] },
@@ -23,9 +19,20 @@ const dummyCategories = [
   { section: '주거', tags: ['주택', '원룸', '빌라', '아파트', '기숙사'] },
 ];
 
-const InterestsAndCategories: React.FC = () => {
-  const [isCategoryVisible, setIsCategoryVisible] = useState(true);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+interface InterestsAndCategoriesProps {
+  userHashtags?: string[];
+}
+
+const InterestsAndCategories: React.FC<InterestsAndCategoriesProps> = ({ userHashtags }) => {
+  const [isCategoryVisible, setIsCategoryVisible] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>(userHashtags || []); // 초기값으로 userHashtags 설정
+  const { user, updateProfile, fetchUser } = useUserStore();
+
+  useEffect(() => {
+    if (userHashtags) {
+      setSelectedTags(userHashtags);
+    }
+  }, [userHashtags]);
 
   const handleTagClick = (tag: string) => {
     setSelectedTags((prev) => {
@@ -40,8 +47,24 @@ const InterestsAndCategories: React.FC = () => {
     });
   };
 
-  const handleComplete = () => {
-    alert(`선택된 태그: ${selectedTags.join(', ')}`);
+  const handleComplete = async () => {
+    try {
+      await updateProfile({
+        nickname: user?.nickname,
+        city: user?.city || '',
+        district: user?.district || '',
+        hashtags: selectedTags,
+      });
+
+      await fetchUser();
+
+      alert('관심사 재설정이 완료되었습니다.');
+
+      setIsCategoryVisible(false);
+    } catch (error) {
+      alert('관심사 업데이트에 실패했습니다.');
+      console.error(error);
+    }
   };
 
   const toggleCategoryVisibility = () => {
@@ -56,13 +79,13 @@ const InterestsAndCategories: React.FC = () => {
       <Section>
         <StyledTypographyWrapper>
           <Typography style={{ marginRight: '4px' }} variant="headingXxxSmall">
-            애니
+            {user?.nickname}
           </Typography>
           <Typography variant="titleXSmall"> 님의 관심사</Typography>
         </StyledTypographyWrapper>
         <TagsWrapper>
-          {dummyInterests.map((interest, index) => (
-            <Tag key={index} text={interest.text} selected={interest.selected} />
+          {selectedTags.map((tag, index) => (
+            <Tag key={index} text={tag} selected={true} />
           ))}
         </TagsWrapper>
       </Section>
