@@ -17,7 +17,6 @@ export interface NewPost {
 export interface GetSavedParams {
   page: number;
 }
-
 export const getTips = async ({ pageParam, sorted }: GetTipsParams) => {
   const { data } = await axiosInstance.get(`/tips/sorted?page=${pageParam}&limit=5&sort=${sorted}`);
   return data;

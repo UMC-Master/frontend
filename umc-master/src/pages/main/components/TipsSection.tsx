@@ -90,6 +90,8 @@ const TipsSection: React.FC<TipsSectionProps> = ({
   showArrows = false,
   showLikes = true,
   showRecent = false,
+  items,
+  isLoading,
   defaultSort = 'latest',
   timeFilter = 'none',
   tags,

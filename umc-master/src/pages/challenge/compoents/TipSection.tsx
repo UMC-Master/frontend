@@ -80,7 +80,6 @@ const TipSection = () => {
   const loadMoreData = useCallback(() => {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
-
     // 추가 로딩도 1초 지연
     setTimeout(() => {
       setLoadedCount((prev) => prev + PAGE_SIZE);
@@ -98,7 +97,6 @@ const TipSection = () => {
         loadMoreData();
       }
     });
-
     if (lastElementRef.current) {
       observerRef.current.observe(lastElementRef.current);
     }
