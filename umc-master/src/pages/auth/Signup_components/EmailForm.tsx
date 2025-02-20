@@ -73,12 +73,48 @@ const EmailForm: React.FC<{
     }
   };
 
+  const handleVerifyCode = async () => {
+    if (!authCode) {
+      alert("인증번호를 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await axiosInstance.post("/auth/verify-email-code", {
+        email: fullEmail,
+        code: authCode,
+      });
+      console.log("서버 응답:", response.data);
+      if (response.data) {
+        alert("이메일 인증이 완료되었습니다.");
+        setVerified(true);
+      } else {
+        alert("인증번호가 올바르지 않습니다.");
+      }
+    } catch (error) {
+      alert("인증번호 확인에 실패했습니다.");
+    }
+  };
+
+  const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const updatedDomain = e.target.value;
+    setDomain(updatedDomain);
+  
+    const updatedFullEmail = `${localPart}@${updatedDomain}`;
+    onEmailChange(updatedFullEmail);
+  
+    console.log("도메인 변경:", updatedFullEmail);
+  };  
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     setLocalPart(email);
-    onEmailChange(email);
-    console.log("이메일: ", email);
-  };  
+  
+    const updatedFullEmail = `${email}@${domain}`; // 최신 도메인 사용
+    onEmailChange(updatedFullEmail);
+  
+    console.log("이메일 입력:", updatedFullEmail);
+  };
+  
 
   const handleRetry = () => {
     setLocalPart("");
@@ -110,7 +146,7 @@ const EmailForm: React.FC<{
         >@</Typography>
         <EmailSelect
           value={domain}
-          onChange={(e) => setDomain(e.target.value)}
+          onChange={handleDomainChange}
           disabled={emailSent}
         >
           {emails.map((email) => (
@@ -131,12 +167,15 @@ const EmailForm: React.FC<{
           value={authCode}
           onChange={(e) => setAuthCode(e.target.value)}
         />
-        <Button variant="emailCheck">인증 확인</Button>
+        <Button variant="emailCheck" onClick={handleVerifyCode} disabled={verified}>인증 확인</Button>
       </Email>
       {emailSent && (
         <Timer>
-          <p>남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초</p>
-          <Button variant="emailCheck" onClick={handleRetry} disabled={!retryEnabled}>
+          <Typography 
+            variant="titleXxxSmall"
+            style={{color: theme.colors.red[500]}}
+          >남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초</Typography>
+          <Button variant="emailCheck" onClick={handleRetry} disabled={retryEnabled} >
             재시도
           </Button>
         </Timer>
@@ -199,6 +238,9 @@ const Timer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 275px;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 10px;
+  width: 100%; /* 부모 컨테이너에서 중앙 정렬 */
+  align-self: center;
 `
