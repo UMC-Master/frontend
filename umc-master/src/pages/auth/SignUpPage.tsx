@@ -52,6 +52,7 @@ const handleSignUpComplete = async () => {
     const userSignupData = { email, password, nickname, hashtags };
     console.log("회원가입 확인:", userSignupData)
     await postSignup(userSignupData);
+    alert("회원가입 성공!");
     navigate("/login");
   } catch (error) {
     console.error("회원가입 오류:", error);
