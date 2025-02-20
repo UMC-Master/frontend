@@ -101,6 +101,8 @@ const EmailForm: React.FC<{
     onEmailChange(updatedFullEmail);
   
     console.log("도메인 변경:", updatedFullEmail);
+
+    setIsEmailDuplicate(false); // 중복 확인 버튼을 다시 활성화
   };  
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +113,8 @@ const EmailForm: React.FC<{
     onEmailChange(updatedFullEmail);
   
     console.log("이메일 입력:", updatedFullEmail);
+
+    setIsEmailDuplicate(false); // 중복 확인 버튼을 다시 활성화
   };
   
   // 이메일 중복 체크
@@ -121,15 +125,12 @@ const EmailForm: React.FC<{
     }
     try {
       const response = await axiosInstance.post("/check-email", { email: fullEmail });
-      if (!response.data.isSuccess) { // isSuccess가 false일 때 사용 가능한 이메일
-        setIsEmailDuplicate(false);
-        alert("이메일이 이미 존재합니다.");
-      } else {
+      if (response.data.isSuccess) {
         setIsEmailDuplicate(true);
         alert("사용 가능한 이메일입니다.");
       }
     } catch (error) {
-      alert("이메일 중복 확인에 실패했습니다.");
+      alert("이메일이 이미 존재합니다.");
     }
   };
 
