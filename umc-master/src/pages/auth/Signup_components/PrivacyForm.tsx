@@ -5,6 +5,7 @@ import { styled, useTheme } from "styled-components";
 import CameraImg from "@assets/cameraImg.svg"
 import { addressOptions, busanDistricts, chungcheongbukDistricts, chungcheongnamDistricts, daeguDistricts, daejeonDistricts, gangwonDistricts, gwangjuDistricts, gyeonggiDistricts, gyeongsangbukDistricts, gyeongsangnamDistricts, incheonDistricts, jejuDistricts, jeollabukDistricts, jeollanamDistricts, sejongDistricts, seoulDistricts } from "../dummydata/region_dummy";
 import { useState } from "react";
+import gray_character from '@assets/gray-character.png';
 
 interface District {
   value: string;
@@ -16,9 +17,11 @@ const PrivacyForm: React.FC<{
   onNicknameChange: (nickname: string) => void; 
 }> = ({ onCheckRequired, onNicknameChange }) => {
 
+  const theme = useTheme();
+
+  const [profileImageUrl, setProfileImageUrlLocal] = useState(gray_character);
   const [selectedCity, setSelectedCity] = useState<string>("default");
   const [districts, setDistricts] = useState<District[]>([]);
-
   const [nickname, setNickname] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -103,17 +106,34 @@ const PrivacyForm: React.FC<{
             break;
         }
       };
-  
-  const theme = useTheme();
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        setProfileImageUrlLocal(imageUrl); // 로컬 상태 업데이트
+        // api 연결
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Container>
       <Profile>
-        <Typography 
-          variant="headingXxxSmall"
-          style={{color: theme.colors.primary[700]}}
-        >프로필 사진 (선택)</Typography>
-        <ProfileImg/>
-        <Img src={CameraImg}/>
+        <ProfileImage src={profileImageUrl} alt="Profile Image"/>
+        <Img 
+          src={CameraImg}
+          onClick={() => document.getElementById('fileInput')?.click()}
+        />
+        <InputImg
+          id = "fileInput"
+          type = 'file'
+          accept = "image/*"
+          onChange={handleImageChange}
+        />
       </Profile>
       <InfoEditForm>
         <NameEditForm>
@@ -181,11 +201,13 @@ const Profile = styled.div`
   gap: 30px;
 `
 
-const ProfileImg = styled.div`
+const ProfileImage = styled.img`
   width: 140px;
   height: 140px;
   background-color: rgb(230, 230, 230);
   border-radius: 50%;
+  object-fit: cover;  /* 이미지 비율 유지하면서 잘리도록 설정 */
+  object-position: center;  /* 이미지의 중심을 기준으로 정렬 */
 `
 
 const Img = styled.img`
@@ -195,6 +217,10 @@ const Img = styled.img`
   width: 60px;
   height: 60px;
   cursor: pointer;
+`
+
+const InputImg = styled.input`
+  display: none;
 `
 
 const Privacy = styled.div`
