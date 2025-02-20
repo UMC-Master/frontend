@@ -1,62 +1,68 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import styled from 'styled-components';
-import Input from '@components/Input/Input';
-import useInput from '@hooks/useInput';
-import { validateEmailFormat, validatePasswordFormat } from '@utils/validation';
-import { useEffect, useState } from 'react';
-import Button from '@components/Button/Button';
-import Kakao_Image from '@assets/kakao_login/kakao_login_large_wide.png';
-import { useNavigate } from 'react-router-dom';
-import axiosInstance from '@apis/axios-instance';
-import { useAuthStore } from '@store/authStore';
-import { useTokenStore } from '@store/tokenStore';
-import Typography from '@components/common/typography';
+import Typography from "@components/common/typography";
+import styled from "styled-components";
+import Input from "@components/Input/Input";
+import useInput from "@hooks/useInput";
+import { validateEmailFormat, validatePasswordFormat } from "@utils/validation";
+import { useState, useEffect } from "react";
+import Button from "@components/Button/Button";
+import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "@apis/axios-instance";
+import { useAuthStore } from "@store/authStore";
+import { useTokenStore } from "@store/tokenStore";
 
 const InputForm: React.FC = () => {
   const { setAuth } = useAuthStore();
   const { setTokens } = useTokenStore.getState();
   const navigate = useNavigate();
 
-  // ✅ 카카오 SDK 로드
   useEffect(() => {
     if (!window.Kakao) {
+      console.log("🚨 카카오 SDK가 로드되지 않음"); // ✅ SDK 로드 확인
       const script = document.createElement("script");
       script.src = "https://developers.kakao.com/sdk/js/kakao.js";
       script.async = true;
       script.onload = () => {
         if (window.Kakao) {
           window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
-          console.log("✅ 카카오 SDK 초기화 완료");
+          console.log("✅ 카카오 SDK 초기화 완료:", window.Kakao);
         }
       };
       document.head.appendChild(script);
+    } else {
+      console.log("✅ 카카오 SDK 이미 로드됨:", window.Kakao);
     }
   }, []);
 
-
-  // ✅ 팝업 방식 카카오 로그인
+  
   const handleKakaoLogin = () => {
+    console.log("🚀 카카오 로그인 버튼 클릭됨"); // ✅ 버튼 클릭 확인
+  
     if (!window.Kakao) {
       alert("카카오 SDK 로드 실패");
       return;
     }
-
+  
+    console.log("✅ 카카오 SDK 확인됨:", window.Kakao); // ✅ SDK 존재 여부 확인
+  
     window.Kakao.Auth.login({
       scope: "profile_nickname, profile_image",
       success: async (authObj: { access_token: any; }) => {
         console.log("✅ 카카오 로그인 성공!", authObj);
-
+  
         try {
           const response = await axiosInstance.post("/login/kakao", {
             kakaoAccessToken: authObj.access_token,
           });
-
+  
+          console.log("✅ 백엔드 응답:", response.data); // ✅ 백엔드 응답 확인
+  
           const { accessToken, refreshToken } = response.data.result;
-
           setTokens({ accessToken, refreshToken });
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-
+  
           alert("로그인 성공!");
           setAuth(true);
           navigate("/main");
@@ -71,12 +77,11 @@ const InputForm: React.FC = () => {
       },
     });
   };
-
   
 
   const handleEmailLogin = async () => {
     try {
-      const response = await axiosInstance.post('/login', {
+      const response = await axiosInstance.post("/login", {
         email,
         password,
       });
@@ -84,17 +89,15 @@ const InputForm: React.FC = () => {
       const { accessToken, refreshToken } = response.data.result;
 
       setTokens({ accessToken, refreshToken });
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
-      alert('로그인 성공!');
+      alert("로그인 성공!");
       setAuth(true);
-      navigate('/main');
+      navigate("/main");
     } catch (error: any) {
-      console.error('로그인 실패:', error.response?.data || error.message);
-      alert(error.response?.data?.message || '로그인에 실패했습니다.');
-      console.error('로그인 실패:', error.response?.data || error.message);
-      alert(error.response?.data?.message || '로그인에 실패했습니다.');
+      console.error("로그인 실패:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "로그인에 실패했습니다.");
     }
   };
 
