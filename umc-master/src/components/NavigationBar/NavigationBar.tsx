@@ -75,7 +75,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
       </Nav>
 
       <AlarmModal isOpen={isAlarmModalOpen} onClose={toggleAlarmModal} />
-      <ProfileModal isOpen={isProfileModalOpen} onClose={toggleProfileModal} />
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={toggleProfileModal}
+        profileImage={user?.profile_image_url || gray_character}
+      />
     </Container>
   );
 };
