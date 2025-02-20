@@ -1,4 +1,5 @@
 import axiosInstance from '@apis/axios-instance';
+import { PolicyData } from '@pages/magazine/components/cardGrid';
 interface GetPoliciesParams {
   locationId: number;
 }
@@ -48,9 +49,9 @@ export interface Hashtag {
   popularity: number;
 }
 
-export const getPolicies = async ({ locationId }: GetPoliciesParams): Promise<Policy[]> => {
+export const getPolicies = async ({ locationId }: GetPoliciesParams): Promise<PolicyData[]> => {
   const { data } = await axiosInstance.get(`/policies?location_id=${locationId}`);
-  return data.result;
+  return data.result.policy_list;
 };
 
 export const getPolicyGuide = async ({ policyId }: { policyId: number }): Promise<Policy> => {
