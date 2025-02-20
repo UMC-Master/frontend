@@ -14,6 +14,7 @@ const PasswordForm: React.FC<{
 
 
   const theme = useTheme();
+
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState<string>('');
@@ -56,8 +57,8 @@ const PasswordForm: React.FC<{
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
-    setPassword(newPassword);
     onPasswordChange(newPassword); // 상위 컴포넌트에 전달
+    passwordChangeHandler(e);
     console.log("비밀번호: ", newPassword);
   };
   
