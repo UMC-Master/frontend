@@ -77,6 +77,7 @@ const EmailForm: React.FC<{
     const email = e.target.value;
     setLocalPart(email);
     onEmailChange(email);
+    console.log("이메일: ", email);
   };  
 
   const handleRetry = () => {
