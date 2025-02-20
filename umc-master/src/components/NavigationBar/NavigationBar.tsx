@@ -37,7 +37,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
     <Container>
       <Nav>
         <LeftSection>
-          <NavLink to={RoutePaths.MAIN}>
+          <NavLink to={RoutePaths.MAIN} onClick={handleNavClick}>
             <Logo src={LogoImage} alt="Logo" />
           </NavLink>
           <Typography variant="titleXxSmall">
