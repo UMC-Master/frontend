@@ -19,6 +19,7 @@ import ChallengePage from '@pages/challenge/ChallengePage';
 import ChatPage from '@pages/chat/ChatPage';
 import ErrorPage from '@pages/error/ErrorPage';
 import MyChallengePage from '@pages/mychallenge/MyChallenge';
+import ChallengeDetailPage from '@pages/challenge/ChallengeDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
           { path: RoutePaths.KAKAO_CALLBACK, element: <KakaoCallback /> },
           { path: RoutePaths.CHALLENGE, element: <ChallengePage /> },
           { path: RoutePaths.MYCHALLENGE, element: <MyChallengePage /> },
+          { path: RoutePaths.CHALLENGE_DETAIL, element: <ChallengeDetailPage /> },
           { path: RoutePaths.CHAT, element: <ChatPage /> },
         ],
       },

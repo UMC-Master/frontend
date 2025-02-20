@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NumberCard from '@components/Card/NumberCard';
 import SkeletonCard from '@components/Skeleton/SkeletonCard';
 import dummyImage from '@assets/dummyImage/clean.png';
+import { useNavigate } from 'react-router-dom';
 
 interface Tip {
   id: number;
@@ -67,6 +68,12 @@ const TipSection = () => {
     return sortedAllData.slice(0, 10);
   }, [sortedAllData]);
 
+  const navigate = useNavigate();
+
+  const handleCardClick = (id: number) => {
+    navigate(`/challenge/${id}`); // 상세 페이지로 이동
+  };
+
   return (
     <Container>
       {isLoading ? (
@@ -76,7 +83,7 @@ const TipSection = () => {
           ))}
         </SkeletonGrid>
       ) : (
-        <NumberCard cards={displayedCards} showNumber={false} />
+        <NumberCard cards={displayedCards} showNumber={false} onCardClick={handleCardClick}/>
       )}
     </Container>
   );
