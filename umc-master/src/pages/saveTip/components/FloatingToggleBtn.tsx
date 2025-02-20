@@ -25,7 +25,6 @@ const FloatingToggleBtn: React.FC<FloatingToggleBtnProps> = ({
   userLiked,
   userSaved,
 }) => {
-  //TODO: 유저 추가 여부 서버에서 데이터 주면 추가 예정
   const [likes, setLikes] = useState(initialLikes);
   const [liked, setLiked] = useState(userLiked);
   const [saves, setSaves] = useState(initialSaves);
@@ -107,8 +106,8 @@ const FloatingToggleBtn: React.FC<FloatingToggleBtnProps> = ({
           {saves}
         </Typography>
       </InteractionBtn>
-      <InteractionBtn>
-        <BtnImg src={Link} alt="공유하기" onClick={shareKakao} />
+      <InteractionBtn onClick={shareKakao}>
+        <BtnImg src={Link} alt="공유하기" />
         <Typography variant="bodyXSmall" style={{ color: theme.colors.text.lightGray }}>
           공유하기
         </Typography>
