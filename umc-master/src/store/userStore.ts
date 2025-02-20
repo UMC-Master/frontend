@@ -1,28 +1,36 @@
 import { create } from 'zustand';
 import { getUsers } from '@apis/profileApi';
+import axiosInstance from '@apis/axios-instance';
 
 interface User {
-    user_id: number;
-    email: string;
-    nickname: string;
-    city: string | null;
-    district: string | null;
-    profile_image_url: string | null;
-    provider: string;
-    providerId: string;
-    role: string;
-    status: string;
-    created_at: string;
-    updated_at: string;
-    last_login: string | null;
-    location_id: string | null;
-  }
+  user_id: number;
+  email: string;
+  nickname: string;
+  city: string | null;
+  district: string | null;
+  profile_image_url: string | null;
+  provider: string;
+  providerId: string;
+  role: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  last_login: string | null;
+  location_id: string | null;
+  hashtags: string[];
+}
+interface ProfileUpdateData {
+  nickname?: string;
+  city?: string;
+  district?: string;
+  hashtags?: string[];
+}
 
 interface UserState {
   user: User | null;
   fetchUser: () => Promise<void>;
+  updateProfile: (profileData: ProfileUpdateData) => Promise<void>;
   clearUser: () => void;
-  setProfileImageUrl: (imageUrl: string) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -43,6 +51,16 @@ export const useUserStore = create<UserState>((set) => ({
       }
     } catch (error) {
       console.error('사용자 정보 조회 실패:', error);
+    }
+  },
+
+  updateProfile: async (profileData: { nickname?: string; city?: string; district?: string; hashtags?: string[] }) => {
+    try {
+      const response = await axiosInstance.put('/profile', profileData);
+      set({ user: response.data });
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+      throw error;
     }
   },
 
