@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/prop-types */
+import axiosInstance from "@apis/axios-instance";
 import Button from "@components/Button/Button";
 import Typography from "@components/common/typography";
 import Input from "@components/Input/Input";
@@ -6,6 +8,7 @@ import { useEffect, useState } from "react";
 import styled, { useTheme } from "styled-components";
 
 const emails = [
+  { value: "", label: "선택" },
   { value: "naver.com", label: "naver.com" },
   { value: "daum.net", label: "daum.net" }, 
   { value: "gmail.com", label: "gmail.com" }, 
@@ -14,21 +17,77 @@ const emails = [
   { value: "outlook.com", label: "outlook.com" }, 
 ];
 
-const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ onCheckRequired }) => {
+const EmailForm: React.FC<{ 
+  onCheckRequired: (isValid: boolean) => void,
+  onEmailChange: (email: string) => void
+}> = ({ onCheckRequired, onEmailChange }) => {
   
   const theme = useTheme();
 
-  const [email, setEmail] = useState<string>('');
   const [authCode, setAuthCode] = useState<string>('');
+  const [localPart, setLocalPart] = useState<string>("");
+  const [domain, setDomain] = useState<string>("");
+  const [emailSent, setEmailSent] = useState<boolean>(false); 
+  const [verified, setVerified] = useState<boolean>(false);
+  const [timer, setTimer] = useState<number>(180);
+  const [retryEnabled, setRetryEnabled] = useState<boolean>(false);
+
+  const fullEmail = localPart && domain ? `${localPart}@${domain}` : "";
 
   // 이메일과 인증번호 입력이 모두 채워졌는지 확인하는 useEffect
   useEffect(() => {
-    if (email && authCode) {
+    if (verified) {
       onCheckRequired(true); // 유효성 체크
     } else {
       onCheckRequired(false); // 유효성 체크
     }
-  }, [email, authCode, onCheckRequired]);
+  }, [verified, onCheckRequired]);
+
+  useEffect(() => {
+    let timerInterval: NodeJS.Timeout | undefined;
+    if (emailSent && timer > 0) {
+      timerInterval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setRetryEnabled(true);
+    }
+    return () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+    };
+  }, [emailSent, timer]);
+
+  const handleEmailRequest = async () => {
+    if (!localPart || !domain) {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    try {
+      await axiosInstance.post("/auth/send-verification-email", { email: fullEmail });
+      setEmailSent(true);
+      alert("인증 코드가 발송되었습니다.");
+    } catch (error) {
+      alert("이메일 인증 요청에 실패했습니다.");
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setLocalPart(email);
+    onEmailChange(email);
+  };  
+
+  const handleRetry = () => {
+    setLocalPart("");
+    setDomain("");
+    setAuthCode("");
+    setEmailSent(false);
+    setVerified(false);
+    setTimer(180);
+    setRetryEnabled(false); 
+  };
 
   return (
     <Container>
@@ -38,24 +97,30 @@ const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ 
       >이메일 입력 (필수) *</Typography>
       <Email>
         <Input 
-          errorMessage="" 
-          type={'email'} 
+          type={'text'} 
           placeholder={'이메일 입력'} 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={localPart}
+          onChange={handleEmailChange}
+          disabled={emailSent}
         />
         <Typography 
           variant="titleSmall"
           style={{color: theme.colors.text.lightGray}}
         >@</Typography>
-        <EmailSelect>
+        <EmailSelect
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)}
+          disabled={emailSent}
+        >
           {emails.map((email) => (
             <option key={email.value} value={email.value}>
               {email.label}
             </option>
           ))}
         </EmailSelect>
-        <Button variant="emailCheck">이메일 인증</Button>
+        <Button variant="emailCheck" onClick={handleEmailRequest} disabled={emailSent}>
+          이메일 인증
+        </Button>
       </Email>
       <Email>
         <Input 
@@ -67,6 +132,14 @@ const EmailForm: React.FC<{ onCheckRequired: (isValid: boolean) => void }> = ({ 
         />
         <Button variant="emailCheck">인증 확인</Button>
       </Email>
+      {emailSent && (
+        <Timer>
+          <p>남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초</p>
+          <Button variant="emailCheck" onClick={handleRetry} disabled={!retryEnabled}>
+            재시도
+          </Button>
+        </Timer>
+      )}
     </Container>
   );
 };
@@ -119,4 +192,12 @@ const EmailSelect = styled.select`
     background-color: ${({ theme }) => theme.colors.text.white};
     color: ${({ theme }) => theme.colors.text.black};
   }
+`
+
+const Timer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 275px;
+  margin-top: 10px;
 `
