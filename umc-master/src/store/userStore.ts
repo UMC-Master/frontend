@@ -28,6 +28,8 @@ interface ProfileUpdateData {
 
 interface UserState {
   user: User | null;
+  profileImageUrl: string;
+  setProfileImageUrl: (url: string) => void;
   fetchUser: () => Promise<void>;
   updateProfile: (profileData: ProfileUpdateData) => Promise<void>;
   clearUser: () => void;
@@ -66,10 +68,6 @@ export const useUserStore = create<UserState>((set) => ({
 
   clearUser: () => set({ user: null }),
 
-  setProfileImageUrl: (imageUrl: string) => set((state) => {
-    if (state.user) {
-      state.user.profile_image_url = imageUrl;
-    }
-    return state
-  })
+  profileImageUrl: "",
+  setProfileImageUrl: (url) => set({ profileImageUrl: url }),
 }));
