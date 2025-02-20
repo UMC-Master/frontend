@@ -120,7 +120,8 @@ const ImageGrid = styled.div<{ count: number }>`
       ? `grid-template-columns: 1fr;
        grid-auto-rows: 360px;`
       : count === 2
-        ? `grid-template-columns: 1fr 1fr;`
+        ? `grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 360px;`
         : count === 3
           ? `grid-template-columns: repeat(3, 1fr);`
           : count === 4
@@ -133,11 +134,11 @@ const ImageGrid = styled.div<{ count: number }>`
             `
             : count === 5
               ? `
-              grid-template-columns: 1fr 0.8fr 1fr; 
-              grid-template-rows: auto auto;
-              grid-template-areas: 
-                "left top right"
-                "left bottom-left bottom-right right";
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              & > :nth-child(4), & > :nth-child(5) {
+                grid-column: span 1;
+              }
             `
               : `grid-template-columns: repeat(3, 1fr);`}
 
@@ -163,18 +164,22 @@ const ImageItem = styled.img<{ index: number; count: number }>`
                 ? `grid-area: right; grid-row: span 2; height: 360px;`
                 : ''
         : // TODO: 수정
+          // count === 5
+          // ? index === 0
+          //   ? `grid-area: left; grid-row: span 2; height: 360px;`
+          //   : index === 1
+          //     ? `grid-area: top; height: 175px;`
+          //     : index === 2
+          //       ? `grid-area: bottom-left; grid-column: span 1; height: 175px;`
+          //       : index === 3
+          //         ? `grid-area: bottom-right; grid-column: span 1; height: 175px;`
+          //         : index === 4
+          //           ? `grid-area: right; grid-row: span 2; height: 360px;`
+          //           : ''
           count === 5
-          ? index === 0
-            ? `grid-area: left; grid-row: span 2; height: 360px;`
-            : index === 1
-              ? `grid-area: top; height: 175px;`
-              : index === 2
-                ? `grid-area: bottom-left; grid-column: span 1; height: 175px;`
-                : index === 3
-                  ? `grid-area: bottom-right; grid-column: span 1; height: 175px;`
-                  : index === 4
-                    ? `grid-area: right; grid-row: span 2; height: 360px;`
-                    : ''
+          ? index < 3
+            ? `grid-column: span 1; height: 360px;`
+            : `grid-column: span 2; height: 360px;`
           : `aspect-ratio: 16/9;`}
 `;
 const PostInfo = styled.div`
