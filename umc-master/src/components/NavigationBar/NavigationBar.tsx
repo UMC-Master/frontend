@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImage from '@assets/logo.png';
 import RoutePaths from '@router/routePaths';
@@ -32,32 +32,27 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
   return (
     <Container>
       <Nav>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '48px',
-          }}
-        >
-          <Link to={RoutePaths.MAIN}>
+        <LeftSection>
+          <NavLink to={RoutePaths.MAIN}>
             <Logo src={LogoImage} alt="Logo" />
-          </Link>
+          </NavLink>
           <Typography variant="titleXxSmall">
             <MenuItems>
-              <Link to={RoutePaths.MAGAZINE}>매거진</Link>
-              <Link to={RoutePaths.COMMUNITY}>꿀팁나눔</Link>
-              <Link to={RoutePaths.SAVE_TIP}>저장한 꿀팁</Link>
+              <StyledNavLink to={RoutePaths.MAGAZINE}>매거진</StyledNavLink>
+              <StyledNavLink to={RoutePaths.COMMUNITY}>꿀팁나눔</StyledNavLink>
+              <StyledNavLink to={RoutePaths.SAVE_TIP}>저장한 꿀팁</StyledNavLink>
+              <StyledNavLink to={RoutePaths.CHALLENGE}>챌린지</StyledNavLink>
             </MenuItems>
           </Typography>
-        </div>
+        </LeftSection>
+
         {login ? (
           <UserSection>
             <AlarmIcon onClick={toggleAlarmModal} />
-            <ProfileImg 
-              src={user?.profile_image_url || gray_character} 
-              alt="Profile Image" 
-              onClick={toggleProfileModal} 
+            <ProfileImg
+              src={user?.profile_image_url || gray_character}
+              alt="Profile Image"
+              onClick={toggleProfileModal}
             />
           </UserSection>
         ) : (
@@ -66,6 +61,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ login }) => {
           </LoginBtn>
         )}
       </Nav>
+
       <AlarmModal isOpen={isAlarmModalOpen} onClose={toggleAlarmModal} />
       <ProfileModal isOpen={isProfileModalOpen} onClose={toggleProfileModal} />
     </Container>
@@ -93,21 +89,38 @@ const Nav = styled.nav`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
+const LeftSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 48px;
+`;
+
 const Logo = styled.img`
-  height: 52px;
+  height: 42px;
   cursor: pointer;
 `;
 
 const MenuItems = styled.div`
   display: flex;
   gap: clamp(20px, 10vw, 40px);
+`;
 
-  a {
-    color: ${({ theme }) => theme.colors.text.black};
+const StyledNavLink = styled(NavLink)`
+  color: ${({ theme }) => theme.colors.text.black};
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary[400]};
+  }
+
+  &.active {
+    color: ${({ theme }) => theme.colors.primary[500]};
   }
 `;
 
-const LoginBtn = styled(Link)`
+const LoginBtn = styled(NavLink)`
   background: ${({ theme }) => theme.colors.primary[500]};
   color: ${({ theme }) => theme.colors.text.white};
   padding: 7px 27px;
