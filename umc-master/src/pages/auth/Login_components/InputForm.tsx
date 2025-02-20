@@ -1,79 +1,65 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Typography from "@components/common/typography";
-import styled from "styled-components";
-import Input from "@components/Input/Input";
-import useInput from "@hooks/useInput";
-import { validateEmailFormat, validatePasswordFormat } from "@utils/validation";
-import { useState, useEffect } from "react";
-import Button from "@components/Button/Button";
-import Kakao_Image from "@assets/kakao_login/kakao_login_large_wide.png";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "@apis/axios-instance";
-import { useAuthStore } from "@store/authStore";
-import { useTokenStore } from "@store/tokenStore";
+import Typography from '@components/common/typography';
+import styled from 'styled-components';
+import Input from '@components/Input/Input';
+import useInput from '@hooks/useInput';
+import { validateEmailFormat, validatePasswordFormat } from '@utils/validation';
+import { useState, useEffect } from 'react';
+import Button from '@components/Button/Button';
+import Kakao_Image from '@assets/kakao_login/kakao_login_large_wide.png';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '@apis/axios-instance';
+import { useAuthStore } from '@store/authStore';
+import { useTokenStore } from '@store/tokenStore';
+
+const KAKAO_REDIRECT_URI =
+  import.meta.env.MODE === 'development'
+    ? 'http://localhost:5173/oauth/kakao/callback'
+    : 'https://www.hmaster.shop/oauth/kakao/callback';
 
 const InputForm: React.FC = () => {
   const { setAuth } = useAuthStore();
-  const { setTokens } = useTokenStore.getState();
+  const { setTokens } = useTokenStore();
   const navigate = useNavigate();
 
-  // ✅ 카카오 SDK 로드
   useEffect(() => {
     if (!window.Kakao) {
-      const script = document.createElement("script");
-      script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+      console.warn('⚠️ window.Kakao가 없음, SDK 로드 시작');
+
+      const script = document.createElement('script');
+      script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
       script.async = true;
       script.onload = () => {
-        if (window.Kakao) {
-          window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
-          console.log("✅ 카카오 SDK 초기화 완료");
+        console.log('✅ 카카오 SDK 로드 완료:', window.Kakao);
+        if (window.Kakao && !window.Kakao.isInitialized()) {
+          console.error('❌ window.Kakao는 있지만 초기화되지 않음! init() 필요');
+          window.Kakao.init(import.meta.env.VITE_JAVASCRIPT_KEY);
+          console.log('✅ 카카오 SDK 강제 초기화 완료');
         }
       };
       document.head.appendChild(script);
+    } else {
+      console.log('✅ window.Kakao 이미 로드됨');
+      if (!window.Kakao.isInitialized()) {
+        console.error('❌ window.Kakao는 있지만 초기화되지 않음! init() 필요');
+        window.Kakao.init(import.meta.env.VITE_JAVASCRIPT_KEY);
+        console.log('✅ 카카오 SDK 강제 초기화 완료');
+      }
     }
   }, []);
 
-  // ✅ 팝업 방식 카카오 로그인
   const handleKakaoLogin = () => {
-    if (!window.Kakao) {
-      alert("카카오 SDK 로드 실패");
-      return;
-    }
+    const clientId = import.meta.env.VITE_JAVASCRIPT_KEY;
+    const redirectUri = encodeURIComponent(KAKAO_REDIRECT_URI);
+    const fallbackUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
 
-    window.Kakao.Auth.login({
-      scope: "profile_nickname, account_email",
-      success: async (authObj: { access_token: any; }) => {
-        console.log("✅ 카카오 로그인 성공!", authObj);
-
-        try {
-          const response = await axiosInstance.post("/login/kakao", {
-            kakaoAccessToken: authObj.access_token,
-          });
-
-          const { accessToken, refreshToken } = response.data.result;
-
-          setTokens({ accessToken, refreshToken });
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-
-          alert("로그인 성공!");
-          setAuth(true);
-          navigate("/main");
-        } catch (error: any) {
-          console.error("카카오 로그인 실패:", error.response?.data || error.message);
-          alert(error.response?.data?.message || "카카오 로그인에 실패했습니다.");
-        }
-      },
-      fail: (err: any) => {
-        console.error("❌ 카카오 로그인 실패:", err);
-        alert("카카오 로그인에 실패했습니다.");
-      },
-    });
+    console.log('✅ fallback URL로 리디렉션:', fallbackUrl);
+    window.location.href = fallbackUrl;
   };
 
   const handleEmailLogin = async () => {
     try {
-      const response = await axiosInstance.post("/login", {
+      const response = await axiosInstance.post('/login', {
         email,
         password,
       });
@@ -81,15 +67,15 @@ const InputForm: React.FC = () => {
       const { accessToken, refreshToken } = response.data.result;
 
       setTokens({ accessToken, refreshToken });
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
-      alert("로그인 성공!");
+      alert('로그인 성공!');
       setAuth(true);
-      navigate("/main");
+      navigate('/main');
     } catch (error: any) {
-      console.error("로그인 실패:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "로그인에 실패했습니다.");
+      console.error('로그인 실패:', error.response?.data || error.message);
+      alert(error.response?.data?.message || '로그인에 실패했습니다.');
     }
   };
 
@@ -102,7 +88,7 @@ const InputForm: React.FC = () => {
     changeHandler: emailChangeHandler,
     handleInputError: handleEmailError,
   } = useInput({
-    initialValue: "",
+    initialValue: '',
     validate: async (value) => validateEmailFormat(value),
   });
 
@@ -113,7 +99,7 @@ const InputForm: React.FC = () => {
     changeHandler: passwordChangeHandler,
     handleInputError: handlePasswordError,
   } = useInput({
-    initialValue: "",
+    initialValue: '',
     validate: async (value) => validatePasswordFormat(value),
   });
 
@@ -122,7 +108,7 @@ const InputForm: React.FC = () => {
     setIsSubmitted(true);
 
     if (!email) {
-      handleEmailError("이메일을 입력해주세요.");
+      handleEmailError('이메일을 입력해주세요.');
     } else {
       const emailError = validateEmailFormat(email);
       if (emailError) {
@@ -131,7 +117,7 @@ const InputForm: React.FC = () => {
     }
 
     if (!password) {
-      handlePasswordError("비밀번호를 입력해주세요.");
+      handlePasswordError('비밀번호를 입력해주세요.');
     } else {
       const passwordError = validatePasswordFormat(password);
       if (passwordError) {
@@ -165,18 +151,20 @@ const InputForm: React.FC = () => {
           errorMessage={emailErrorMessage}
           type={'email'}
           placeholder={'이메일 입력하기'}
-          onChange={emailChangeHandler} />
+          onChange={emailChangeHandler}
+        />
         <Input
           errorMessage={passwordErrorMessage}
           type={'password'}
           placeholder={'비밀번호 입력하기'}
-          onChange={passwordChangeHandler} />
+          onChange={passwordChangeHandler}
+        />
       </LoginInput>
       <Buttons>
         <Button variant="primary" type="submit">
           로그인하기
         </Button>
-        <Button variant="kakao" onClick={handleKakaoLogin}>
+        <Button variant="kakao" type="button" onClick={handleKakaoLogin}>
           <KakaoImage src={Kakao_Image} alt="Kakao Login" />
         </Button>
       </Buttons>
