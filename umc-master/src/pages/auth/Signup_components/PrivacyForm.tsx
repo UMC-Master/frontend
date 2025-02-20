@@ -26,6 +26,7 @@ const PrivacyForm: React.FC<{
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newNickname = e.target.value;
     setNickname(newNickname);
+    onNicknameChange(newNickname);
     const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣._]+$/;
 
     if (newNickname.length === 0) {
