@@ -21,7 +21,6 @@ const SaveTipDetailPage: React.FC = () => {
         <Line />
         <CommentView />
       </Content>
-      {/* TODO: 유저 토글 여부 - 일단 false로 전달*/}
       <FloatingToggleBtn
         tipId={Number(tipId)}
         initialLikes={detail.likesCount}
