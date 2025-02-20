@@ -17,52 +17,45 @@ const InputForm: React.FC = () => {
   const { setTokens } = useTokenStore.getState();
   const navigate = useNavigate();
 
+  // ✅ 카카오 SDK 로드
   useEffect(() => {
     if (!window.Kakao) {
-      console.log("🚨 카카오 SDK가 로드되지 않음"); // ✅ SDK 로드 확인
       const script = document.createElement("script");
       script.src = "https://developers.kakao.com/sdk/js/kakao.js";
       script.async = true;
       script.onload = () => {
         if (window.Kakao) {
           window.Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
-          console.log("✅ 카카오 SDK 초기화 완료:", window.Kakao);
+          console.log("✅ 카카오 SDK 초기화 완료");
         }
       };
       document.head.appendChild(script);
-    } else {
-      console.log("✅ 카카오 SDK 이미 로드됨:", window.Kakao);
     }
   }, []);
 
-  
+  // ✅ 팝업 방식 카카오 로그인
   const handleKakaoLogin = () => {
-    console.log("🚀 카카오 로그인 버튼 클릭됨"); // ✅ 버튼 클릭 확인
-  
     if (!window.Kakao) {
       alert("카카오 SDK 로드 실패");
       return;
     }
-  
-    console.log("✅ 카카오 SDK 확인됨:", window.Kakao); // ✅ SDK 존재 여부 확인
-  
+
     window.Kakao.Auth.login({
-      scope: "profile_nickname, profile_image",
+      scope: "profile_nickname, account_email",
       success: async (authObj: { access_token: any; }) => {
         console.log("✅ 카카오 로그인 성공!", authObj);
-  
+
         try {
           const response = await axiosInstance.post("/login/kakao", {
             kakaoAccessToken: authObj.access_token,
           });
-  
-          console.log("✅ 백엔드 응답:", response.data); // ✅ 백엔드 응답 확인
-  
+
           const { accessToken, refreshToken } = response.data.result;
+
           setTokens({ accessToken, refreshToken });
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
-  
+
           alert("로그인 성공!");
           setAuth(true);
           navigate("/main");
@@ -77,7 +70,6 @@ const InputForm: React.FC = () => {
       },
     });
   };
-  
 
   const handleEmailLogin = async () => {
     try {
@@ -110,7 +102,7 @@ const InputForm: React.FC = () => {
     changeHandler: emailChangeHandler,
     handleInputError: handleEmailError,
   } = useInput({
-    initialValue: '',
+    initialValue: "",
     validate: async (value) => validateEmailFormat(value),
   });
 
@@ -121,7 +113,7 @@ const InputForm: React.FC = () => {
     changeHandler: passwordChangeHandler,
     handleInputError: handlePasswordError,
   } = useInput({
-    initialValue: '',
+    initialValue: "",
     validate: async (value) => validatePasswordFormat(value),
   });
 
@@ -129,25 +121,23 @@ const InputForm: React.FC = () => {
     e.preventDefault();
     setIsSubmitted(true);
 
-    // 이메일 및 비밀번호가 비어있는지 체크하고 오류 메시지 표시
     if (!email) {
-      handleEmailError('이메일을 입력해주세요.');
+      handleEmailError("이메일을 입력해주세요.");
     } else {
       const emailError = validateEmailFormat(email);
       if (emailError) {
-        handleEmailError(emailError); // 이메일 오류 처리
+        handleEmailError(emailError);
       }
     }
 
     if (!password) {
-      handlePasswordError('비밀번호를 입력해주세요.');
+      handlePasswordError("비밀번호를 입력해주세요.");
     } else {
       const passwordError = validatePasswordFormat(password);
       if (passwordError) {
-        handlePasswordError(passwordError); // 비밀번호 오류 처리
+        handlePasswordError(passwordError);
       }
     }
-
 
     // // 서버에서 이메일과 비밀번호 검증
     // // 예시로 콘솔 로그로 확인
