@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axiosInstance from "./axios-instance";
+import axiosInstance from './axios-instance';
 
-export const getComments = async (tipId: string, page: number = 1, limit: number = 10) => {
+export const getComments = async (tipId: number) => {
   try {
-    const { data } = await axiosInstance.get(`/tips/${tipId}/comments`, {
-      params: { page, limit },
-    });
-    return data;
+    const { data } = await axiosInstance.get('/comments');
+    return data.result.filter((comment: any) => comment.tips_id === tipId);
   } catch (error: any) {
     console.error('댓글 불러오기 실패:', error);
     throw new Error('댓글을 불러오는 데 실패했습니다.');
