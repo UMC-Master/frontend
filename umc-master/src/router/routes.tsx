@@ -18,6 +18,7 @@ import FindPrivacy from '@pages/auth/FindPrivacy';
 import ChallengePage from '@pages/challenge/ChallengePage';
 import ChatPage from '@pages/chat/ChatPage';
 import ErrorPage from '@pages/error/ErrorPage';
+import ChallengeDetailPage from '@pages/challenge/ChallengeDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
           { path: RoutePaths.MAGAZINE_DETAIL, element: <MagazineDetailPage /> },
           { path: RoutePaths.KAKAO_CALLBACK, element: <KakaoCallback /> },
           { path: RoutePaths.CHALLENGE, element: <ChallengePage /> },
+          { path: RoutePaths.CHALLENGE_DETAIL, element: <ChallengeDetailPage /> },
           { path: RoutePaths.CHAT, element: <ChatPage /> },
         ],
       },
