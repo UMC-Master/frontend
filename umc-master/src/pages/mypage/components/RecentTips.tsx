@@ -4,6 +4,7 @@ import Typography from '@components/common/typography';
 import { useNavigate } from 'react-router-dom';
 import { recentStore } from '@store/recentStore';
 import { useEffect } from 'react';
+import dummyImage from '@assets/dummyImage/dummy.jpeg';
 
 const RecentTips: React.FC = () => {
   const theme = useTheme();
@@ -33,7 +34,7 @@ const RecentTips: React.FC = () => {
           {recentTips.map((item) => (
             <Card
               key={item.tipId}
-              image={item.imageUrls[0].media_url}
+              image={item.imageUrls?.[0]?.media_url || dummyImage}
               text={item.title}
               likes={item.likesCount || 0}
               bookmarks={item.savesCount || 0}
