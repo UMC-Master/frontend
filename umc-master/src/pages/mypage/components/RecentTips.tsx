@@ -38,7 +38,7 @@ const RecentTips: React.FC = () => {
               text={item.title}
               likes={item.likesCount || 0}
               bookmarks={item.savesCount || 0}
-              date={item.createdAt || ''}
+              date={item.createdAt?.slice(0, 10) || ''}
               onClick={() => handleCardClick(String(item.tipId))}
             />
           ))}
